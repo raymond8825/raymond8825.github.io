@@ -22,49 +22,49 @@
 
   <meta name="description" content="Docker基础篇常见问题1. docker中的mysql容器中无法使用vim命令  os是debian,使用apt命令安装,但是首先需要更新apt为国内源,详见https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_23412263&#x2F;article&#x2F;details&#x2F;82724901    Docker简介前提知识 git maven  课程定位 javaee工程师  java—&gt;springmv">
 <meta property="og:type" content="article">
-<meta property="og:title" content="raymond">
-<meta property="og:url" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/index.html">
+<meta property="og:title" content="docker-basic">
+<meta property="og:url" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/index.html">
 <meta property="og:site_name" content="raymond">
 <meta property="og:description" content="Docker基础篇常见问题1. docker中的mysql容器中无法使用vim命令  os是debian,使用apt命令安装,但是首先需要更新apt为国内源,详见https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_23412263&#x2F;article&#x2F;details&#x2F;82724901    Docker简介前提知识 git maven  课程定位 javaee工程师  java—&gt;springmv">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/d63dba45435958e2935efda49c48826ded588b16a6a5732d023a7c53e74e5036.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/592c8f4c6757be8e89caae4975f0a904803b051dc430e4433ec5b14ccac8bca0.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/b4ec65f5d47d0e363e780c29da8612eed6ad4019b5aba39323b25ddc90ca85a0.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/973576f5eb92728bb89f9af6677d4851394ccb29458a3701b9b175053a0443a1.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/fa356a860cb901c10466e058e60b776db5b3916ad20399adc7344ce9297a0e6c.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/2857b9d762f8783f10a912ae91bab932d1919cd940ee27b949e901e1b59563b5.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/6b2c266e71a60f9fdac70f5c5893e4cb1c32e03fe9e8c5b5bec1d07fbef2eaf1.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/2823bc8f1dca71215147188fe44db0d143c8eaa95268205483a2eae36ede7f77.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/d8587250de93151932325dfddf1056681789b93097985fedb132db1d059292c4.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/ce50cc3d7dfd53b8f451bb154fc70f2f3067b9762137f5c000e06ef5cc744ea8.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/959927441fb914372102d2a69c8e240db0fb11461143643f95d61b8cd59c9675.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/2cd3a4c95b171804fa969cd81894d01923ae373016c9a23be3ebeb6d4af79490.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/8b760e138255aa474ad49ecb8d841ef0d0ddbbc6269479d7baec75c400e671e6.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/d19c91e216e98f6e6fb2d20e7a759f5b1569392fe71865dac8decc269e304321.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/813370567c705a0ff46dbb58a077981f0bfe9eedf7b05f6219f99714425f6e2e.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/655fa00a4033d4d47c083775780edfe00b6be829891903af8011ae4719962bfd.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/b43e45abcd08ca0b089f6102c26acfa8cabf3e5b45359cb4555df1c5193a2eb7.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/44cd5d105bd96d698cbd8590466d48ad18c875dde6d51796fa0057a2d6fe267d.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/25315118a1311707a6f24aa774271629152c2de7eea6fdd9ff1b2dd28dcef4ee.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/a0dde36343812d2bbe2033abd0311ceac11ff2fdccf56c27b3bec662f358d334.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/288d85a49362e63700bb4b7476364319f36db03ffb584b16a9354f70d50efa8b.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/1e22326149891a83ac5c43f535740fed88c0745b1a0f6f40ded5bd7efbae6a9a.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/712aba9dccc52c25b6f9090642ed077e77e37dc78deee47e928c84bac51715a6.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/0489e5b57ffb78413d89808b624b888589aa0172335b246b03d69a72feb98fb2.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/02f80e05be41576076a0cc66b105f37ae49d2cef27abc33f27884d58af66a0ab.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/bc8e557f0c6371e132a55ca10f6cbaa2beed9883fc58999c5dd7d8e3d3ce79be.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/122c321101505e82ac43737cf61d56620daaaa6634fea97ae8f6bb883607a6dd.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/dbc99b01b0f86556604f518515f9de99e82d07acb53bf5bcdbbef777b51649fd.png">
-<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/d4f6a8b1163caa9df400b48078510f6b4f5a8ca73fda2baf22267654027e95e6.png">
-<meta property="article:published_time" content="2020-09-11T05:04:43.044Z">
-<meta property="article:modified_time" content="2020-09-11T05:04:43.044Z">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/d63dba45435958e2935efda49c48826ded588b16a6a5732d023a7c53e74e5036.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/592c8f4c6757be8e89caae4975f0a904803b051dc430e4433ec5b14ccac8bca0.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/b4ec65f5d47d0e363e780c29da8612eed6ad4019b5aba39323b25ddc90ca85a0.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/973576f5eb92728bb89f9af6677d4851394ccb29458a3701b9b175053a0443a1.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/fa356a860cb901c10466e058e60b776db5b3916ad20399adc7344ce9297a0e6c.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/2857b9d762f8783f10a912ae91bab932d1919cd940ee27b949e901e1b59563b5.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/6b2c266e71a60f9fdac70f5c5893e4cb1c32e03fe9e8c5b5bec1d07fbef2eaf1.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/2823bc8f1dca71215147188fe44db0d143c8eaa95268205483a2eae36ede7f77.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/d8587250de93151932325dfddf1056681789b93097985fedb132db1d059292c4.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/ce50cc3d7dfd53b8f451bb154fc70f2f3067b9762137f5c000e06ef5cc744ea8.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/959927441fb914372102d2a69c8e240db0fb11461143643f95d61b8cd59c9675.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/2cd3a4c95b171804fa969cd81894d01923ae373016c9a23be3ebeb6d4af79490.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/8b760e138255aa474ad49ecb8d841ef0d0ddbbc6269479d7baec75c400e671e6.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/d19c91e216e98f6e6fb2d20e7a759f5b1569392fe71865dac8decc269e304321.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/813370567c705a0ff46dbb58a077981f0bfe9eedf7b05f6219f99714425f6e2e.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/655fa00a4033d4d47c083775780edfe00b6be829891903af8011ae4719962bfd.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/b43e45abcd08ca0b089f6102c26acfa8cabf3e5b45359cb4555df1c5193a2eb7.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/44cd5d105bd96d698cbd8590466d48ad18c875dde6d51796fa0057a2d6fe267d.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/25315118a1311707a6f24aa774271629152c2de7eea6fdd9ff1b2dd28dcef4ee.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/a0dde36343812d2bbe2033abd0311ceac11ff2fdccf56c27b3bec662f358d334.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/288d85a49362e63700bb4b7476364319f36db03ffb584b16a9354f70d50efa8b.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/1e22326149891a83ac5c43f535740fed88c0745b1a0f6f40ded5bd7efbae6a9a.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/712aba9dccc52c25b6f9090642ed077e77e37dc78deee47e928c84bac51715a6.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/0489e5b57ffb78413d89808b624b888589aa0172335b246b03d69a72feb98fb2.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/02f80e05be41576076a0cc66b105f37ae49d2cef27abc33f27884d58af66a0ab.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/bc8e557f0c6371e132a55ca10f6cbaa2beed9883fc58999c5dd7d8e3d3ce79be.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/122c321101505e82ac43737cf61d56620daaaa6634fea97ae8f6bb883607a6dd.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/dbc99b01b0f86556604f518515f9de99e82d07acb53bf5bcdbbef777b51649fd.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/d4f6a8b1163caa9df400b48078510f6b4f5a8ca73fda2baf22267654027e95e6.png">
+<meta property="article:published_time" content="2020-09-10T21:47:28.000Z">
+<meta property="article:modified_time" content="2020-09-11T05:50:09.003Z">
 <meta property="article:author" content="raymond">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/d63dba45435958e2935efda49c48826ded588b16a6a5732d023a7c53e74e5036.png">
+<meta name="twitter:image" content="https://blog.raymondtxx.top/2020/09/10/docker-basic/d63dba45435958e2935efda49c48826ded588b16a6a5732d023a7c53e74e5036.png">
 
-<link rel="canonical" href="https://blog.raymondtxx.top/2020/09/11/docker-basic/">
+<link rel="canonical" href="https://blog.raymondtxx.top/2020/09/10/docker-basic/">
 
 
 <script id="page-configurations">
@@ -77,7 +77,7 @@
   };
 </script>
 
-  <title> | raymond</title>
+  <title>docker-basic | raymond</title>
   
 
 
@@ -182,7 +182,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.raymondtxx.top/2020/09/11/docker-basic/">
+    <link itemprop="mainEntityOfPage" href="https://blog.raymondtxx.top/2020/09/10/docker-basic/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -195,7 +195,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          docker-basic
         </h1>
 
         <div class="post-meta">
@@ -204,8 +204,9 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-09-11 13:04:43" itemprop="dateCreated datePublished" datetime="2020-09-11T13:04:43+08:00">2020-09-11</time>
+              <time title="创建时间：2020-09-11 05:47:28 / 修改时间：13:50:09" itemprop="dateCreated datePublished" datetime="2020-09-11T05:47:28+08:00">2020-09-11</time>
             </span>
 
           
@@ -251,7 +252,7 @@
 <li>一款产品从开发到上线，从操作系统，到运行环境，再到应用配置。作为开发+运维之间的协作我们需要关心很多东西，这也是很多互联网公司都不得不面对的问题，特别是各种版本的迭代之后，不同版本环境的兼容，对运维人员都是考验,<br>Docker之所以发展如此迅速，也是因为它对此给出了一个标准化的解决方案。环境配置如此麻烦，换一台机器，就要重来一次，费力费时。很多人想到，能不能从根本上解决问题，软件可以带环境安装？也就是说，安装的时候，把原始环境一模一样地复制过来。开发人员利用 Docker 可以==消除协作编码==时“在我的机器上可正常工作”的问题。</li>
 <li>之前在服务器配置一个应用的运行环境，要安装各种软件，就拿尚硅谷电商项目的环境来说吧，Java/Tomcat/MySQL/JDBC驱动包等。安装和配置这些东西有多麻烦就不说了，它还不能跨平台。假如我们是在 Windows 上安装的这些环境，到了 Linux 又得重新装。况且就算不跨操作系统，换另一台同样操作系统的服务器，要移植应用也是非常麻烦的。</li>
 <li>传统上认为，软件编码开发/测试结束后，所产出的成果即是程序或是能够编译执行的二进制字节码等(java为例)。而为了让这些程序可以顺利执行，开发团队也得准备完整的部署文件，让维运团队得以部署应用程式，开发需要清楚的告诉运维部署团队，用的全部配置文件+所有软件环境。不过，即便如此，仍然常常发生部署失败的状况。Docker镜像的设计，使得Docker得以打破过去「程序即应用」的观念。透过镜像(images)将作业系统核心除外，运作应用程式所需要的系统环境，由下而上打包，达到应用程式跨平台间的无缝接轨运作。</li>
-<li><img src="/2020/09/11/docker-basic/d63dba45435958e2935efda49c48826ded588b16a6a5732d023a7c53e74e5036.png"></li>
+<li><img src="/2020/09/10/docker-basic/d63dba45435958e2935efda49c48826ded588b16a6a5732d023a7c53e74e5036.png"></li>
 </ul>
 </li>
 <li><p>docker理念</p>
@@ -287,7 +288,7 @@
 <ul>
 <li><p>由于前面虚拟机存在这些缺点，Linux 发展出了另一种虚拟化技术：Linux 容器（Linux Containers，缩写为 LXC）。</p>
 <ul>
-<li>Linux 容器不是模拟一个完整的操作系统，而是对进程进行隔离。有了容器，就可以将软件运行所需的所有资源打包到一个隔离的容器中。容器与虚拟机不同，不需要捆绑一整套操作系统，只需要软件工作所需的库资源和设置。系统因此而变得高效轻量并保证部署在任何环境中的软件都能始终如一地运行。<img src="/2020/09/11/docker-basic/592c8f4c6757be8e89caae4975f0a904803b051dc430e4433ec5b14ccac8bca0.png"></li>
+<li>Linux 容器不是模拟一个完整的操作系统，而是对进程进行隔离。有了容器，就可以将软件运行所需的所有资源打包到一个隔离的容器中。容器与虚拟机不同，不需要捆绑一整套操作系统，只需要软件工作所需的库资源和设置。系统因此而变得高效轻量并保证部署在任何环境中的软件都能始终如一地运行。<img src="/2020/09/10/docker-basic/592c8f4c6757be8e89caae4975f0a904803b051dc430e4433ec5b14ccac8bca0.png"></li>
 </ul>
 </li>
 </ul>
@@ -355,7 +356,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="Docker的基本组成"><a href="#Docker的基本组成" class="headerlink" title="Docker的基本组成"></a>Docker的基本组成<img src="/2020/09/11/docker-basic/b4ec65f5d47d0e363e780c29da8612eed6ad4019b5aba39323b25ddc90ca85a0.png"></h3><ul>
+<h3 id="Docker的基本组成"><a href="#Docker的基本组成" class="headerlink" title="Docker的基本组成"></a>Docker的基本组成<img src="/2020/09/10/docker-basic/b4ec65f5d47d0e363e780c29da8612eed6ad4019b5aba39323b25ddc90ca85a0.png"></h3><ul>
 <li><p>镜像（image）</p>
 <ul>
 <li>Docker 镜像（Image）就是一个只读的模板。,本质上就是一种容器,又叫做镜像文件,镜像可以用来创建 Docker 容器，一个镜像可以创建很多容器。</li>
@@ -580,7 +581,7 @@
 <li>输出这段提示以后，hello world就会运行输出内容,然后停止运行，容器自动终止。</li>
 </ul>
 </li>
-<li><p>run干了什么<img src="/2020/09/11/docker-basic/973576f5eb92728bb89f9af6677d4851394ccb29458a3701b9b175053a0443a1.png"></p>
+<li><p>run干了什么<img src="/2020/09/10/docker-basic/973576f5eb92728bb89f9af6677d4851394ccb29458a3701b9b175053a0443a1.png"></p>
 </li>
 </ul>
 </li>
@@ -588,13 +589,13 @@
 <h3 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h3><ul>
 <li><p>Docker是怎么工作的</p>
 <ul>
-<li>Docker是一个Client-Server结构的系统，Docker守护进程运行在主机上， 然后通过Socket连接从客户端访问，守护进程从客户端接受命令并管理运行在主机上的容器。 容器，是一个运行时环境，就是我们前面说到的集装箱。<img src="/2020/09/11/docker-basic/fa356a860cb901c10466e058e60b776db5b3916ad20399adc7344ce9297a0e6c.png"></li>
+<li>Docker是一个Client-Server结构的系统，Docker守护进程运行在主机上， 然后通过Socket连接从客户端访问，守护进程从客户端接受命令并管理运行在主机上的容器。 容器，是一个运行时环境，就是我们前面说到的集装箱。<img src="/2020/09/10/docker-basic/fa356a860cb901c10466e058e60b776db5b3916ad20399adc7344ce9297a0e6c.png"></li>
 </ul>
 </li>
 <li><p>为什么Docker比较比VM快</p>
 <ul>
-<li>(1)docker有着比虚拟机更少的抽象层。由亍docker不需要Hypervisor实现硬件资源虚拟化,运行在docker容器上的程序直接使用的都是实际物理机的硬件资源。因此在CPU、内存利用率上docker将会在效率上有明显优势。<img src="/2020/09/11/docker-basic/2857b9d762f8783f10a912ae91bab932d1919cd940ee27b949e901e1b59563b5.png"></li>
-<li>(2)docker利用的是宿主机的内核,而不需要Guest OS。因此,当新建一个容器时,docker不需要和虚拟机一样重新加载一个操作系统内核。仍而避免引寻、加载操作系统内核返个比较费时费资源的过程,当新建一个虚拟机时,虚拟机软件需要加载Guest OS,返个新建过程是分钟级别的。而docker由于直接利用宿主机的操作系统,则省略了返个过程,因此新建一个docker容器只需要几秒钟。<img src="/2020/09/11/docker-basic/6b2c266e71a60f9fdac70f5c5893e4cb1c32e03fe9e8c5b5bec1d07fbef2eaf1.png"></li>
+<li>(1)docker有着比虚拟机更少的抽象层。由亍docker不需要Hypervisor实现硬件资源虚拟化,运行在docker容器上的程序直接使用的都是实际物理机的硬件资源。因此在CPU、内存利用率上docker将会在效率上有明显优势。<img src="/2020/09/10/docker-basic/2857b9d762f8783f10a912ae91bab932d1919cd940ee27b949e901e1b59563b5.png"></li>
+<li>(2)docker利用的是宿主机的内核,而不需要Guest OS。因此,当新建一个容器时,docker不需要和虚拟机一样重新加载一个操作系统内核。仍而避免引寻、加载操作系统内核返个比较费时费资源的过程,当新建一个虚拟机时,虚拟机软件需要加载Guest OS,返个新建过程是分钟级别的。而docker由于直接利用宿主机的操作系统,则省略了返个过程,因此新建一个docker容器只需要几秒钟。<img src="/2020/09/10/docker-basic/6b2c266e71a60f9fdac70f5c5893e4cb1c32e03fe9e8c5b5bec1d07fbef2eaf1.png"></li>
 </ul>
 </li>
 </ul>
@@ -606,7 +607,7 @@
 <h3 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h3><ul>
 <li><p>docker images:列出本地主机上的镜像</p>
 <ul>
-<li><p>结果说明<img src="/2020/09/11/docker-basic/2823bc8f1dca71215147188fe44db0d143c8eaa95268205483a2eae36ede7f77.png"></p>
+<li><p>结果说明<img src="/2020/09/10/docker-basic/2823bc8f1dca71215147188fe44db0d143c8eaa95268205483a2eae36ede7f77.png"></p>
 <ul>
 <li>REPOSITORY：表示镜像的仓库源</li>
 <li>TAG：镜像的标签</li>
@@ -878,7 +879,7 @@
 </li>
 <li><p>docker exec -it 容器ID /bin/bash :这种可以像是attach的效果一样,进入容器的虚拟终端</p>
 <ul>
-<li>比如我们启动了一个tomcat的容器,然后我们使用<code>docker exec -it tomcat容器ID /bin/bash</code>,就会进入一个linux中的<code>/usr/lcoal/tomcat</code>目录,这也说明了tomcat是运行在一个linux中的,容器是一个小型Linux,也说明tomcat镜像的层级结构<img src="/2020/09/11/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png"></li>
+<li>比如我们启动了一个tomcat的容器,然后我们使用<code>docker exec -it tomcat容器ID /bin/bash</code>,就会进入一个linux中的<code>/usr/lcoal/tomcat</code>目录,这也说明了tomcat是运行在一个linux中的,容器是一个小型Linux,也说明tomcat镜像的层级结构<img src="/2020/09/10/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png"></li>
 </ul>
 </li>
 </ul>
@@ -907,7 +908,7 @@
 </li>
 </ul>
 <h3 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h3><ul>
-<li><p>常用命令<img src="/2020/09/11/docker-basic/d8587250de93151932325dfddf1056681789b93097985fedb132db1d059292c4.png"></p>
+<li><p>常用命令<img src="/2020/09/10/docker-basic/d8587250de93151932325dfddf1056681789b93097985fedb132db1d059292c4.png"></p>
 <ul>
 <li>attach    Attach to a running container                 # 当前 shell 下 attach 连接指定运行镜像</li>
 <li>build     Build an image from a Dockerfile              # 通过 Dockerfile 定制镜像</li>
@@ -962,7 +963,7 @@
 <ul>
 <li><p>UnionFS（联合文件系统）</p>
 <ul>
-<li>UnionFS（联合文件系统）：Union文件系统（UnionFS）是一种分层、轻量级并且高性能的文件系统，它==支持对文件系统的修改作为一次提交来一层层的叠加==，同时可以将不同目录挂载到同一个虚拟文件系统下(unite several directories into a single virtual filesystem)。Union 文件系统是 Docker 镜像的基础。镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。<img src="/2020/09/11/docker-basic/ce50cc3d7dfd53b8f451bb154fc70f2f3067b9762137f5c000e06ef5cc744ea8.png"></li>
+<li>UnionFS（联合文件系统）：Union文件系统（UnionFS）是一种分层、轻量级并且高性能的文件系统，它==支持对文件系统的修改作为一次提交来一层层的叠加==，同时可以将不同目录挂载到同一个虚拟文件系统下(unite several directories into a single virtual filesystem)。Union 文件系统是 Docker 镜像的基础。镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。<img src="/2020/09/10/docker-basic/ce50cc3d7dfd53b8f451bb154fc70f2f3067b9762137f5c000e06ef5cc744ea8.png"></li>
 <li>特性：一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录</li>
 </ul>
 </li>
@@ -983,8 +984,8 @@
 </li>
 <li><p>问题:为什么tomcat要几百M,平时使用的tomcat并没有那么大?</p>
 <ul>
-<li>因为tomcat要运行起来需要一个基本的环境,所以文件会一层层包装起来,最后暴露一个tomcat<img src="/2020/09/11/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png"></li>
-<li>我们实际在docker中安装centos也是分层次下载文件 <img src="/2020/09/11/docker-basic/959927441fb914372102d2a69c8e240db0fb11461143643f95d61b8cd59c9675.png"></li>
+<li>因为tomcat要运行起来需要一个基本的环境,所以文件会一层层包装起来,最后暴露一个tomcat<img src="/2020/09/10/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png"></li>
+<li>我们实际在docker中安装centos也是分层次下载文件 <img src="/2020/09/10/docker-basic/959927441fb914372102d2a69c8e240db0fb11461143643f95d61b8cd59c9675.png"></li>
 </ul>
 </li>
 </ul>
@@ -1024,9 +1025,9 @@
 </li>
 </ul>
 </li>
-<li><p>故意删除上一步镜像生产tomcat容器的文档<img src="/2020/09/11/docker-basic/2cd3a4c95b171804fa969cd81894d01923ae373016c9a23be3ebeb6d4af79490.png"></p>
+<li><p>故意删除上一步镜像生产tomcat容器的文档<img src="/2020/09/10/docker-basic/2cd3a4c95b171804fa969cd81894d01923ae373016c9a23be3ebeb6d4af79490.png"></p>
 </li>
-<li><p>也即当前的tomcat运行实例是一个没有文档内容的容器，以它为模板commit一个没有doc的tomcat新镜像atguigu/tomcat02<img src="/2020/09/11/docker-basic/8b760e138255aa474ad49ecb8d841ef0d0ddbbc6269479d7baec75c400e671e6.png"></p>
+<li><p>也即当前的tomcat运行实例是一个没有文档内容的容器，以它为模板commit一个没有doc的tomcat新镜像atguigu/tomcat02<img src="/2020/09/10/docker-basic/8b760e138255aa474ad49ecb8d841ef0d0ddbbc6269479d7baec75c400e671e6.png"></p>
 <ul>
 <li>docker commit -m “on docs tomcat” -a “raymond” 0b2622fc462e raymond/tomcat:2.0</li>
 </ul>
@@ -1130,7 +1131,7 @@
 <li><p>通过上述步骤，容器内的卷目录地址已经知道<br>对应的主机目录地址哪？？docker有默认的地址</p>
 <ul>
 <li><ol>
-<li>使用<code>docker inspect 容器id</code>,根据返回的内容获取宿主机对应的共享目录<img src="/2020/09/11/docker-basic/d19c91e216e98f6e6fb2d20e7a759f5b1569392fe71865dac8decc269e304321.png"></li>
+<li>使用<code>docker inspect 容器id</code>,根据返回的内容获取宿主机对应的共享目录<img src="/2020/09/10/docker-basic/d19c91e216e98f6e6fb2d20e7a759f5b1569392fe71865dac8decc269e304321.png"></li>
 </ol>
 </li>
 <li><ol start="2">
@@ -1217,7 +1218,7 @@
 </li>
 <li><p>dockerfile文件什么样</p>
 <ul>
-<li>以我们熟悉的CentOS为例 <img src="/2020/09/11/docker-basic/813370567c705a0ff46dbb58a077981f0bfe9eedf7b05f6219f99714425f6e2e.png"></li>
+<li>以我们熟悉的CentOS为例 <img src="/2020/09/10/docker-basic/813370567c705a0ff46dbb58a077981f0bfe9eedf7b05f6219f99714425f6e2e.png"></li>
 </ul>
 </li>
 </ul>
@@ -1241,7 +1242,7 @@
 </li>
 <li><p>小总结</p>
 <ul>
-<li><p>从应用软件的角度来看，Dockerfile、Docker镜像与Docker容器分别代表软件的三个不同阶段，Dockerfile面向开发，Docker镜像成为交付标准，Docker容器则涉及部署与运维，三者缺一不可，合力充当Docker体系的基石。<img src="/2020/09/11/docker-basic/655fa00a4033d4d47c083775780edfe00b6be829891903af8011ae4719962bfd.png"></p>
+<li><p>从应用软件的角度来看，Dockerfile、Docker镜像与Docker容器分别代表软件的三个不同阶段，Dockerfile面向开发，Docker镜像成为交付标准，Docker容器则涉及部署与运维，三者缺一不可，合力充当Docker体系的基石。<img src="/2020/09/10/docker-basic/655fa00a4033d4d47c083775780edfe00b6be829891903af8011ae4719962bfd.png"></p>
 <ul>
 <li><ul>
 <li><p>Dockerfile是软件的原材料,可以编译出来docker镜像</p>
@@ -1285,17 +1286,17 @@
 </li>
 <li><p>RUN</p>
 <ul>
-<li>容器构建时需要运行的shell命令<img src="/2020/09/11/docker-basic/b43e45abcd08ca0b089f6102c26acfa8cabf3e5b45359cb4555df1c5193a2eb7.png"></li>
+<li>容器构建时需要运行的shell命令<img src="/2020/09/10/docker-basic/b43e45abcd08ca0b089f6102c26acfa8cabf3e5b45359cb4555df1c5193a2eb7.png"></li>
 </ul>
 </li>
 <li><p>EXPOSE</p>
 <ul>
-<li>当前容器对外暴露出的端口<img src="/2020/09/11/docker-basic/44cd5d105bd96d698cbd8590466d48ad18c875dde6d51796fa0057a2d6fe267d.png"></li>
+<li>当前容器对外暴露出的端口<img src="/2020/09/10/docker-basic/44cd5d105bd96d698cbd8590466d48ad18c875dde6d51796fa0057a2d6fe267d.png"></li>
 </ul>
 </li>
 <li><p>WORKDIR</p>
 <ul>
-<li>指定在创建容器后，终端默认登陆的进来工作目录，一个落脚点<img src="/2020/09/11/docker-basic/25315118a1311707a6f24aa774271629152c2de7eea6fdd9ff1b2dd28dcef4ee.png"></li>
+<li>指定在创建容器后，终端默认登陆的进来工作目录，一个落脚点<img src="/2020/09/10/docker-basic/25315118a1311707a6f24aa774271629152c2de7eea6fdd9ff1b2dd28dcef4ee.png"></li>
 </ul>
 </li>
 <li><p>ENV</p>
@@ -1326,7 +1327,7 @@
 </li>
 <li><p>VOLUME</p>
 <ul>
-<li>容器数据卷，用于数据保存和持久化工作<img src="/2020/09/11/docker-basic/a0dde36343812d2bbe2033abd0311ceac11ff2fdccf56c27b3bec662f358d334.png"></li>
+<li>容器数据卷，用于数据保存和持久化工作<img src="/2020/09/10/docker-basic/a0dde36343812d2bbe2033abd0311ceac11ff2fdccf56c27b3bec662f358d334.png"></li>
 </ul>
 </li>
 <li><p>CMD</p>
@@ -1355,10 +1356,10 @@
 </li>
 <li><p>ONBUILD</p>
 <ul>
-<li>当构建一个被继承的Dockerfile时运行ONBUILD命令，父镜像在被子继承后父镜像的onbuild被触发<img src="/2020/09/11/docker-basic/288d85a49362e63700bb4b7476364319f36db03ffb584b16a9354f70d50efa8b.png"></li>
+<li>当构建一个被继承的Dockerfile时运行ONBUILD命令，父镜像在被子继承后父镜像的onbuild被触发<img src="/2020/09/10/docker-basic/288d85a49362e63700bb4b7476364319f36db03ffb584b16a9354f70d50efa8b.png"></li>
 </ul>
 </li>
-<li><p>小总结<img src="/2020/09/11/docker-basic/1e22326149891a83ac5c43f535740fed88c0745b1a0f6f40ded5bd7efbae6a9a.png"></p>
+<li><p>小总结<img src="/2020/09/10/docker-basic/1e22326149891a83ac5c43f535740fed88c0745b1a0f6f40ded5bd7efbae6a9a.png"></p>
 </li>
 </ul>
 <h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
@@ -1373,7 +1374,7 @@
 <ul>
 <li><p>Hub默认CentOS镜像什么情况</p>
 <ul>
-<li><p><img src="/2020/09/11/docker-basic/712aba9dccc52c25b6f9090642ed077e77e37dc78deee47e928c84bac51715a6.png"></p>
+<li><p><img src="/2020/09/10/docker-basic/712aba9dccc52c25b6f9090642ed077e77e37dc78deee47e928c84bac51715a6.png"></p>
 </li>
 <li><p>自定义mycentos目的使我们自己的镜像具备如下：</p>
 <ul>
@@ -1495,10 +1496,10 @@
 <li><p>自定义镜像Tomcat9</p>
 <ul>
 <li><ol>
-<li>在宿主机上下载上述两个文件<img src="/2020/09/11/docker-basic/0489e5b57ffb78413d89808b624b888589aa0172335b246b03d69a72feb98fb2.png"></li>
+<li>在宿主机上下载上述两个文件<img src="/2020/09/10/docker-basic/0489e5b57ffb78413d89808b624b888589aa0172335b246b03d69a72feb98fb2.png"></li>
 </ol>
 </li>
-<li><p>在/root/dockerfiles/mytomcat目录下,创建mytomcat9文件,内容如下<img src="/2020/09/11/docker-basic/02f80e05be41576076a0cc66b105f37ae49d2cef27abc33f27884d58af66a0ab.png"></p>
+<li><p>在/root/dockerfiles/mytomcat目录下,创建mytomcat9文件,内容如下<img src="/2020/09/10/docker-basic/02f80e05be41576076a0cc66b105f37ae49d2cef27abc33f27884d58af66a0ab.png"></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line">MAINTAINER raymond&lt;88888888@qq.com&gt;</span><br><span class="line"><span class="meta">#</span><span class="bash">把宿主机当前上下文的c.txt拷贝到容器/usr/<span class="built_in">local</span>/路径下</span></span><br><span class="line">COPY host.txt /usr/local/cincontainer.txt</span><br><span class="line"><span class="meta">#</span><span class="bash">把java与tomcat添加到容器中</span></span><br><span class="line">ADD jdk-8u261-linux-x64.tar.gz /usr/local/</span><br><span class="line">ADD apache-tomcat-9.0.37.tar.gz /usr/local/</span><br><span class="line"><span class="meta">#</span><span class="bash">安装vim编辑器</span></span><br><span class="line">RUN yum -y install vim</span><br><span class="line"><span class="meta">#</span><span class="bash">设置工作访问时候的WORKDIR路径，登录落脚点</span></span><br><span class="line">ENV MYPATH /usr/local</span><br><span class="line">WORKDIR $MYPATH</span><br><span class="line"><span class="meta">#</span><span class="bash">配置java与tomcat环境变量</span></span><br><span class="line">ENV JAVA_HOME /usr/local/jdk1.8.0_261</span><br><span class="line">ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line">ENV CATALINA_HOME /usr/local/apache-tomcat-9.0.37</span><br><span class="line">ENV CATALINA_BASE /usr/local/apache-tomcat-9.0.37</span><br><span class="line">ENV PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/lib:$CATALINA_HOME/bin</span><br><span class="line"><span class="meta">#</span><span class="bash">容器运行时监听的端口</span></span><br><span class="line">EXPOSE 8080</span><br><span class="line"><span class="meta">#</span><span class="bash">启动时运行tomcat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ENTRYPOINT [<span class="string">&quot;/usr/local/apache-tomcat-9.0.8/bin/startup.sh&quot;</span> ]</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> CMD [<span class="string">&quot;/usr/local/apache-tomcat-9.0.8/bin/catalina.sh&quot;</span>,<span class="string">&quot;run&quot;</span>]</span></span><br><span class="line">CMD /usr/local/apache-tomcat-9.0.37/bin/startup.sh &amp;&amp; tail -F /usr/local/apache-tomcat-9.0.37/logs/catalina.out</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>使用<code>$ docker build -f mytomcat9 -t raymond/mytomcat9 .</code>构建镜像</p>
@@ -1525,14 +1526,14 @@
 </li>
 </ul>
 </li>
-<li><p>测试<img src="/2020/09/11/docker-basic/bc8e557f0c6371e132a55ca10f6cbaa2beed9883fc58999c5dd7d8e3d3ce79be.png"></p>
+<li><p>测试<img src="/2020/09/10/docker-basic/bc8e557f0c6371e132a55ca10f6cbaa2beed9883fc58999c5dd7d8e3d3ce79be.png"></p>
 </li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<h3 id="小总结-1"><a href="#小总结-1" class="headerlink" title="小总结"></a>小总结<img src="/2020/09/11/docker-basic/122c321101505e82ac43737cf61d56620daaaa6634fea97ae8f6bb883607a6dd.png"></h3><h2 id="Docker常用安装"><a href="#Docker常用安装" class="headerlink" title="Docker常用安装"></a>Docker常用安装</h2><h3 id="总体步骤"><a href="#总体步骤" class="headerlink" title="总体步骤"></a>总体步骤</h3><ul>
+<h3 id="小总结-1"><a href="#小总结-1" class="headerlink" title="小总结"></a>小总结<img src="/2020/09/10/docker-basic/122c321101505e82ac43737cf61d56620daaaa6634fea97ae8f6bb883607a6dd.png"></h3><h2 id="Docker常用安装"><a href="#Docker常用安装" class="headerlink" title="Docker常用安装"></a>Docker常用安装</h2><h3 id="总体步骤"><a href="#总体步骤" class="headerlink" title="总体步骤"></a>总体步骤</h3><ul>
 <li>搜索镜像</li>
 <li>拉取镜像</li>
 <li>查看镜像</li>
@@ -1655,7 +1656,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="本地镜像发布到阿里云"><a href="#本地镜像发布到阿里云" class="headerlink" title="本地镜像发布到阿里云"></a>本地镜像发布到阿里云</h2><h3 id="本地镜像发布到阿里云流程"><a href="#本地镜像发布到阿里云流程" class="headerlink" title="本地镜像发布到阿里云流程"></a>本地镜像发布到阿里云流程<img src="/2020/09/11/docker-basic/dbc99b01b0f86556604f518515f9de99e82d07acb53bf5bcdbbef777b51649fd.png"></h3><h3 id="镜像的生成方法"><a href="#镜像的生成方法" class="headerlink" title="镜像的生成方法"></a>镜像的生成方法</h3><ul>
+<h2 id="本地镜像发布到阿里云"><a href="#本地镜像发布到阿里云" class="headerlink" title="本地镜像发布到阿里云"></a>本地镜像发布到阿里云</h2><h3 id="本地镜像发布到阿里云流程"><a href="#本地镜像发布到阿里云流程" class="headerlink" title="本地镜像发布到阿里云流程"></a>本地镜像发布到阿里云流程<img src="/2020/09/10/docker-basic/dbc99b01b0f86556604f518515f9de99e82d07acb53bf5bcdbbef777b51649fd.png"></h3><h3 id="镜像的生成方法"><a href="#镜像的生成方法" class="headerlink" title="镜像的生成方法"></a>镜像的生成方法</h3><ul>
 <li><p>前面的DockerFile</p>
 </li>
 <li><p>从容器创建一个新的镜像<br>docker commit [OPTIONS] 容器ID [REPOSITORY[:TAG]]</p>
@@ -1680,7 +1681,7 @@
 <li><p>创建仓库镜像</p>
 <ul>
 <li>命名空间</li>
-<li>仓库名称:一个仓库对应一个应用<img src="/2020/09/11/docker-basic/d4f6a8b1163caa9df400b48078510f6b4f5a8ca73fda2baf22267654027e95e6.png"></li>
+<li>仓库名称:一个仓库对应一个应用<img src="/2020/09/10/docker-basic/d4f6a8b1163caa9df400b48078510f6b4f5a8ca73fda2baf22267654027e95e6.png"></li>
 </ul>
 </li>
 <li><p>将镜像推送到registry</p>
@@ -1708,10 +1709,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/09/11/hello/" rel="prev" title="">
-      <i class="fa fa-chevron-left"></i> 
+    <a href="/2020/09/10/test/" rel="prev" title="test">
+      <i class="fa fa-chevron-left"></i> test
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/11/hello/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -1784,7 +1788,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
