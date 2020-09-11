@@ -1,37 +1,1876 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.raymondtxx.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Docker基础篇常见问题1. docker中的mysql容器中无法使用vim命令  os是debian,使用apt命令安装,但是首先需要更新apt为国内源,详见https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_23412263&#x2F;article&#x2F;details&#x2F;82724901    Docker简介前提知识 git maven  课程定位 javaee工程师  java—&gt;springmv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="raymond">
+<meta property="og:url" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/index.html">
+<meta property="og:site_name" content="raymond">
+<meta property="og:description" content="Docker基础篇常见问题1. docker中的mysql容器中无法使用vim命令  os是debian,使用apt命令安装,但是首先需要更新apt为国内源,详见https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_23412263&#x2F;article&#x2F;details&#x2F;82724901    Docker简介前提知识 git maven  课程定位 javaee工程师  java—&gt;springmv">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/d63dba45435958e2935efda49c48826ded588b16a6a5732d023a7c53e74e5036.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/592c8f4c6757be8e89caae4975f0a904803b051dc430e4433ec5b14ccac8bca0.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/b4ec65f5d47d0e363e780c29da8612eed6ad4019b5aba39323b25ddc90ca85a0.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/973576f5eb92728bb89f9af6677d4851394ccb29458a3701b9b175053a0443a1.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/fa356a860cb901c10466e058e60b776db5b3916ad20399adc7344ce9297a0e6c.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/2857b9d762f8783f10a912ae91bab932d1919cd940ee27b949e901e1b59563b5.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/6b2c266e71a60f9fdac70f5c5893e4cb1c32e03fe9e8c5b5bec1d07fbef2eaf1.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/2823bc8f1dca71215147188fe44db0d143c8eaa95268205483a2eae36ede7f77.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/d8587250de93151932325dfddf1056681789b93097985fedb132db1d059292c4.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/ce50cc3d7dfd53b8f451bb154fc70f2f3067b9762137f5c000e06ef5cc744ea8.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/959927441fb914372102d2a69c8e240db0fb11461143643f95d61b8cd59c9675.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/2cd3a4c95b171804fa969cd81894d01923ae373016c9a23be3ebeb6d4af79490.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/8b760e138255aa474ad49ecb8d841ef0d0ddbbc6269479d7baec75c400e671e6.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/d19c91e216e98f6e6fb2d20e7a759f5b1569392fe71865dac8decc269e304321.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/813370567c705a0ff46dbb58a077981f0bfe9eedf7b05f6219f99714425f6e2e.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/655fa00a4033d4d47c083775780edfe00b6be829891903af8011ae4719962bfd.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/b43e45abcd08ca0b089f6102c26acfa8cabf3e5b45359cb4555df1c5193a2eb7.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/44cd5d105bd96d698cbd8590466d48ad18c875dde6d51796fa0057a2d6fe267d.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/25315118a1311707a6f24aa774271629152c2de7eea6fdd9ff1b2dd28dcef4ee.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/a0dde36343812d2bbe2033abd0311ceac11ff2fdccf56c27b3bec662f358d334.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/288d85a49362e63700bb4b7476364319f36db03ffb584b16a9354f70d50efa8b.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/1e22326149891a83ac5c43f535740fed88c0745b1a0f6f40ded5bd7efbae6a9a.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/712aba9dccc52c25b6f9090642ed077e77e37dc78deee47e928c84bac51715a6.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/0489e5b57ffb78413d89808b624b888589aa0172335b246b03d69a72feb98fb2.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/02f80e05be41576076a0cc66b105f37ae49d2cef27abc33f27884d58af66a0ab.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/bc8e557f0c6371e132a55ca10f6cbaa2beed9883fc58999c5dd7d8e3d3ce79be.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/122c321101505e82ac43737cf61d56620daaaa6634fea97ae8f6bb883607a6dd.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/dbc99b01b0f86556604f518515f9de99e82d07acb53bf5bcdbbef777b51649fd.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/d4f6a8b1163caa9df400b48078510f6b4f5a8ca73fda2baf22267654027e95e6.png">
+<meta property="article:published_time" content="2020-09-11T05:04:43.044Z">
+<meta property="article:modified_time" content="2020-09-11T05:04:43.044Z">
+<meta property="article:author" content="raymond">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.raymondtxx.top/2020/09/11/docker-basic/d63dba45435958e2935efda49c48826ded588b16a6a5732d023a7c53e74e5036.png">
+
+<link rel="canonical" href="https://blog.raymondtxx.top/2020/09/11/docker-basic/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title> | raymond</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">raymond</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.raymondtxx.top/2020/09/11/docker-basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="raymond">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="raymond">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-11 13:04:43" itemprop="dateCreated datePublished" datetime="2020-09-11T13:04:43+08:00">2020-09-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Docker基础篇"><a href="#Docker基础篇" class="headerlink" title="Docker基础篇"></a>Docker基础篇</h1><h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="1-docker中的mysql容器中无法使用vim命令"><a href="#1-docker中的mysql容器中无法使用vim命令" class="headerlink" title="1. docker中的mysql容器中无法使用vim命令"></a>1. docker中的mysql容器中无法使用vim命令</h3><ul>
+<li><ol>
+<li>os是debian,使用apt命令安装,但是首先需要更新apt为国内源,详见<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_23412263/article/details/82724901">https://blog.csdn.net/qq_23412263/article/details/82724901</a></li>
+</ol>
+</li>
+</ul>
+<h2 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h2><h3 id="前提知识"><a href="#前提知识" class="headerlink" title="前提知识"></a>前提知识</h3><ul>
+<li>git</li>
+<li>maven</li>
+</ul>
+<h3 id="课程定位"><a href="#课程定位" class="headerlink" title="课程定位"></a>课程定位</h3><ul>
+<li><p>javaee工程师</p>
+<ul>
+<li>java—&gt;springmvc,springboot,mybatis…</li>
+</ul>
+</li>
+<li><p>docker工程师</p>
+<ul>
+<li>go—-&gt;swarm/compose/k8s…….</li>
+</ul>
+</li>
+<li><blockquote>
+<p>总结:这节课只是docker基础,后面可能会有高级</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h3><ul>
+<li><p>问题：为什么会有docker出现</p>
+<ul>
+<li>一款产品从开发到上线，从操作系统，到运行环境，再到应用配置。作为开发+运维之间的协作我们需要关心很多东西，这也是很多互联网公司都不得不面对的问题，特别是各种版本的迭代之后，不同版本环境的兼容，对运维人员都是考验,<br>Docker之所以发展如此迅速，也是因为它对此给出了一个标准化的解决方案。环境配置如此麻烦，换一台机器，就要重来一次，费力费时。很多人想到，能不能从根本上解决问题，软件可以带环境安装？也就是说，安装的时候，把原始环境一模一样地复制过来。开发人员利用 Docker 可以==消除协作编码==时“在我的机器上可正常工作”的问题。</li>
+<li>之前在服务器配置一个应用的运行环境，要安装各种软件，就拿尚硅谷电商项目的环境来说吧，Java/Tomcat/MySQL/JDBC驱动包等。安装和配置这些东西有多麻烦就不说了，它还不能跨平台。假如我们是在 Windows 上安装的这些环境，到了 Linux 又得重新装。况且就算不跨操作系统，换另一台同样操作系统的服务器，要移植应用也是非常麻烦的。</li>
+<li>传统上认为，软件编码开发/测试结束后，所产出的成果即是程序或是能够编译执行的二进制字节码等(java为例)。而为了让这些程序可以顺利执行，开发团队也得准备完整的部署文件，让维运团队得以部署应用程式，开发需要清楚的告诉运维部署团队，用的全部配置文件+所有软件环境。不过，即便如此，仍然常常发生部署失败的状况。Docker镜像的设计，使得Docker得以打破过去「程序即应用」的观念。透过镜像(images)将作业系统核心除外，运作应用程式所需要的系统环境，由下而上打包，达到应用程式跨平台间的无缝接轨运作。</li>
+<li><img src="/2020/09/11/docker-basic/d63dba45435958e2935efda49c48826ded588b16a6a5732d023a7c53e74e5036.png"></li>
+</ul>
+</li>
+<li><p>docker理念</p>
+<ul>
+<li>Docker是基于Go语言实现的云开源项目.Docker的主要目标是“Build，Ship and Run Any App,Anywhere”，也就是通过对应用组件的封装、分发、部署、运行等生命周期的管理，使用户的APP（可以是一个WEB应用或数据库应用等等）及其运行环境能够做到“一次封装，到处运行”。</li>
+<li>Linux 容器技术的出现就解决了这样一个问题，而 Docker 就是在它的基础上发展过来的。将应用运行在 Docker 容器上面，而 Docker 容器在任何操作系统上都是一致的，这就实现了跨平台、跨服务器。只需要一次配置好环境，换到别的机子上就可以一键部署好，大大简化了操作</li>
+</ul>
+</li>
+<li><blockquote>
+<p>总结:解决了运行环境和配置问题软件容器，方便做持续集成并有助于整体发布的容器虚拟化技术。</p>
+</blockquote>
+<ul>
+<li>软件容器:集装箱</li>
+<li>整体发布:驮着很多集装箱的鲸鱼</li>
+</ul>
+</li>
+</ul>
+<h3 id="能干嘛"><a href="#能干嘛" class="headerlink" title="能干嘛"></a>能干嘛</h3><ul>
+<li><p>之前的虚拟机技术</p>
+<ul>
+<li><p>虚拟机（virtual machine）就是带环境安装的一种解决方案。它可以在一种操作系统里面运行另一种操作系统，比如在Windows 系统里面运行Linux 系统。应用程序对此毫无感知，因为虚拟机看上去跟真实系统一模一样，而对于底层系统来说，虚拟机就是一个普通文件，不需要了就删掉，对其他部分毫无影响。这类虚拟机完美的运行了另一套系统，能够使应用程序，操作系统和硬件三者之间的逻辑不变。  </p>
+</li>
+<li><p>虚拟机的缺点：</p>
+<ul>
+<li>资源站占用多(因为本来有一个os,还要再占用资源启动一个os)</li>
+<li>冗余步骤多</li>
+<li>启动慢</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>容器虚拟化技术</p>
+<ul>
+<li><p>由于前面虚拟机存在这些缺点，Linux 发展出了另一种虚拟化技术：Linux 容器（Linux Containers，缩写为 LXC）。</p>
+<ul>
+<li>Linux 容器不是模拟一个完整的操作系统，而是对进程进行隔离。有了容器，就可以将软件运行所需的所有资源打包到一个隔离的容器中。容器与虚拟机不同，不需要捆绑一整套操作系统，只需要软件工作所需的库资源和设置。系统因此而变得高效轻量并保证部署在任何环境中的软件都能始终如一地运行。<img src="/2020/09/11/docker-basic/592c8f4c6757be8e89caae4975f0a904803b051dc430e4433ec5b14ccac8bca0.png"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>比较了 Docker 和传统虚拟化方式的不同之处</p>
+<ul>
+<li>*传统虚拟机技术是虚拟出一套硬件后，在其上运行一个完整操作系统，在该系统上再运行所需应用进程；</li>
+<li>*而容器内的应用进程直接运行于宿主的内核，容器内没有自己的内核，而且也没有进行硬件虚拟。因此容器要比传统虚拟机更为轻便。</li>
+<li><ul>
+<li>每个容器之间互相隔离，每个容器有自己的文件系统 ，容器之间进程不会相互影响，能区分计算资源。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>开发/运维（Dev/Ops）</p>
+<ul>
+<li><p>一次构建、随处运行</p>
+<ul>
+<li><p>更快速的应用交付和部署</p>
+<p>传统的应用开发完成后，需要提供一堆安装程序和配置说明文档，安装部署后需根据配置文档进行繁杂的配置才能正常运行。Docker化之后只需要交付少量容器镜像文件，在正式生产环境加载镜像并运行即可，应用安装配置在镜像里已经内置好，大大节省部署配置和测试验证时间。</p>
+</li>
+<li><p>更便捷的升级和扩缩容</p>
+<p>随着微服务架构和Docker的发展，大量的应用会通过微服务方式架构，应用的开发构建将变成搭乐高积木一样，每个Docker容器将变成一块“积木”，应用的升级将变得非常容易。当现有的容器不足以支撑业务处理时，可通过镜像运行新的容器进行快速扩容，使应用系统的扩容从原先的天级变成分钟级甚至秒级。</p>
+</li>
+<li><p>更简单的系统运维</p>
+<p>应用容器化运行后，生产环境运行的应用可与开发、测试环境的应用高度一致，容器会将应用程序相关的环境和状态完全封装起来，不会因为底层基础架构和操作系统的不一致性给应用带来影响，产生新的BUG。当出现程序异常时，也可以通过测试环境的相同容器进行快速定位和修复。</p>
+</li>
+<li><p>更高效的计算资源利用</p>
+<p>Docker是内核级虚拟化，其不像传统的虚拟化技术一样需要额外的Hypervisor支持，所以在一台物理机上可以运行很多个容器实例，可大大提升物理服务器的CPU和内存的利用率。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="去哪下"><a href="#去哪下" class="headerlink" title="去哪下"></a>去哪下</h3><ul>
+<li><p>官网</p>
+<ul>
+<li>docker官网：<a target="_blank" rel="noopener" href="http://www.docker.com/">http://www.docker.com</a></li>
+<li>docker中文网站：<a target="_blank" rel="noopener" href="https://www.docker-cn.com/">https://www.docker-cn.com/</a></li>
+</ul>
+</li>
+<li><p>仓库(类似github)</p>
+<ul>
+<li>Docker Hub官网: <a target="_blank" rel="noopener" href="https://hub.docker.com/">https://hub.docker.com/</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="Docker安装"><a href="#Docker安装" class="headerlink" title="Docker安装"></a>Docker安装</h2><h3 id="前提说明"><a href="#前提说明" class="headerlink" title="前提说明"></a>前提说明</h3><ul>
+<li><p>CentOS Docker 安装</p>
+<ul>
+<li><p>Docker支持以下的CentOS版本：</p>
+<ul>
+<li>CentOS 7 (64-bit)</li>
+<li>CentOS 6.5 (64-bit) 或更高的版本</li>
+</ul>
+</li>
+<li><p>前提条件</p>
+<ul>
+<li>目前，CentOS 仅发行版本中的内核支持 Docker。</li>
+<li>Docker 运行在 CentOS 7 上，要求系统为64位、系统内核版本为 3.10 以上。</li>
+<li>Docker 运行在 CentOS-6.5 或更高的版本的 CentOS 上，要求系统为64位、系统内核版本为 2.6.32-431 或者更高版本。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Docker的基本组成"><a href="#Docker的基本组成" class="headerlink" title="Docker的基本组成"></a>Docker的基本组成<img src="/2020/09/11/docker-basic/b4ec65f5d47d0e363e780c29da8612eed6ad4019b5aba39323b25ddc90ca85a0.png"></h3><ul>
+<li><p>镜像（image）</p>
+<ul>
+<li>Docker 镜像（Image）就是一个只读的模板。,本质上就是一种容器,又叫做镜像文件,镜像可以用来创建 Docker 容器，一个镜像可以创建很多容器。</li>
+</ul>
+</li>
+<li><p>容器（container）</p>
+<ul>
+<li><p>Docker 利用容器（Container）独立运行的一个或一组应用。容器是用镜像创建的运行实例。</p>
+</li>
+<li><p>特点</p>
+<ul>
+<li>它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。</li>
+<li>可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。</li>
+<li>容器的定义和镜像几乎一模一样，也是一堆层的统一视角，唯一区别在于容器的最上面那一层是可读可写的。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>仓库（repository）</p>
+<ul>
+<li><p>仓库（Repository）是集中存放镜像文件的场所</p>
+<ul>
+<li><p>仓库(Repository)和仓库注册服务器（Registry）是有区别的。仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像，每个镜像有不同的标签（tag）。</p>
+</li>
+<li><p>仓库分为公开仓库（Public）和私有仓库（Private）两种形式。</p>
+<ul>
+<li>最大的公开仓库是 Docker Hub(<a target="_blank" rel="noopener" href="https://hub.docker.com/)%EF%BC%8C">https://hub.docker.com/)，</a></li>
+<li>存放了数量庞大的镜像供用户下载。国内的公开仓库包括阿里云 、网易云 等</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>docker图标的含义</p>
+<ul>
+<li>蓝色的大海:代表宿主机linux</li>
+<li>鲸鱼:就是docker服务本身</li>
+<li>集装箱:就是容器,就是运行中的镜像</li>
+<li>镜像:在码头等待装入鲸鱼的集装箱</li>
+</ul>
+</li>
+<li><p>小总结</p>
+<ul>
+<li><p>需要正确的理解仓储/镜像/容器这几个概念:</p>
+<ul>
+<li>Docker 本身是一个容器运行载体或称之为管理引擎。我们把应用程序和配置依赖打包好形成一个可交付的运行环境，这个打包好的运行环境就似乎 image镜像文件。只有通过这个镜像文件才能生成 Docker 容器。image 文件可以看作是容器的模板。Docker 根据 image 文件生成容器的实例。同一个 image 文件，可以生成多个同时运行的容器实例。</li>
+<li><ul>
+<li>image 文件生成的容器实例，本身也是一个文件，称为镜像文件。</li>
+</ul>
+</li>
+<li><ul>
+<li>一个容器运行一种服务，当我们需要的时候，就可以通过docker客户端创建一个对应的运行实例，也就是我们的容器</li>
+</ul>
+</li>
+<li><ul>
+<li>至于仓库，就是放了一堆镜像的地方，我们可以把镜像发布到仓储中，需要的时候从仓储中拉下来就可以了。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><ul>
+<li><p>CentOS6.8安装Docker</p>
+<ul>
+<li><p>yum install -y epel-release</p>
+<p>Docker使用EPEL发布，RHEL系的OS首先要确保已经持有EPEL仓库，否则先检查OS的版本，然后安装相应的EPEL包。</p>
+</li>
+<li><p>yum install -y docker-io</p>
+</li>
+<li><p>安装后的配置文件：/etc/sysconfig/docker</p>
+</li>
+<li><p>启动Docker后台服务：service docker start</p>
+</li>
+<li><p>docker version验证</p>
+</li>
+</ul>
+</li>
+<li><p>CentOS7安装Docker</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/centos/">https://docs.docker.com/install/linux/docker-ce/centos/</a></p>
+</li>
+<li><p>安装步骤</p>
+<ul>
+<li><p>官网中文安装参考手册</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.docker-cn.com/engine/installation/linux/docker-ce/centos/#prerequisites">https://docs.docker-cn.com/engine/installation/linux/docker-ce/centos/#prerequisites</a></li>
+</ul>
+</li>
+<li><p>确定你是CentOS7及以上版本</p>
+<ul>
+<li>cat /etc/redhat-release</li>
+</ul>
+</li>
+<li><p>yum安装gcc相关</p>
+<ul>
+<li>CentOS7能上外网</li>
+<li>yum -y install gcc</li>
+<li>yum -y install gcc-c++</li>
+</ul>
+</li>
+<li><p>卸载旧版本</p>
+<ul>
+<li><p>yum -y remove docker docker-common docker-selinux docker-engine</p>
+</li>
+<li><p>2018.3官网版本</p>
+<p>yum remove docker \</p>
+<pre><code>              docker-client \
+              docker-client-latest \
+              docker-common \
+              docker-latest \
+              docker-latest-logrotate \
+              docker-logrotate \
+              docker-selinux \
+              docker-engine-selinux \
+              docker-engine</code></pre>
+</li>
+</ul>
+</li>
+<li><p>安装需要的软件包</p>
+<ul>
+<li>yum install -y yum-utils device-mapper-persistent-data lvm2</li>
+</ul>
+</li>
+<li><p>设置stable镜像仓库</p>
+<ul>
+<li><p>大坑</p>
+<ul>
+<li><p>yum-config-manager –add-repo <a target="_blank" rel="noopener" href="https://download.docker.com/linux/centos/docker-ce.repo">https://download.docker.com/linux/centos/docker-ce.repo</a></p>
+<p>报错：<br>1   [Errno 14] curl#35 - TCP connection reset by peer</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>              2   [Errno 12] curl#35 - Timeout
+
+        - 推荐
+
+            - yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+    - 更新yum软件包索引
+
+        - yum makecache fast
+
+    - 安装DOCKER CE
+
+        - yum -y install docker-ce
+
+    - 启动docker
+
+        - systemctl start docker
+
+    - 测试
+
+        - docker version
+        - docker run hello-world
+
+    - 配置镜像加速
+
+        - mkdir -p /etc/docker
+        - vim  /etc/docker/daemon.json
+
+          #网易云
+          &#123;&quot;registry-mirrors&quot;: [&quot;http://hub-mirror.c.163.com&quot;] &#125;
+
+
+
+           #阿里云
+          &#123;
+            &quot;registry-mirrors&quot;: [&quot;https://｛自已的编码｝.mirror.aliyuncs.com&quot;]
+          &#125;
+
+        - systemctl daemon-reload
+        - systemctl restart docker
+
+    - 卸载
+
+        - systemctl stop docker 
+        - yum -y remove docker-ce
+        - rm -rf /var/lib/docker</code></pre>
+<h3 id="永远的HelloWorld"><a href="#永远的HelloWorld" class="headerlink" title="永远的HelloWorld"></a>永远的HelloWorld</h3><ul>
+<li><p>阿里云镜像加速</p>
+<ul>
+<li><p>是什么</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.aliyun.com/search.html,%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99,%E9%80%9F%E5%BA%A6%E5%A4%AA%E6%85%A2,%E6%89%80%E4%BB%A5%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91%E9%95%9C%E5%83%8F">https://dev.aliyun.com/search.html,国外网站,速度太慢,所以用阿里云镜像</a></li>
+</ul>
+</li>
+<li><p>注册一个属于自己的阿里云账户(可复用淘宝账号)</p>
+</li>
+<li><p>获得加速器地址连接</p>
+<ul>
+<li>登陆阿里云开发者平台</li>
+<li>获取加速器地址</li>
+</ul>
+</li>
+<li><p>配置本机Docker运行镜像加速器</p>
+<p>鉴于国内网络问题，后续拉取 Docker 镜像十分缓慢，我们可以需要配置加速器来解决，<br>我使用的是阿里云的本人自己账号的镜像地址(需要自己注册有一个属于你自己的)：   <a target="_blank" rel="noopener" href="https://xxxx.mirror.aliyuncs.com/">https://xxxx.mirror.aliyuncs.com</a></p>
+<ul>
+<li>vim /etc/sysconfig/docker<br>将获得的自己账户下的阿里云加速地址配置进<br>other_args=”–registry-mirror=https://你自己的账号加速信息.mirror.aliyuncs.com”</li>
+</ul>
+</li>
+<li><p>重新启动Docker后台服务：service docker restart</p>
+</li>
+<li><p>Linux 系统下配置完加速器需要检查是否生效</p>
+<p>如果从结果中看到了配置的–registry-mirror参数说明配置成功，如下所示:</p>
+</li>
+</ul>
+</li>
+<li><p>启动Docker后台容器(测试运行 hello-world)</p>
+<ul>
+<li><p>docker run hello-world</p>
+<ul>
+<li>输出这段提示以后，hello world就会运行输出内容,然后停止运行，容器自动终止。</li>
+</ul>
+</li>
+<li><p>run干了什么<img src="/2020/09/11/docker-basic/973576f5eb92728bb89f9af6677d4851394ccb29458a3701b9b175053a0443a1.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h3><ul>
+<li><p>Docker是怎么工作的</p>
+<ul>
+<li>Docker是一个Client-Server结构的系统，Docker守护进程运行在主机上， 然后通过Socket连接从客户端访问，守护进程从客户端接受命令并管理运行在主机上的容器。 容器，是一个运行时环境，就是我们前面说到的集装箱。<img src="/2020/09/11/docker-basic/fa356a860cb901c10466e058e60b776db5b3916ad20399adc7344ce9297a0e6c.png"></li>
+</ul>
+</li>
+<li><p>为什么Docker比较比VM快</p>
+<ul>
+<li>(1)docker有着比虚拟机更少的抽象层。由亍docker不需要Hypervisor实现硬件资源虚拟化,运行在docker容器上的程序直接使用的都是实际物理机的硬件资源。因此在CPU、内存利用率上docker将会在效率上有明显优势。<img src="/2020/09/11/docker-basic/2857b9d762f8783f10a912ae91bab932d1919cd940ee27b949e901e1b59563b5.png"></li>
+<li>(2)docker利用的是宿主机的内核,而不需要Guest OS。因此,当新建一个容器时,docker不需要和虚拟机一样重新加载一个操作系统内核。仍而避免引寻、加载操作系统内核返个比较费时费资源的过程,当新建一个虚拟机时,虚拟机软件需要加载Guest OS,返个新建过程是分钟级别的。而docker由于直接利用宿主机的操作系统,则省略了返个过程,因此新建一个docker容器只需要几秒钟。<img src="/2020/09/11/docker-basic/6b2c266e71a60f9fdac70f5c5893e4cb1c32e03fe9e8c5b5bec1d07fbef2eaf1.png"></li>
+</ul>
+</li>
+</ul>
+<h2 id="Docker常用命令"><a href="#Docker常用命令" class="headerlink" title="Docker常用命令"></a>Docker常用命令</h2><h3 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h3><ul>
+<li>docker version</li>
+<li>docker info:比version命令更加详细</li>
+<li>docker –help</li>
+</ul>
+<h3 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h3><ul>
+<li><p>docker images:列出本地主机上的镜像</p>
+<ul>
+<li><p>结果说明<img src="/2020/09/11/docker-basic/2823bc8f1dca71215147188fe44db0d143c8eaa95268205483a2eae36ede7f77.png"></p>
+<ul>
+<li>REPOSITORY：表示镜像的仓库源</li>
+<li>TAG：镜像的标签</li>
+<li>IMAGE ID：镜像ID</li>
+<li>CREATED：镜像创建时间</li>
+<li>SIZE：镜像大小</li>
+</ul>
+</li>
+<li><p>docker images OPTIONS说明：</p>
+<ul>
+<li>-a :列出本地所有的镜像（含中间映像层）,镜像像是洋葱一样,一层套一层</li>
+<li>-q,–quiet :只显示镜像ID。</li>
+<li>–digests :显示镜像的摘要信息</li>
+<li>–no-trunc :不截取镜像信息,显示完整的镜像信息,镜像id很长</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>docker search 某个XXX镜像名字</p>
+<ul>
+<li><p>网站</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://hub.docker.com,docker是从官网上查,但是下载的时候从阿里云下载/">https://hub.docker.com,docker是从官网上查,但是下载的时候从阿里云下载</a></li>
+</ul>
+</li>
+<li><p>命令</p>
+<ul>
+<li><p>docker search [OPTIONS] 镜像名字</p>
+</li>
+<li><p>OPTIONS说明：</p>
+<ul>
+<li>–no-trunc : 显示完整的镜像描述</li>
+<li>-s : 列出收藏数不小于指定值的镜像。</li>
+<li>–automated : 只列出 automated build类型的镜像；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>docker pull 某个XXX镜像名字</p>
+<ul>
+<li>下载镜像</li>
+<li>docker pull 镜像名字[:TAG]</li>
+</ul>
+</li>
+<li><p>docker rmi 某个XXX镜像名字ID</p>
+<ul>
+<li><p>删除镜像</p>
+</li>
+<li><p>删除单个</p>
+<ul>
+<li>docker rmi  -f 镜像ID</li>
+</ul>
+</li>
+<li><p>删除多个</p>
+<ul>
+<li>docker rmi -f 镜像名1:TAG 镜像名2:TAG </li>
+</ul>
+</li>
+<li><p>删除全部</p>
+<ul>
+<li>docker rmi -f $(docker images -qa)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>思考</p>
+<ul>
+<li>结合我们Git的学习心得，大家猜猜是否会有<br>docker commit /docker push？？</li>
+</ul>
+</li>
+</ul>
+<h3 id="容器命令"><a href="#容器命令" class="headerlink" title="容器命令"></a>容器命令</h3><ul>
+<li><p>有镜像才能创建容器，这是根本前提(下载一个CentOS镜像演示)</p>
+<ul>
+<li>docker pull centos</li>
+</ul>
+</li>
+<li><p>新建并启动容器</p>
+<ul>
+<li><p>docker run [OPTIONS] IMAGE [COMMAND] [ARG…]</p>
+<ul>
+<li><p>OPTIONS说明</p>
+<ul>
+<li><p>–name=”容器新名字”: 为容器指定一个名称；</p>
+</li>
+<li><p>-d: 后台运行容器，并返回容器ID，也即启动守护式容器；</p>
+</li>
+<li><p>-i：以交互模式运行容器，通常与 -t 同时使用；</p>
+</li>
+<li><p>-t：为容器重新分配一个伪输入终端，通常与 -i 同时使用；</p>
+</li>
+<li><p>-it:登录docker启动的这个容器,并利用返回的一个终端跟容器进行交互,如果我们不加上这个<code>-it 参数</code>,那么我们则无法使用<code>ctrl+p+q</code>来暂时分离伪终端</p>
+</li>
+<li><p>-P: 随机端口映射；</p>
+</li>
+<li><p>-p: 指定端口映射，有以下四种格式</p>
+<ul>
+<li>ip:hostPort:containerPort</li>
+<li>ip::containerPort</li>
+<li>hostPort:containerPort</li>
+<li>containerPort</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>启动交互式容器</p>
+<ul>
+<li>#使用镜像centos:latest以交互模式启动一个容器,在容器内执行/bin/bash命令。(如果不执<code>bin/bash</code>会导致我们无法正常 attatch,因为我们可能知识启动了一个服务程序,如 mysqld,该服务不接受用户的输入,所以在<code>docker attach</code>的时候会直接卡死)</li>
+<li>docker run -it centos /bin/bash:只是进入 linux 环境,还需要手动启动对应的服务</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>列出当前所有正在运行的容器</p>
+<ul>
+<li><p>docker ps [OPTIONS]</p>
+<ul>
+<li><p>OPTIONS说明</p>
+<ul>
+<li>-a :列出当前所有正在运行的容器+历史上运行过的</li>
+<li>-l :显示最近创建的容器。</li>
+<li>-n：显示最近n个创建的容器。</li>
+<li>-q :静默模式，只显示容器编号。</li>
+<li>–no-trunc :不截断输出。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>退出容器</p>
+<ul>
+<li><p>两种退出方式</p>
+<ul>
+<li><p>exit</p>
+<ul>
+<li>容器停止退出</li>
+</ul>
+</li>
+<li><p>ctrl+P+Q(ctlr 全程按住)</p>
+<ul>
+<li>容器不停止退出,要求启动容器时需要带上<code>-it</code>选项才能正常使用这个功能</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>启动容器</p>
+<ul>
+<li><p>docker start 容器ID或者容器名:要求容器已经事先存在,直接启动镜像是不行的,比如我们通过run启动了一个容器,接着有通过stop停止了一个容器,此时便用<code>docker ps -n 2</code>来查看之前运行的容器id,然后使用<code>docker start 容器id</code>来启动容器</p>
+</li>
+<li><p>docker run 镜像di:是新建并启动一个容器,本质上是先把镜像变为一个容器,然后启动</p>
+<ul>
+<li><code>docker run -d 镜像id</code>:后台启动服务,但是无法使用<code>attach</code>和<code>exec</code>来重新接入容器的终端</li>
+<li>(推荐)<code>docker run -it 镜像id</code>:前台启动服务,可以通过<code>exec</code>来重新接入容器的终端,但是通过<code>attach</code>会卡死,因为我们没有启动任何进程来接收用户的输入</li>
+<li><code>docker run -it 镜像id /bin/bash</code>:自动进入 docker 终端,但是不启动镜像对应的服务,我们需要在docker 终端中手动启动该服务,比较麻烦,但是可以在以后通过<code>attach</code>和<code>exec</code>来重新接入容器的终端</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>重启容器</p>
+<ul>
+<li>docker restart 容器ID或者容器名</li>
+</ul>
+</li>
+<li><p>停止容器</p>
+<ul>
+<li>docker stop 容器ID或者容器名</li>
+</ul>
+</li>
+<li><p>强制停止容器</p>
+<ul>
+<li>docker kill 容器ID或者容器名</li>
+</ul>
+</li>
+<li><p>删除已停止的容器</p>
+<ul>
+<li><p>docker rm 容器ID</p>
+<ul>
+<li><p>一次性删除多个容器</p>
+<ul>
+<li>docker rm -f $(docker ps -a -q)</li>
+<li>docker ps -a -q | xargs docker rm</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>==重要==</p>
+<ul>
+<li><p>启动守护式容器</p>
+<ul>
+<li><p>docker run -d 镜像名</p>
+<ul>
+<li><p>#使用镜像centos:latest以后台模式启动一个容器:docker run -d centos</p>
+</li>
+<li><p>问题：然后docker ps -a 进行查看, 会发现容器已经退出?说好的后台运行呢?</p>
+</li>
+<li><p>解决:很重要的要说明的一点: ==Docker容器后台运行,就必须有一个前台进程.==,容器运行的命令如果不是那些一直挂起的命令（比如运行top，tail），就是会自动退出的。centos后台启动就会自动关闭,但是tomcat后台启动就可以一直驻留</p>
+<ul>
+<li>这个是docker的机制问题,比如你的web容器,我们以nginx为例，正常情况下,我们配置启动服务只需要启动响应的service即可。例如service nginx start,但是,这样做,nginx为后台进程模式运行,就导致docker前台没有运行的应用,这样的容器后台启动后,会立即自杀因为他觉得他没事可做了.所以，最佳的解决方案是,将你要运行的程序以前台进程的形式运行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>docker run -d -p host端口号:容器内部端口号</p>
+</li>
+</ul>
+</li>
+<li><p>查看容器日志</p>
+<ul>
+<li><p>docker logs -f -t –tail=数字 容器ID</p>
+<ul>
+<li><p>选项</p>
+<ul>
+<li><ul>
+<li>-t 是加入时间戳</li>
+</ul>
+</li>
+<li><ul>
+<li>-f 跟随最新的日志打印</li>
+</ul>
+</li>
+<li><ul>
+<li>–tail=数字 显示最后多少条</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>使用步骤</p>
+<ul>
+<li><ol>
+<li>在shell中运行一下命令:<code>docker run -d centos /bin/sh -c &quot;while true;do echo hello zzyy;sleep 2;done&quot;</code></li>
+</ol>
+</li>
+<li><ol start="2">
+<li><code>docker logs -tf --tail=5 f3100284bf98</code>使用该命令查看后台运行容器的输出日志</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>查看容器内运行的进程(注意是容器)</p>
+<ul>
+<li>docker top 容器ID</li>
+</ul>
+</li>
+<li><p>查看容器内部细节</p>
+<ul>
+<li>docker inspect 容器ID</li>
+</ul>
+</li>
+<li><p>进入正在运行的容器并以命令行交互(就是我们使用ctrl+p+q来暂时退出容器的方式)</p>
+<ul>
+<li><p>两种方式</p>
+<ul>
+<li><p>第一种</p>
+<ul>
+<li><p>docker exec -it 容器ID ls /etc:这种直接不进入容器,只获取容器的执行命令返回的结果</p>
+</li>
+<li><p>docker exec -it 容器ID /bin/bash :这种可以像是attach的效果一样,进入容器的虚拟终端</p>
+<ul>
+<li>比如我们启动了一个tomcat的容器,然后我们使用<code>docker exec -it tomcat容器ID /bin/bash</code>,就会进入一个linux中的<code>/usr/lcoal/tomcat</code>目录,这也说明了tomcat是运行在一个linux中的,容器是一个小型Linux,也说明tomcat镜像的层级结构<img src="/2020/09/11/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>第二种</p>
+<ul>
+<li>重新进入docker attach 容器ID</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>上述两个区别</p>
+<ul>
+<li>attach 直接进入容器启动命令的终端，不会启动新的进程</li>
+<li>exec 是在容器中打开新的终端，并且可以启动新的进程,exec更为强大</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>从容器内拷贝文件到主机上</p>
+<ul>
+<li>docker cp  容器ID:容器内路径 目的主机路径</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h3><ul>
+<li><p>常用命令<img src="/2020/09/11/docker-basic/d8587250de93151932325dfddf1056681789b93097985fedb132db1d059292c4.png"></p>
+<ul>
+<li>attach    Attach to a running container                 # 当前 shell 下 attach 连接指定运行镜像</li>
+<li>build     Build an image from a Dockerfile              # 通过 Dockerfile 定制镜像</li>
+<li>commit    Create a new image from a container changes   # 提交当前容器为新的镜像</li>
+<li>cp        Copy files/folders from the containers filesystem to the host path   #从容器中拷贝指定文件或者目录到宿主机中</li>
+<li>create    Create a new container                        # 创建一个新的容器，同 run，但不启动容器</li>
+<li>diff      Inspect changes on a container’s filesystem   # 查看 docker 容器变化</li>
+<li>events    Get real time events from the server          # 从 docker 服务获取容器实时事件</li>
+<li>exec      Run a command in an existing container        # 在已存在的容器上运行命令</li>
+<li>export    Stream the contents of a container as a tar archive   # 导出容器的内容流作为一个 tar 归档文件[对应 import ]</li>
+<li>history   Show the history of an image                  # 展示一个镜像形成历史</li>
+<li>images    List images                                   # 列出系统当前镜像</li>
+<li>import    Create a new filesystem image from the contents of a tarball # 从tar包中的内容创建一个新的文件系统映像[对应export]</li>
+<li>info      Display system-wide information               # 显示系统相关信息</li>
+<li>inspect   Return low-level information on a container   # 查看容器详细信息</li>
+<li>kill      Kill a running container                      # kill 指定 docker 容器</li>
+<li>load      Load an image from a tar archive              # 从一个 tar 包中加载一个镜像[对应 save]</li>
+<li>login     Register or Login to the docker registry server    # 注册或者登陆一个 docker 源服务器</li>
+<li>logout    Log out from a Docker registry server          # 从当前 Docker registry 退出</li>
+<li>logs      Fetch the logs of a container                 # 输出当前容器日志信息</li>
+<li>port      Lookup the public-facing port which is NAT-ed to PRIVATE_PORT    # 查看映射端口对应的容器内部源端口</li>
+<li>pause     Pause all processes within a container        # 暂停容器</li>
+<li>ps        List containers                               # 列出容器列表</li>
+<li>pull      Pull an image or a repository from the docker registry server   # 从docker镜像源服务器拉取指定镜像或者库镜像</li>
+<li>push      Push an image or a repository to the docker registry server    # 推送指定镜像或者库镜像至docker源服务器</li>
+<li>restart   Restart a running container                   # 重启运行的容器</li>
+<li>rm        Remove one or more containers                 # 移除一个或者多个容器</li>
+<li>rmi       Remove one or more images             # 移除一个或多个镜像[无容器使用该镜像才可删除，否则需删除相关容器才可继续或 -f 强制删除]</li>
+<li>run       Run a command in a new container              # 创建一个新的容器并运行一个命令</li>
+<li>save      Save an image to a tar archive                # 保存一个镜像为一个 tar 包[对应 load]</li>
+<li>search    Search for an image on the Docker Hub         # 在 docker hub 中搜索镜像</li>
+<li>start     Start a stopped containers                    # 启动容器</li>
+<li>stop      Stop a running containers                     # 停止容器</li>
+<li>tag       Tag an image into a repository                # 给源中镜像打标签</li>
+<li>top       Lookup the running processes of a container   # 查看容器中运行的进程信息</li>
+<li>unpause   Unpause a paused container                    # 取消暂停容器</li>
+<li>version   Show the docker version information           # 查看 docker 版本号</li>
+<li>wait      Block until a container stops, then print its exit code   # 截取容器停止时的退出状态值</li>
+</ul>
+</li>
+</ul>
+<h2 id="Docker-镜像"><a href="#Docker-镜像" class="headerlink" title="Docker 镜像"></a>Docker 镜像</h2><h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><ul>
+<li>tomcat为什么那么大</li>
+</ul>
+<h3 id="镜像是什么"><a href="#镜像是什么" class="headerlink" title="镜像是什么"></a>镜像是什么</h3><ul>
+<li><p>直接理解</p>
+<ul>
+<li>镜像是一种轻量级、可执行的独立软件包，用来打包软件运行环境和基于运行环境开发的软件，它包含运行某个软件所需的所有内容，包括代码、运行时、库、环境变量和配置文件。</li>
+</ul>
+</li>
+<li><p>镜像底层原理</p>
+<ul>
+<li><p>UnionFS（联合文件系统）</p>
+<ul>
+<li>UnionFS（联合文件系统）：Union文件系统（UnionFS）是一种分层、轻量级并且高性能的文件系统，它==支持对文件系统的修改作为一次提交来一层层的叠加==，同时可以将不同目录挂载到同一个虚拟文件系统下(unite several directories into a single virtual filesystem)。Union 文件系统是 Docker 镜像的基础。镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。<img src="/2020/09/11/docker-basic/ce50cc3d7dfd53b8f451bb154fc70f2f3067b9762137f5c000e06ef5cc744ea8.png"></li>
+<li>特性：一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Docker镜像加载原理</p>
+<ul>
+<li><p>docker的镜像实际上由一层一层的文件系统组成，这种层级的文件系统UnionFS。</p>
+<ul>
+<li>bootfs(boot file system)主要包含bootloader和kernel, bootloader主要是引导加载kernel, Linux刚启动时会加载bootfs文件系统，在Docker镜像的最底层是bootfs。这一层与我们典型的Linux/Unix系统是一样的，包含boot加载器和内核。当boot加载完成之后整个内核就都在内存中了，此时内存的使用权已由bootfs转交给内核，此时系统也会卸载bootfs。</li>
+<li>rootfs (root file system) ，在bootfs之上。包含的就是典型 Linux 系统中的 /dev, /proc, /bin, /etc 等标准目录和文件。rootfs就是各种不同的操作系统发行版，比如Ubuntu，Centos等等。</li>
+</ul>
+</li>
+<li><p>问题: 平时我们安装进虚拟机的CentOS都是好几个G，为什么docker这里才200M？？</p>
+<ul>
+<li>对于一个精简的OS，rootfs可以很小，只需要包括最基本的命令、工具和程序库就可以了，因为底层直接用Host的kernel，自己只需要提供 rootfs 就行了。由此可见对于不同的linux发行版, bootfs基本是一致的, rootfs会有差别, 因此不同的发行版可以公用bootfs。</li>
+</ul>
+</li>
+<li><p>问题:为什么tomcat要几百M,平时使用的tomcat并没有那么大?</p>
+<ul>
+<li>因为tomcat要运行起来需要一个基本的环境,所以文件会一层层包装起来,最后暴露一个tomcat<img src="/2020/09/11/docker-basic/65dfa181a98a9428504e335215810b94c812014af94f6db571d43ff5e3e88d87.png"></li>
+<li>我们实际在docker中安装centos也是分层次下载文件 <img src="/2020/09/11/docker-basic/959927441fb914372102d2a69c8e240db0fb11461143643f95d61b8cd59c9675.png"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>为什么 Docker 镜像要采用这种分层结构呢</p>
+<ul>
+<li><p>最大的一个好处就是 - 共享资源</p>
+<ul>
+<li>比如：有多个镜像都从相同的 base 镜像构建而来，那么宿主机只需在磁盘上保存一份base镜像，同时内存中也只需加载一份 base 镜像，就可以为所有容器服务了。而且镜像的每一层都可以被共享。</li>
+<li>这也是为啥卸载了docker的centos镜像,但是第二次下载就会很快,因为docker内部建立了缓存</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>Docker镜像都是只读的</li>
+<li>当容器启动时，一个新的可写层被加载到镜像的顶部。</li>
+<li>这一层通常被称作“容器层”，“容器层”之下的都叫“镜像层”。</li>
+</ul>
+<h3 id="Docker镜像commit操作补充"><a href="#Docker镜像commit操作补充" class="headerlink" title="Docker镜像commit操作补充"></a>Docker镜像commit操作补充</h3><ul>
+<li><p>docker commit提交容器副本使之成为一个新的镜像</p>
+</li>
+<li><p>docker commit -m=“提交的描述信息” -a=“作者” 容器ID 要创建的目标镜像名:[标签名]</p>
+</li>
+<li><p>案例演示</p>
+<ul>
+<li><p>从Hub上下载tomcat镜像到本地并成功运行</p>
+<ul>
+<li><p>docker run -it -p 8080:8080 tomcat</p>
+<ul>
+<li>-p 主机端口:docker容器端口</li>
+<li>-P 随机分配端口</li>
+<li>i:交互</li>
+<li>t:终端</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>故意删除上一步镜像生产tomcat容器的文档<img src="/2020/09/11/docker-basic/2cd3a4c95b171804fa969cd81894d01923ae373016c9a23be3ebeb6d4af79490.png"></p>
+</li>
+<li><p>也即当前的tomcat运行实例是一个没有文档内容的容器，以它为模板commit一个没有doc的tomcat新镜像atguigu/tomcat02<img src="/2020/09/11/docker-basic/8b760e138255aa474ad49ecb8d841ef0d0ddbbc6269479d7baec75c400e671e6.png"></p>
+<ul>
+<li>docker commit -m “on docs tomcat” -a “raymond” 0b2622fc462e raymond/tomcat:2.0</li>
+</ul>
+</li>
+<li><p>启动我们的新镜像并和原来的对比</p>
+<ul>
+<li>启动raymond/tomcat:2.0，它没有docs</li>
+<li>新启动原来的tomcat，它有docs</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Docker容器数据卷"><a href="#Docker容器数据卷" class="headerlink" title="Docker容器数据卷"></a>Docker容器数据卷</h2><h3 id="是什么-1"><a href="#是什么-1" class="headerlink" title="是什么"></a>是什么</h3><ul>
+<li><p>一句话：有点类似我们Redis里面的rdb和aof文件</p>
+</li>
+<li><p>先来看看Docker的理念：</p>
+<ul>
+<li>将运用与运行的环境打包形成容器运行 ，运行可以伴随着容器，但是我们对数据的要求希望是持久化的,容器之间希望有可能共享数据</li>
+<li>Docker容器产生的数据，如果不通过docker commit生成新的镜像，使得数据做为镜像的一部分保存下来，那么当容器删除后，数据自然也就没有了。为了能保存数据在docker中我们使用卷。</li>
+</ul>
+</li>
+<li><p>数据卷</p>
+<ul>
+<li><p>概念</p>
+<ul>
+<li>卷就是目录或文件，存在于一个或多个容器中，由docker挂载到容器，但不属于联合文件系统，因此能够绕过Union File System提供一些用于持续存储或共享数据的特性,卷的设计目的就是数据的持久化，完全独立于容器的生存周期，因此Docker不会在容器删除时删除其挂载的数据卷</li>
+</ul>
+</li>
+<li><p>特点</p>
+<ul>
+<li>1：数据卷可在容器之间共享或重用数据</li>
+<li>2：卷中的更改可以直接生效</li>
+<li>3：数据卷中的更改不会包含在镜像的更新中</li>
+<li>4：数据卷的生命周期一直持续到没有容器使用它为止</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="能干嘛-1"><a href="#能干嘛-1" class="headerlink" title="能干嘛"></a>能干嘛</h3><ul>
+<li>容器的持久化</li>
+<li>容器间继承</li>
+<li>宿主机和容器之间共享数据:做到二者共享的文件夹之间数据实时同步</li>
+</ul>
+<h3 id="数据卷"><a href="#数据卷" class="headerlink" title="数据卷"></a>数据卷</h3><ul>
+<li><p>容器内添加数据卷</p>
+<ul>
+<li><p>直接命令添加</p>
+<ul>
+<li><p>命令</p>
+<ul>
+<li>docker run -it -v /宿主机绝对路径目录:/容器内目录  镜像名 /bin/bash</li>
+</ul>
+</li>
+<li><p>查看数据卷是否挂载成功</p>
+<ul>
+<li>docker inspect 容器ID</li>
+</ul>
+</li>
+<li><p>特点</p>
+<ul>
+<li>容器和宿主机之间数据实时同步共享</li>
+<li>即使容器停止退出后，主机修改后数据也会在容器中进行同步</li>
+</ul>
+</li>
+<li><p>命令(带权限)</p>
+<ul>
+<li><p>docker run -it -v /宿主机绝对路径目录:/容器内目录:ro 镜像名</p>
+<ul>
+<li>ro:read only,主机对于共享目录可读可写,但是容器对共享目录只能读,不能写</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>DockerFile添加</p>
+<ul>
+<li><p>引入:什么是DockerFile</p>
+<ul>
+<li>DockerFIle之于Image就像是Person.class之于Person.java一样,DockerFile文件是其对应的镜像文件的描述文件,我们拿到DockerFile文件然后运行<code>docker build</code>命令,就可以获得对应的镜像文件,DockerFile内部的代码是对其对应的镜像文件的描述,语法上类似SHELL编程</li>
+</ul>
+</li>
+<li><p>步骤</p>
+<ul>
+<li><p>根目录下新建mydocker/文件夹并进入</p>
+</li>
+<li><p>可在Dockerfile中使用VOLUME指令来给镜像添加一个或多个数据卷:<code>VOLUME[&quot;/dataVolumeContainer&quot;,&quot;/dataVolumeContainer2&quot;,&quot;/dataVolumeContainer3&quot;]</code>,==这里的目录都是容器的目录,没有宿主机的目录,之后会分析宿主机对应的目录==</p>
+<ul>
+<li>说明：出于可移植和分享的考虑，用<code>-v 主机目录:容器目录</code>这种方法(即为直接命令添加共享卷的方法)不能够直接在Dockerfile中实现。这是因为宿主机目录是依赖于特定宿主机的，并不能够保证在所有的宿主机上都存在这样的特定目录。所以我们的DockerFile描述的镜像文件就不能保证可以在所有的机器中进行运行</li>
+</ul>
+</li>
+<li><p>新建一个dockerfile文件</p>
+<h1 id="volume-test"><a href="#volume-test" class="headerlink" title="volume test"></a>volume test</h1><p>FROM centos<br>VOLUME [“/dataVolumeContainer1”,”/dataVolumeContainer2”]<br>CMD echo “finished,——–success1”<br>CMD /bin/bash</p>
+</li>
+<li><p>使用<code>docker build</code>后生成镜像:<code>$ docker build -f /root/dockerfiles/mydockerfile -t raymodn/centos .</code>,并获取一个新的镜像<code>raymodn/centos</code></p>
+</li>
+<li><p>docker run新build获得到的容器<code>raymond/cenos</code></p>
+</li>
+<li><p>通过上述步骤，容器内的卷目录地址已经知道<br>对应的主机目录地址哪？？docker有默认的地址</p>
+<ul>
+<li><ol>
+<li>使用<code>docker inspect 容器id</code>,根据返回的内容获取宿主机对应的共享目录<img src="/2020/09/11/docker-basic/d19c91e216e98f6e6fb2d20e7a759f5b1569392fe71865dac8decc269e304321.png"></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>根据第一步内容去宿主机的对应目录查看同步的数据</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>备注</p>
+<p>Docker挂载主机目录Docker访问出现cannot open directory .: Permission denied<br>解决办法：在挂载目录后多加一个–privileged=true参数即可</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据卷容器"><a href="#数据卷容器" class="headerlink" title="数据卷容器"></a>数据卷容器</h3><ul>
+<li><p>是什么</p>
+<ul>
+<li><p>命名的容器挂载数据卷，其它容器通过挂载这个(父容器)实现数据共享，挂载数据卷的容器，称之为数据卷容器</p>
+</li>
+<li><p>我的理解</p>
+<ul>
+<li>建立一个父容器来挂载数据卷,其他容器通过挂载这个父容器来实现数据共享,这个父容器称为数据卷容器</li>
+<li>有点像一条绳子上的蚂蚱</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>总体介绍</p>
+<ul>
+<li><p>以上一步新建的镜像raymond/centos为模板并运行容器dc01/dc02/dc03</p>
+</li>
+<li><p>dc01/02/03都会具有容器卷,因为他们都是以镜像raymond/centos为基础来运行的,所以都会有一下两个volunme卷</p>
+<ul>
+<li>/dataVolumeContainer1</li>
+<li>/dataVolumeContainer2</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>容器间传递共享(–volumes-from)</p>
+<ul>
+<li><p>先启动一个父容器dc01:<code>docker run -it --name=dc01 raymodn/centos</code>,然后并在<code>/dataVolumeContainer2</code>目录下新增内容</p>
+</li>
+<li><p>dc02/dc03继承自dc01</p>
+<ul>
+<li><p>–volumes-from参数:表示继承</p>
+</li>
+<li><p>dc02/03命令</p>
+<ul>
+<li>执行<code>docker run -it --name=dc02 --volumes-from=dc01 raymodn/centos</code>,并在dataVolumeContainer2新增内容</li>
+<li>执行<code>docker run -it --name=dc03 --volumes-from=dc01 raymodn/centos</code>,并在dataVolumeContainer2新增内容</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>回到dc01可以看到02/03各自添加的都能共享了</p>
+</li>
+<li><p>删除dc01，dc02修改后dc03仍然可以访问所有文件</p>
+</li>
+<li><p>删除dc02后dc03仍然可以访问所有文件</p>
+</li>
+<li><p>新建dc04继承dc03后再删除dc03,dc04仍然可以访问所有文件</p>
+</li>
+<li><blockquote>
+<p>总结：容器之间配置信息的传递，数据卷的生命周期一直持续到没有容器使用它为止</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="DockerFile解析"><a href="#DockerFile解析" class="headerlink" title="DockerFile解析"></a>DockerFile解析</h2><h3 id="是什么-2"><a href="#是什么-2" class="headerlink" title="是什么"></a>是什么</h3><ul>
+<li><p>Dockerfile是用来构建Docker镜像的构建文件，是由一系列命令和参数构成的脚本。</p>
+</li>
+<li><p>构建三步骤</p>
+<ul>
+<li>编写Dockerfile文件</li>
+<li>docker build获取一个由Dockerfile编译而来的镜像</li>
+<li>docker run 编译而来的镜像</li>
+</ul>
+</li>
+<li><p>dockerfile文件什么样</p>
+<ul>
+<li>以我们熟悉的CentOS为例 <img src="/2020/09/11/docker-basic/813370567c705a0ff46dbb58a077981f0bfe9eedf7b05f6219f99714425f6e2e.png"></li>
+</ul>
+</li>
+</ul>
+<h3 id="DockerFile构建过程解析"><a href="#DockerFile构建过程解析" class="headerlink" title="DockerFile构建过程解析"></a>DockerFile构建过程解析</h3><ul>
+<li><p>Dockerfile内容基础知识</p>
+<ul>
+<li>1：每条保留字指令都必须为大写字母且后面要跟随至少一个参数</li>
+<li>2：指令按照从上到下，顺序执行</li>
+<li>3：#表示注释</li>
+<li>4：==每条指令都会创建一个新的镜像层，并对镜像进行提交commit==</li>
+</ul>
+</li>
+<li><p>Docker执行Dockerfile的大致流程</p>
+<ul>
+<li>（1）docker从基础镜像<code>scratch</code>运行一个容器,scratch是docker的基础镜像,就像是java中的Object类</li>
+<li>（2）执行一条指令并对容器作出修改</li>
+<li>（3）执行类似docker commit的操作提交一个新的镜像层</li>
+<li>（4）docker再基于刚提交的镜像运行一个新容器</li>
+<li>（5）执行dockerfile中的下一条指令直到所有指令都执行完成</li>
+</ul>
+</li>
+<li><p>小总结</p>
+<ul>
+<li><p>从应用软件的角度来看，Dockerfile、Docker镜像与Docker容器分别代表软件的三个不同阶段，Dockerfile面向开发，Docker镜像成为交付标准，Docker容器则涉及部署与运维，三者缺一不可，合力充当Docker体系的基石。<img src="/2020/09/11/docker-basic/655fa00a4033d4d47c083775780edfe00b6be829891903af8011ae4719962bfd.png"></p>
+<ul>
+<li><ul>
+<li><p>Dockerfile是软件的原材料,可以编译出来docker镜像</p>
+<ul>
+<li>1 Dockerfile，需要定义一个Dockerfile，Dockerfile定义了进程需要的一切东西。Dockerfile涉及的内容包括执行代码或者是文件、环境变量、依赖包、运行时环境、动态链接库、操作系统的发行版、服务进程和内核进程(当应用进程需要和系统服务和内核进程打交道，这时需要考虑如何设计namespace的权限控制)等等;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>Docker镜像是软件的交付品,通过docker run产生docker容器</p>
+<ul>
+<li>2 Docker镜像，在用Dockerfile定义一个文件之后，docker build时会产生一个Docker镜像，当运行 Docker镜像时，会真正开始提供服务;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>Docker容器则可以认为是软件的运行态。</p>
+<ul>
+<li>3 Docker容器，容器是直接提供服务的。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="DockerFile体系结构-保留字指令"><a href="#DockerFile体系结构-保留字指令" class="headerlink" title="DockerFile体系结构(保留字指令)"></a>DockerFile体系结构(保留字指令)</h3><ul>
+<li><p>FROM</p>
+<ul>
+<li>基础镜像，当前新镜像是基于哪个镜像的</li>
+</ul>
+</li>
+<li><p>MAINTAINER</p>
+<ul>
+<li>镜像维护者的姓名和邮箱地址</li>
+</ul>
+</li>
+<li><p>RUN</p>
+<ul>
+<li>容器构建时需要运行的shell命令<img src="/2020/09/11/docker-basic/b43e45abcd08ca0b089f6102c26acfa8cabf3e5b45359cb4555df1c5193a2eb7.png"></li>
+</ul>
+</li>
+<li><p>EXPOSE</p>
+<ul>
+<li>当前容器对外暴露出的端口<img src="/2020/09/11/docker-basic/44cd5d105bd96d698cbd8590466d48ad18c875dde6d51796fa0057a2d6fe267d.png"></li>
+</ul>
+</li>
+<li><p>WORKDIR</p>
+<ul>
+<li>指定在创建容器后，终端默认登陆的进来工作目录，一个落脚点<img src="/2020/09/11/docker-basic/25315118a1311707a6f24aa774271629152c2de7eea6fdd9ff1b2dd28dcef4ee.png"></li>
+</ul>
+</li>
+<li><p>ENV</p>
+<ul>
+<li><p>用来在构建镜像过程中设置环境变量</p>
+<ul>
+<li>定义:ENV MY_PATH /usr/mytest</li>
+<li>使用:WORKDIR $MY_PATH</li>
+<li>这个环境变量可以在后续的<code>任何RUN指令</code>和<code>其他指令</code>中使用，这就如同在命令前面指定了环境变量前缀一样；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ADD</p>
+<ul>
+<li>将宿主机目录下的文件拷贝进镜像且ADD命令会自动处理URL和解压tar压缩包</li>
+</ul>
+</li>
+<li><p>COPY</p>
+<ul>
+<li><p>类似ADD，拷贝主机的文件和目录到镜像中,但是不会自动处理URL和解压tar压缩包.将从构建上下文目录中 &lt;源路径&gt; 的文件/目录复制到新的一层的镜像内的 &lt;目标路径&gt; 位置</p>
+<ul>
+<li>COPY src dest</li>
+<li>COPY [“src”, “dest”]</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>VOLUME</p>
+<ul>
+<li>容器数据卷，用于数据保存和持久化工作<img src="/2020/09/11/docker-basic/a0dde36343812d2bbe2033abd0311ceac11ff2fdccf56c27b3bec662f358d334.png"></li>
+</ul>
+</li>
+<li><p>CMD</p>
+<ul>
+<li><p>指定一个容器启动时要运行的命令</p>
+</li>
+<li><p>特点</p>
+<ul>
+<li>Dockerfile 中可以有多个 CMD 指令，但只有最后一个生效(最后一个命令前的所有命令都会被覆盖掉)</li>
+<li>CMD 会被 docker run 之后的参数替换,即为覆盖dockerfile中的CMD的最后一行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ENTRYPOINT </p>
+<ul>
+<li><p>指定一个容器启动时要运行的命令</p>
+</li>
+<li><p>特点</p>
+<ul>
+<li>ENTRYPOINT 的目的和 CMD 一样，都是在指定容器启动程序及参数</li>
+<li>ENTRYPOINT, docker run 之后的参数会追加在ENTRYPOINT后</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ONBUILD</p>
+<ul>
+<li>当构建一个被继承的Dockerfile时运行ONBUILD命令，父镜像在被子继承后父镜像的onbuild被触发<img src="/2020/09/11/docker-basic/288d85a49362e63700bb4b7476364319f36db03ffb584b16a9354f70d50efa8b.png"></li>
+</ul>
+</li>
+<li><p>小总结<img src="/2020/09/11/docker-basic/1e22326149891a83ac5c43f535740fed88c0745b1a0f6f40ded5bd7efbae6a9a.png"></p>
+</li>
+</ul>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>Base镜像(scratch)</p>
+<ul>
+<li>Docker Hub 中 99% 的镜像都是通过在 base 镜像中安装和配置需要的软件构建出来的</li>
+</ul>
+</li>
+<li><p>自定义镜像mycentos</p>
+<ul>
+<li><p>引入</p>
+<ul>
+<li><p>Hub默认CentOS镜像什么情况</p>
+<ul>
+<li><p><img src="/2020/09/11/docker-basic/712aba9dccc52c25b6f9090642ed077e77e37dc78deee47e928c84bac51715a6.png"></p>
+</li>
+<li><p>自定义mycentos目的使我们自己的镜像具备如下：</p>
+<ul>
+<li>修改登陆后的默认路径</li>
+<li>有vim编辑器</li>
+<li>可以使用查看网络配置ifconfig</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>步骤</p>
+<ul>
+<li><p>编写</p>
+<ul>
+<li><p>准备编写DockerFile文件</p>
+<ul>
+<li><p>centos2.0</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line">MAINTAINER zzyy&lt;zzyy167@126.com&gt;</span><br><span class="line"></span><br><span class="line">ENV MYPATH /usr/local</span><br><span class="line">WORKDIR $MYPATH</span><br><span class="line"></span><br><span class="line">RUN yum -y install vim</span><br><span class="line">RUN yum -y install net-tools</span><br><span class="line"></span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line">CMD echo $MYPATH</span><br><span class="line">CMD echo &quot;success--------------ok&quot;</span><br><span class="line">CMD /bin/bash</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>构建</p>
+<ul>
+<li>docker build -f /tmp/centos2.o -t 新镜像名字:TAG .(注意这里有一个.表示当前路径)</li>
+</ul>
+</li>
+<li><p>运行</p>
+<ul>
+<li>docker run -it 新镜像名字:TAG  ,可以看到，我们自己的新镜像已经支持vim/ifconfig命令，扩展成功了。</li>
+</ul>
+</li>
+<li><p>列出镜像的变更历史</p>
+<ul>
+<li>docker history 镜像名</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>CMD/ENTRYPOINT 镜像案例</p>
+<ul>
+<li><p>都是指定一个容器启动时要运行的命令</p>
+</li>
+<li><p>CMD</p>
+<ul>
+<li><p>Dockerfile 中可以有多个 CMD 指令，但只有最后一个生效，不仅如此,CMD还会被 docker run 之后的参数替换</p>
+</li>
+<li><p>案例</p>
+<ul>
+<li><p>tomcat的讲解演示</p>
+<ul>
+<li>docker run -it -p 8888:8080 tomcat pwd:发现tomcat没有运行起来,但是控制台却打印了pwd命令的结果,可见tomcat最后一句的<code>CMD [&quot;catalina.sh&quot;, &quot;run&quot;]</code>被<code>docker run</code>命令后的shell命令替换了,而没有去执行启动tomcat命令</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ENTRYPOINT </p>
+<ul>
+<li><p>docker run 之后的参数会被==当做参数传递给 ENTRYPOINT==，之后形成新的命令组合</p>
+</li>
+<li><p>案例</p>
+<ul>
+<li><p>在dockerfile中使用CMD来执行命令</p>
+<ul>
+<li><p>制作CMD版可以查询IP信息的容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line">RUN yum install -y curl</span><br><span class="line">CMD [ &quot;curl&quot;, &quot;-s&quot;, &quot;http://ip.cn&quot; ]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>crul命令解释</p>
+<p>curl命令可以用来执行下载、发送各种HTTP请求，指定HTTP头部等操作。<br>如果系统没有curl可以使用yum install curl安装，也可以下载安装。<br>curl是将下载文件输出到stdout</p>
+<p>使用命令：curl <a target="_blank" rel="noopener" href="http://www.baidu.com/">http://www.baidu.com</a><br>执行后，<a target="_blank" rel="noopener" href="http://www.baidu.com的html就会显示在屏幕上了/">www.baidu.com的html就会显示在屏幕上了</a></p>
+<p>这是最简单的使用方法。用这个命令获得了<a target="_blank" rel="noopener" href="http://curl.haxx.se指向的页面,同样,如果这里的url指向的是一个文件或者一幅图都可以直接下载到本地.如果下载的是html文档,那么缺省的将只显示文件头部,即html文档的header.要全部显示,请加参数/">http://curl.haxx.se指向的页面，同样，如果这里的URL指向的是一个文件或者一幅图都可以直接下载到本地。如果下载的是HTML文档，那么缺省的将只显示文件头部，即HTML文档的header。要全部显示，请加参数</a> -i</p>
+</li>
+</ul>
+</li>
+<li><p>问题</p>
+<ul>
+<li>如果我们希望显示 HTTP 头信息，就需要加上 -i 参数</li>
+</ul>
+</li>
+<li><p>结果</p>
+<ul>
+<li>我们可以看到可执行文件找不到的报错，executable file not found。之前我们说过，跟在镜像名后面的是 command，运行时会替换 CMD 的默认值。因此这里的 -i 替换了原来的 CMD，而不是添加在原来的 curl -s <a target="_blank" rel="noopener" href="http://ip.cn/">http://ip.cn</a> 后面。而 -i 根本不是命令，所以自然找不到。</li>
+<li>那么如果我们希望加入 -i 这参数，我们就必须重新完整的输入这个命令：<code>docker run myip curl -s http://ip.cn -i</code>,但是这样我们的dockerfile中的<code>CMD</code>命令不就是毫无意义了吗?</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在dockerfile中使用ENTRYPOINT来执行命令</p>
+<ul>
+<li><p>使用ENTROYPOINT替换CMD制作dockerfile</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line">RUN yum install -y curl</span><br><span class="line">ENTRYPOINT [ &quot;curl&quot;, &quot;-s&quot;, &quot;http://ip.cn&quot; ]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>问题</p>
+<ul>
+<li>当我们使用<code>docker run myip -i</code>命令启动docker容器,发现请求头一并输出在控制台上</li>
+</ul>
+</li>
+<li><p>结论</p>
+<ul>
+<li>证明我们的<code>docker run</code>后面的<code>-i</code>参数并没有覆盖掉我们的<code>ENTRYPOINT</code>命令,而是作为参数追加到了命令后</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>自定义镜像Tomcat9</p>
+<ul>
+<li><ol>
+<li>在宿主机上下载上述两个文件<img src="/2020/09/11/docker-basic/0489e5b57ffb78413d89808b624b888589aa0172335b246b03d69a72feb98fb2.png"></li>
+</ol>
+</li>
+<li><p>在/root/dockerfiles/mytomcat目录下,创建mytomcat9文件,内容如下<img src="/2020/09/11/docker-basic/02f80e05be41576076a0cc66b105f37ae49d2cef27abc33f27884d58af66a0ab.png"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line">MAINTAINER raymond&lt;88888888@qq.com&gt;</span><br><span class="line"><span class="meta">#</span><span class="bash">把宿主机当前上下文的c.txt拷贝到容器/usr/<span class="built_in">local</span>/路径下</span></span><br><span class="line">COPY host.txt /usr/local/cincontainer.txt</span><br><span class="line"><span class="meta">#</span><span class="bash">把java与tomcat添加到容器中</span></span><br><span class="line">ADD jdk-8u261-linux-x64.tar.gz /usr/local/</span><br><span class="line">ADD apache-tomcat-9.0.37.tar.gz /usr/local/</span><br><span class="line"><span class="meta">#</span><span class="bash">安装vim编辑器</span></span><br><span class="line">RUN yum -y install vim</span><br><span class="line"><span class="meta">#</span><span class="bash">设置工作访问时候的WORKDIR路径，登录落脚点</span></span><br><span class="line">ENV MYPATH /usr/local</span><br><span class="line">WORKDIR $MYPATH</span><br><span class="line"><span class="meta">#</span><span class="bash">配置java与tomcat环境变量</span></span><br><span class="line">ENV JAVA_HOME /usr/local/jdk1.8.0_261</span><br><span class="line">ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line">ENV CATALINA_HOME /usr/local/apache-tomcat-9.0.37</span><br><span class="line">ENV CATALINA_BASE /usr/local/apache-tomcat-9.0.37</span><br><span class="line">ENV PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/lib:$CATALINA_HOME/bin</span><br><span class="line"><span class="meta">#</span><span class="bash">容器运行时监听的端口</span></span><br><span class="line">EXPOSE 8080</span><br><span class="line"><span class="meta">#</span><span class="bash">启动时运行tomcat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ENTRYPOINT [<span class="string">&quot;/usr/local/apache-tomcat-9.0.8/bin/startup.sh&quot;</span> ]</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> CMD [<span class="string">&quot;/usr/local/apache-tomcat-9.0.8/bin/catalina.sh&quot;</span>,<span class="string">&quot;run&quot;</span>]</span></span><br><span class="line">CMD /usr/local/apache-tomcat-9.0.37/bin/startup.sh &amp;&amp; tail -F /usr/local/apache-tomcat-9.0.37/logs/catalina.out</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>$ docker build -f mytomcat9 -t raymond/mytomcat9 .</code>构建镜像</p>
+</li>
+<li><p><code>docker run -p 8888:8080 -v /root/dockerfiles/webapps/test/:/usr/local/apache-tomcat-9.0.37/webapps/test/ -v /root/dockerfiles/logs/:/usr/local/apache-tomcat-9.0.37/logs/  raymond/mytomcat9</code></p>
+<ul>
+<li>注意在使用<code>-v</code>命令来建立共享文件夹的时候,一定要注意==容器中的共享文件夹一定要是空的,如果不是空的,则容器启动失败==,但是宿主机的共享文件夹可以不为空</li>
+</ul>
+</li>
+<li><p>验证</p>
+<ul>
+<li>直接使用<code>curl http://localhost:8888</code></li>
+</ul>
+</li>
+<li><p>结合前述的容器卷将测试的web服务test发布</p>
+<ul>
+<li><p>在宿主机上的共享文件夹中<code>/root/dockerfiles/webapps/test/</code>中添加<code>web.xml</code>和<code>a.jsp</code></p>
+<ul>
+<li><p>web.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> </span></span><br><span class="line"><span class="tag"> <span class="attr">xmlns</span>=<span class="string">&quot;http://java.sun.com/xml/ns/javaee&quot;</span> </span></span><br><span class="line"><span class="tag"> <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;</span> </span></span><br><span class="line"><span class="tag"> <span class="attr">id</span>=<span class="string">&quot;WebApp_ID&quot;</span> <span class="attr">version</span>=<span class="string">&quot;2.5&quot;</span>&gt;</span> </span><br><span class="line">  </span><br><span class="line"> <span class="tag">&lt;<span class="name">display-name</span>&gt;</span>test<span class="tag">&lt;/<span class="name">display-name</span>&gt;</span> </span><br><span class="line">  </span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>a.jsp</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">&quot;java&quot;</span> contentType=<span class="string">&quot;text/html; charset=UTF-8&quot;</span> pageEncoding=<span class="string">&quot;UTF-8&quot;</span>%&gt; </span><br><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;</span>&gt; </span><br><span class="line">&lt;html&gt; </span><br><span class="line"> &lt;head&gt; </span><br><span class="line">  &lt;meta http-equiv=<span class="string">&quot;Content-Type&quot;</span> content=<span class="string">&quot;text/html; charset=UTF-8&quot;</span>&gt; </span><br><span class="line">  &lt;title&gt;Insert title here&lt;/title&gt; </span><br><span class="line"> &lt;/head&gt; </span><br><span class="line"> &lt;body&gt; </span><br><span class="line">  -----------welcome------------ </span><br><span class="line">  &lt;%=<span class="string">&quot;i am in docker tomcat self &quot;</span>%&gt; </span><br><span class="line">  &lt;br&gt; </span><br><span class="line">  &lt;br&gt; </span><br><span class="line">  &lt;% System.out.println(<span class="string">&quot;=============docker tomcat self&quot;</span>);%&gt; </span><br><span class="line"> &lt;/body&gt; </span><br><span class="line">&lt;/html&gt; </span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>测试<img src="/2020/09/11/docker-basic/bc8e557f0c6371e132a55ca10f6cbaa2beed9883fc58999c5dd7d8e3d3ce79be.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="小总结-1"><a href="#小总结-1" class="headerlink" title="小总结"></a>小总结<img src="/2020/09/11/docker-basic/122c321101505e82ac43737cf61d56620daaaa6634fea97ae8f6bb883607a6dd.png"></h3><h2 id="Docker常用安装"><a href="#Docker常用安装" class="headerlink" title="Docker常用安装"></a>Docker常用安装</h2><h3 id="总体步骤"><a href="#总体步骤" class="headerlink" title="总体步骤"></a>总体步骤</h3><ul>
+<li>搜索镜像</li>
+<li>拉取镜像</li>
+<li>查看镜像</li>
+<li>启动镜像</li>
+<li>停止容器</li>
+<li>移除容器</li>
+</ul>
+<h3 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h3><ul>
+<li><p>docker hub上面查找tomcat镜像</p>
+<ul>
+<li>docker search tomcat</li>
+</ul>
+</li>
+<li><p>从docker hub上拉取tomcat镜像到本地</p>
+<ul>
+<li><p>docker pull tomcat</p>
+<ul>
+<li>1官网命令</li>
+<li>2拉取完成</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>docker images查看是否有拉取到的tomcat</p>
+</li>
+<li><p>使用tomcat镜像创建容器(也叫运行镜像)</p>
+<ul>
+<li><p>docker run -it -p 8080:8080 tomcat</p>
+<ul>
+<li>-p 主机端口:docker容器端口</li>
+<li>-P 随机分配端口</li>
+<li>i:交互</li>
+<li>t:终端</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><ul>
+<li><p>docker hub上面查找mysql镜像</p>
+</li>
+<li><p>从docker hub上(阿里云加速器)拉取mysql镜像到本地标签为5.6</p>
+</li>
+<li><p>使用mysql5.6镜像创建容器(也叫运行镜像)</p>
+<ul>
+<li><p>使用mysql镜像 </p>
+<p>命令说明：。-v /zzyyuse/mysql/logs:/logs：将主机/zzyyuse/mysql目录下的 logs 目录挂载到容器的 /logs。-v /zzyyuse/mysql/data:/var/lib/mysql ：将主机/zzyyuse/mysql目录下的data目录挂载到容器的 /var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456：初始化 root 用户的密码。-d mysql:5.6 : 后台程序运行mysql5.6</p>
+<p> docker exec -it MySQL运行成功后的容器ID     /bin/bash</p>
+<ul>
+<li><p><code>docker run -p 12345:3306 --name mysql -v /zzyyuse/mysql/conf:/etc/mysql/conf.d -v /zzyyuse/mysql/logs:/logs -v /zzyyuse/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.6</code></p>
+<ul>
+<li>-p 12345:3306：将主机的12345端口映射到docker容器的3306端口</li>
+<li>–name mysql：运行服务名字</li>
+<li>-v /zzyyuse/mysql/conf:/etc/mysql/conf.d ：将主机/zzyyuse/mysql录下的conf/my.cnf 挂载到容器的 /etc/mysql/conf.d</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>外部Win10也来连接运行在dokcer上的mysql服务</p>
+</li>
+<li><p>数据备份小测试(可以不做)</p>
+<p>docker exec myql服务容器ID sh -c ‘ exec mysqldump –all-databases -uroot -p”123456” ‘ &gt; /zzyyuse/all-databases.sql</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h3><ul>
+<li><p>从docker hub上(阿里云加速器)拉取redis镜像到本地标签为3.2</p>
+</li>
+<li><p>使用redis3.2镜像创建容器(也叫运行镜像)</p>
+<ul>
+<li><p>使用镜像</p>
+<p>docker run -p 6379:6379 -v /zzyyuse/myredis/data:/data -v /zzyyuse/myredis/conf/redis.conf:/usr/local/etc/redis/redis.conf  -d redis:3.2 redis-server /usr/local/etc/redis/redis.conf –appendonly yes</p>
+</li>
+<li><p>在主机/zzyyuse/myredis/conf/redis.conf目录下新建redis.conf文件<br>vim /zzyyuse/myredis/conf/redis.conf/redis.conf</p>
+<h1 id="Redis-configuration-file-example"><a href="#Redis-configuration-file-example" class="headerlink" title="Redis configuration file example."></a>Redis configuration file example.</h1><p>#</p>
+<h1 id="Note-that-in-order-to-read-the-configuration-file-Redis-must-be"><a href="#Note-that-in-order-to-read-the-configuration-file-Redis-must-be" class="headerlink" title="Note that in order to read the configuration file, Redis must be"></a>Note that in order to read the configuration file, Redis must be</h1><h1 id="started-with-the-file-path-as-first-argument"><a href="#started-with-the-file-path-as-first-argument" class="headerlink" title="started with the file path as first argument:"></a>started with the file path as first argument:</h1><p>#</p>
+<h1 id="redis-server-path-to-redis-conf"><a href="#redis-server-path-to-redis-conf" class="headerlink" title="./redis-server /path/to/redis.conf"></a>./redis-server /path/to/redis.conf</h1><h1 id="Note-on-units-when-memory-size-is-needed-it-is-possible-to-specify"><a href="#Note-on-units-when-memory-size-is-needed-it-is-possible-to-specify" class="headerlink" title="Note on units: when memory size is needed, it is possible to specify"></a>Note on units: when memory size is needed, it is possible to specify</h1><h1 id="it-in-the-usual-form-of-1k-5GB-4M-and-so-forth"><a href="#it-in-the-usual-form-of-1k-5GB-4M-and-so-forth" class="headerlink" title="it in the usual form of 1k 5GB 4M and so forth:"></a>it in the usual form of 1k 5GB 4M and so forth:</h1><p>#</p>
+<h1 id="1k-gt-1000-bytes"><a href="#1k-gt-1000-bytes" class="headerlink" title="1k =&gt; 1000 bytes"></a>1k =&gt; 1000 bytes</h1><h1 id="1kb-gt-1024-bytes"><a href="#1kb-gt-1024-bytes" class="headerlink" title="1kb =&gt; 1024 bytes"></a>1kb =&gt; 1024 bytes</h1><h1 id="1m-gt-1000000-bytes"><a href="#1m-gt-1000000-bytes" class="headerlink" title="1m =&gt; 1000000 bytes"></a>1m =&gt; 1000000 bytes</h1><h1 id="1mb-gt-1024-1024-bytes"><a href="#1mb-gt-1024-1024-bytes" class="headerlink" title="1mb =&gt; 1024*1024 bytes"></a>1mb =&gt; 1024*1024 bytes</h1><h1 id="1g-gt-1000000000-bytes"><a href="#1g-gt-1000000000-bytes" class="headerlink" title="1g =&gt; 1000000000 bytes"></a>1g =&gt; 1000000000 bytes</h1><h1 id="1gb-gt-102410241024-bytes"><a href="#1gb-gt-102410241024-bytes" class="headerlink" title="1gb =&gt; 102410241024 bytes"></a>1gb =&gt; 1024<em>1024</em>1024 bytes</h1><p>#</p>
+<h1 id="units-are-case-insensitive-so-1GB-1Gb-1gB-are-all-the-same"><a href="#units-are-case-insensitive-so-1GB-1Gb-1gB-are-all-the-same" class="headerlink" title="units are case insensitive so 1GB 1Gb 1gB are all the same."></a>units are case insensitive so 1GB 1Gb 1gB are all the same.</h1><p>################################## INCLUDES ###################################</p>
+<h1 id="Include-one-or-more-other-config-files-here-This-is-useful-if-you"><a href="#Include-one-or-more-other-config-files-here-This-is-useful-if-you" class="headerlink" title="Include one or more other config files here.  This is useful if you"></a>Include one or more other config files here.  This is useful if you</h1><h1 id="have-a-standard-template-that-goes-to-all-Redis-servers-but-also-need"><a href="#have-a-standard-template-that-goes-to-all-Redis-servers-but-also-need" class="headerlink" title="have a standard template that goes to all Redis servers but also need"></a>have a standard template that goes to all Redis servers but also need</h1><h1 id="to-customize-a-few-per-server-settings-Include-files-can-include"><a href="#to-customize-a-few-per-server-settings-Include-files-can-include" class="headerlink" title="to customize a few per-server settings.  Include files can include"></a>to customize a few per-server settings.  Include files can include</h1><h1 id="other-files-so-use-this-wisely"><a href="#other-files-so-use-this-wisely" class="headerlink" title="other files, so use this wisely."></a>other files, so use this wisely.</h1><p>#</p>
+<h1 id="Notice-option-“include”-won’t-be-rewritten-by-command-“CONFIG-REWRITE”"><a href="#Notice-option-“include”-won’t-be-rewritten-by-command-“CONFIG-REWRITE”" class="headerlink" title="Notice option “include” won’t be rewritten by command “CONFIG REWRITE”"></a>Notice option “include” won’t be rewritten by command “CONFIG REWRITE”</h1><h1 id="from-admin-or-Redis-Sentinel-Since-Redis-always-uses-the-last-processed"><a href="#from-admin-or-Redis-Sentinel-Since-Redis-always-uses-the-last-processed" class="headerlink" title="from admin or Redis Sentinel. Since Redis always uses the last processed"></a>from admin or Redis Sentinel. Since Redis always uses the last processed</h1><h1 id="line-as-value-of-a-configuration-directive-you’d-better-put-includes"><a href="#line-as-value-of-a-configuration-directive-you’d-better-put-includes" class="headerlink" title="line as value of a configuration directive, you’d better put includes"></a>line as value of a configuration directive, you’d better put includes</h1><h1 id="at-the-beginning-of-this-file-to-avoid-overwriting-config-change-at-runtime"><a href="#at-the-beginning-of-this-file-to-avoid-overwriting-config-change-at-runtime" class="headerlink" title="at the beginning of this file to avoid overwriting config change at runtime."></a>at the beginning of this file to avoid overwriting config change at runtime.</h1><p>#</p>
+<h1 id="If-instead-you-are-interested-in-using-includes-to-override-configuration"><a href="#If-instead-you-are-interested-in-using-includes-to-override-configuration" class="headerlink" title="If instead you are interested in using includes to override configuration"></a>If instead you are interested in using includes to override configuration</h1><h1 id="options-it-is-better-to-use-include-as-the-last-line"><a href="#options-it-is-better-to-use-include-as-the-last-line" class="headerlink" title="options, it is better to use include as the last line."></a>options, it is better to use include as the last line.</h1><p>#</p>
+<h1 id="include-path-to-local-conf"><a href="#include-path-to-local-conf" class="headerlink" title="include /path/to/local.conf"></a>include /path/to/local.conf</h1><h1 id="include-path-to-other-conf"><a href="#include-path-to-other-conf" class="headerlink" title="include /path/to/other.conf"></a>include /path/to/other.conf</h1><p>################################## NETWORK #####################################</p>
+<h1 id="By-default-if-no-“bind”-configuration-directive-is-specified-Redis-listens"><a href="#By-default-if-no-“bind”-configuration-directive-is-specified-Redis-listens" class="headerlink" title="By default, if no “bind” configuration directive is specified, Redis listens"></a>By default, if no “bind” configuration directive is specified, Redis listens</h1><h1 id="for-connections-from-all-the-network-interfaces-available-on-the-server"><a href="#for-connections-from-all-the-network-interfaces-available-on-the-server" class="headerlink" title="for connections from all the network interfaces available on the server."></a>for connections from all the network interfaces available on the server.</h1><h1 id="It-is-possible-to-listen-to-just-one-or-multiple-selected-interfaces-using"><a href="#It-is-possible-to-listen-to-just-one-or-multiple-selected-interfaces-using" class="headerlink" title="It is possible to listen to just one or multiple selected interfaces using"></a>It is possible to listen to just one or multiple selected interfaces using</h1><h1 id="the-“bind”-configuration-directive-followed-by-one-or-more-IP-addresses"><a href="#the-“bind”-configuration-directive-followed-by-one-or-more-IP-addresses" class="headerlink" title="the “bind” configuration directive, followed by one or more IP addresses."></a>the “bind” configuration directive, followed by one or more IP addresses.</h1><p>#</p>
+<h1 id="Examples"><a href="#Examples" class="headerlink" title="Examples:"></a>Examples:</h1><p>#</p>
+<h1 id="bind-192-168-1-100-10-0-0-1"><a href="#bind-192-168-1-100-10-0-0-1" class="headerlink" title="bind 192.168.1.100 10.0.0.1"></a>bind 192.168.1.100 10.0.0.1</h1><h1 id="bind-127-0-0-1-1"><a href="#bind-127-0-0-1-1" class="headerlink" title="bind 127.0.0.1 ::1"></a>bind 127.0.0.1 ::1</h1><p>#</p>
+<h1 id="WARNING-If-the-computer-running-Redis-is-directly-exposed-to-the"><a href="#WARNING-If-the-computer-running-Redis-is-directly-exposed-to-the" class="headerlink" title="~ WARNING ~ If the computer running Redis is directly exposed to the"></a><del>~ WARNING ~</del> If the computer running Redis is directly exposed to the</h1><h1 id="internet-binding-to-all-the-interfaces-is-dangerous-and-will-expose-the"><a href="#internet-binding-to-all-the-interfaces-is-dangerous-and-will-expose-the" class="headerlink" title="internet, binding to all the interfaces is dangerous and will expose the"></a>internet, binding to all the interfaces is dangerous and will expose the</h1><h1 id="instance-to-everybody-on-the-internet-So-by-default-we-uncomment-the"><a href="#instance-to-everybody-on-the-internet-So-by-default-we-uncomment-the" class="headerlink" title="instance to everybody on the internet. So by default we uncomment the"></a>instance to everybody on the internet. So by default we uncomment the</h1><h1 id="following-bind-directive-that-will-force-Redis-to-listen-only-into"><a href="#following-bind-directive-that-will-force-Redis-to-listen-only-into" class="headerlink" title="following bind directive, that will force Redis to listen only into"></a>following bind directive, that will force Redis to listen only into</h1><h1 id="the-IPv4-lookback-interface-address-this-means-Redis-will-be-able-to"><a href="#the-IPv4-lookback-interface-address-this-means-Redis-will-be-able-to" class="headerlink" title="the IPv4 lookback interface address (this means Redis will be able to"></a>the IPv4 lookback interface address (this means Redis will be able to</h1><h1 id="accept-connections-only-from-clients-running-into-the-same-computer-it"><a href="#accept-connections-only-from-clients-running-into-the-same-computer-it" class="headerlink" title="accept connections only from clients running into the same computer it"></a>accept connections only from clients running into the same computer it</h1><h1 id="is-running"><a href="#is-running" class="headerlink" title="is running)."></a>is running).</h1><p>#</p>
+<h1 id="IF-YOU-ARE-SURE-YOU-WANT-YOUR-INSTANCE-TO-LISTEN-TO-ALL-THE-INTERFACES"><a href="#IF-YOU-ARE-SURE-YOU-WANT-YOUR-INSTANCE-TO-LISTEN-TO-ALL-THE-INTERFACES" class="headerlink" title="IF YOU ARE SURE YOU WANT YOUR INSTANCE TO LISTEN TO ALL THE INTERFACES"></a>IF YOU ARE SURE YOU WANT YOUR INSTANCE TO LISTEN TO ALL THE INTERFACES</h1><h1 id="JUST-COMMENT-THE-FOLLOWING-LINE"><a href="#JUST-COMMENT-THE-FOLLOWING-LINE" class="headerlink" title="JUST COMMENT THE FOLLOWING LINE."></a>JUST COMMENT THE FOLLOWING LINE.</h1><h1 id><a href="#" class="headerlink" title="~"></a><del>~</del></h1><p>#bind 127.0.0.1</p>
+<h1 id="Protected-mode-is-a-layer-of-security-protection-in-order-to-avoid-that"><a href="#Protected-mode-is-a-layer-of-security-protection-in-order-to-avoid-that" class="headerlink" title="Protected mode is a layer of security protection, in order to avoid that"></a>Protected mode is a layer of security protection, in order to avoid that</h1><h1 id="Redis-instances-left-open-on-the-internet-are-accessed-and-exploited"><a href="#Redis-instances-left-open-on-the-internet-are-accessed-and-exploited" class="headerlink" title="Redis instances left open on the internet are accessed and exploited."></a>Redis instances left open on the internet are accessed and exploited.</h1><p>#</p>
+<h1 id="When-protected-mode-is-on-and-if"><a href="#When-protected-mode-is-on-and-if" class="headerlink" title="When protected mode is on and if:"></a>When protected mode is on and if:</h1><p>#</p>
+<h1 id="1-The-server-is-not-binding-explicitly-to-a-set-of-addresses-using-the"><a href="#1-The-server-is-not-binding-explicitly-to-a-set-of-addresses-using-the" class="headerlink" title="1) The server is not binding explicitly to a set of addresses using the"></a>1) The server is not binding explicitly to a set of addresses using the</h1><h1 id="“bind”-directive"><a href="#“bind”-directive" class="headerlink" title="“bind” directive."></a>“bind” directive.</h1><h1 id="2-No-password-is-configured"><a href="#2-No-password-is-configured" class="headerlink" title="2) No password is configured."></a>2) No password is configured.</h1><p>#</p>
+<h1 id="The-server-only-accepts-connections-from-clients-connecting-from-the"><a href="#The-server-only-accepts-connections-from-clients-connecting-from-the" class="headerlink" title="The server only accepts connections from clients connecting from the"></a>The server only accepts connections from clients connecting from the</h1><h1 id="IPv4-and-IPv6-loopback-addresses-127-0-0-1-and-1-and-from-Unix-domain"><a href="#IPv4-and-IPv6-loopback-addresses-127-0-0-1-and-1-and-from-Unix-domain" class="headerlink" title="IPv4 and IPv6 loopback addresses 127.0.0.1 and ::1, and from Unix domain"></a>IPv4 and IPv6 loopback addresses 127.0.0.1 and ::1, and from Unix domain</h1><h1 id="sockets"><a href="#sockets" class="headerlink" title="sockets."></a>sockets.</h1><p>#</p>
+<h1 id="By-default-protected-mode-is-enabled-You-should-disable-it-only-if"><a href="#By-default-protected-mode-is-enabled-You-should-disable-it-only-if" class="headerlink" title="By default protected mode is enabled. You should disable it only if"></a>By default protected mode is enabled. You should disable it only if</h1><h1 id="you-are-sure-you-want-clients-from-other-hosts-to-connect-to-Redis"><a href="#you-are-sure-you-want-clients-from-other-hosts-to-connect-to-Redis" class="headerlink" title="you are sure you want clients from other hosts to connect to Redis"></a>you are sure you want clients from other hosts to connect to Redis</h1><h1 id="even-if-no-authentication-is-configured-nor-a-specific-set-of-interfaces"><a href="#even-if-no-authentication-is-configured-nor-a-specific-set-of-interfaces" class="headerlink" title="even if no authentication is configured, nor a specific set of interfaces"></a>even if no authentication is configured, nor a specific set of interfaces</h1><h1 id="are-explicitly-listed-using-the-“bind”-directive"><a href="#are-explicitly-listed-using-the-“bind”-directive" class="headerlink" title="are explicitly listed using the “bind” directive."></a>are explicitly listed using the “bind” directive.</h1><p>protected-mode yes</p>
+<h1 id="Accept-connections-on-the-specified-port-default-is-6379-IANA-815344"><a href="#Accept-connections-on-the-specified-port-default-is-6379-IANA-815344" class="headerlink" title="Accept connections on the specified port, default is 6379 (IANA #815344)."></a>Accept connections on the specified port, default is 6379 (IANA #815344).</h1><h1 id="If-port-0-is-specified-Redis-will-not-listen-on-a-TCP-socket"><a href="#If-port-0-is-specified-Redis-will-not-listen-on-a-TCP-socket" class="headerlink" title="If port 0 is specified Redis will not listen on a TCP socket."></a>If port 0 is specified Redis will not listen on a TCP socket.</h1><p>port 6379</p>
+<h1 id="TCP-listen-backlog"><a href="#TCP-listen-backlog" class="headerlink" title="TCP listen() backlog."></a>TCP listen() backlog.</h1><p>#</p>
+<h1 id="In-high-requests-per-second-environments-you-need-an-high-backlog-in-order"><a href="#In-high-requests-per-second-environments-you-need-an-high-backlog-in-order" class="headerlink" title="In high requests-per-second environments you need an high backlog in order"></a>In high requests-per-second environments you need an high backlog in order</h1><h1 id="to-avoid-slow-clients-connections-issues-Note-that-the-Linux-kernel"><a href="#to-avoid-slow-clients-connections-issues-Note-that-the-Linux-kernel" class="headerlink" title="to avoid slow clients connections issues. Note that the Linux kernel"></a>to avoid slow clients connections issues. Note that the Linux kernel</h1><h1 id="will-silently-truncate-it-to-the-value-of-proc-sys-net-core-somaxconn-so"><a href="#will-silently-truncate-it-to-the-value-of-proc-sys-net-core-somaxconn-so" class="headerlink" title="will silently truncate it to the value of /proc/sys/net/core/somaxconn so"></a>will silently truncate it to the value of /proc/sys/net/core/somaxconn so</h1><h1 id="make-sure-to-raise-both-the-value-of-somaxconn-and-tcp-max-syn-backlog"><a href="#make-sure-to-raise-both-the-value-of-somaxconn-and-tcp-max-syn-backlog" class="headerlink" title="make sure to raise both the value of somaxconn and tcp_max_syn_backlog"></a>make sure to raise both the value of somaxconn and tcp_max_syn_backlog</h1><h1 id="in-order-to-get-the-desired-effect"><a href="#in-order-to-get-the-desired-effect" class="headerlink" title="in order to get the desired effect."></a>in order to get the desired effect.</h1><p>tcp-backlog 511</p>
+<h1 id="Unix-socket"><a href="#Unix-socket" class="headerlink" title="Unix socket."></a>Unix socket.</h1><p>#</p>
+<h1 id="Specify-the-path-for-the-Unix-socket-that-will-be-used-to-listen-for"><a href="#Specify-the-path-for-the-Unix-socket-that-will-be-used-to-listen-for" class="headerlink" title="Specify the path for the Unix socket that will be used to listen for"></a>Specify the path for the Unix socket that will be used to listen for</h1><h1 id="incoming-connections-There-is-no-default-so-Redis-will-not-listen"><a href="#incoming-connections-There-is-no-default-so-Redis-will-not-listen" class="headerlink" title="incoming connections. There is no default, so Redis will not listen"></a>incoming connections. There is no default, so Redis will not listen</h1><h1 id="on-a-unix-socket-when-not-specified"><a href="#on-a-unix-socket-when-not-specified" class="headerlink" title="on a unix socket when not specified."></a>on a unix socket when not specified.</h1><p>#</p>
+<h1 id="unixsocket-tmp-redis-sock"><a href="#unixsocket-tmp-redis-sock" class="headerlink" title="unixsocket /tmp/redis.sock"></a>unixsocket /tmp/redis.sock</h1><h1 id="unixsocketperm-700"><a href="#unixsocketperm-700" class="headerlink" title="unixsocketperm 700"></a>unixsocketperm 700</h1><h1 id="Close-the-connection-after-a-client-is-idle-for-N-seconds-0-to-disable"><a href="#Close-the-connection-after-a-client-is-idle-for-N-seconds-0-to-disable" class="headerlink" title="Close the connection after a client is idle for N seconds (0 to disable)"></a>Close the connection after a client is idle for N seconds (0 to disable)</h1><p>timeout 0</p>
+<h1 id="TCP-keepalive"><a href="#TCP-keepalive" class="headerlink" title="TCP keepalive."></a>TCP keepalive.</h1><p>#</p>
+<h1 id="If-non-zero-use-SO-KEEPALIVE-to-send-TCP-ACKs-to-clients-in-absence"><a href="#If-non-zero-use-SO-KEEPALIVE-to-send-TCP-ACKs-to-clients-in-absence" class="headerlink" title="If non-zero, use SO_KEEPALIVE to send TCP ACKs to clients in absence"></a>If non-zero, use SO_KEEPALIVE to send TCP ACKs to clients in absence</h1><h1 id="of-communication-This-is-useful-for-two-reasons"><a href="#of-communication-This-is-useful-for-two-reasons" class="headerlink" title="of communication. This is useful for two reasons:"></a>of communication. This is useful for two reasons:</h1><p>#</p>
+<h1 id="1-Detect-dead-peers"><a href="#1-Detect-dead-peers" class="headerlink" title="1) Detect dead peers."></a>1) Detect dead peers.</h1><h1 id="2-Take-the-connection-alive-from-the-point-of-view-of-network"><a href="#2-Take-the-connection-alive-from-the-point-of-view-of-network" class="headerlink" title="2) Take the connection alive from the point of view of network"></a>2) Take the connection alive from the point of view of network</h1><h1 id="equipment-in-the-middle"><a href="#equipment-in-the-middle" class="headerlink" title="equipment in the middle."></a>equipment in the middle.</h1><p>#</p>
+<h1 id="On-Linux-the-specified-value-in-seconds-is-the-period-used-to-send-ACKs"><a href="#On-Linux-the-specified-value-in-seconds-is-the-period-used-to-send-ACKs" class="headerlink" title="On Linux, the specified value (in seconds) is the period used to send ACKs."></a>On Linux, the specified value (in seconds) is the period used to send ACKs.</h1><h1 id="Note-that-to-close-the-connection-the-double-of-the-time-is-needed"><a href="#Note-that-to-close-the-connection-the-double-of-the-time-is-needed" class="headerlink" title="Note that to close the connection the double of the time is needed."></a>Note that to close the connection the double of the time is needed.</h1><h1 id="On-other-kernels-the-period-depends-on-the-kernel-configuration"><a href="#On-other-kernels-the-period-depends-on-the-kernel-configuration" class="headerlink" title="On other kernels the period depends on the kernel configuration."></a>On other kernels the period depends on the kernel configuration.</h1><p>#</p>
+<h1 id="A-reasonable-value-for-this-option-is-300-seconds-which-is-the-new"><a href="#A-reasonable-value-for-this-option-is-300-seconds-which-is-the-new" class="headerlink" title="A reasonable value for this option is 300 seconds, which is the new"></a>A reasonable value for this option is 300 seconds, which is the new</h1><h1 id="Redis-default-starting-with-Redis-3-2-1"><a href="#Redis-default-starting-with-Redis-3-2-1" class="headerlink" title="Redis default starting with Redis 3.2.1."></a>Redis default starting with Redis 3.2.1.</h1><p>tcp-keepalive 300</p>
+<p>################################# GENERAL #####################################</p>
+<h1 id="By-default-Redis-does-not-run-as-a-daemon-Use-‘yes’-if-you-need-it"><a href="#By-default-Redis-does-not-run-as-a-daemon-Use-‘yes’-if-you-need-it" class="headerlink" title="By default Redis does not run as a daemon. Use ‘yes’ if you need it."></a>By default Redis does not run as a daemon. Use ‘yes’ if you need it.</h1><h1 id="Note-that-Redis-will-write-a-pid-file-in-var-run-redis-pid-when-daemonized"><a href="#Note-that-Redis-will-write-a-pid-file-in-var-run-redis-pid-when-daemonized" class="headerlink" title="Note that Redis will write a pid file in /var/run/redis.pid when daemonized."></a>Note that Redis will write a pid file in /var/run/redis.pid when daemonized.</h1><p>#daemonize no</p>
+<h1 id="If-you-run-Redis-from-upstart-or-systemd-Redis-can-interact-with-your"><a href="#If-you-run-Redis-from-upstart-or-systemd-Redis-can-interact-with-your" class="headerlink" title="If you run Redis from upstart or systemd, Redis can interact with your"></a>If you run Redis from upstart or systemd, Redis can interact with your</h1><h1 id="supervision-tree-Options"><a href="#supervision-tree-Options" class="headerlink" title="supervision tree. Options:"></a>supervision tree. Options:</h1><h1 id="supervised-no-no-supervision-interaction"><a href="#supervised-no-no-supervision-interaction" class="headerlink" title="supervised no      - no supervision interaction"></a>supervised no      - no supervision interaction</h1><h1 id="supervised-upstart-signal-upstart-by-putting-Redis-into-SIGSTOP-mode"><a href="#supervised-upstart-signal-upstart-by-putting-Redis-into-SIGSTOP-mode" class="headerlink" title="supervised upstart - signal upstart by putting Redis into SIGSTOP mode"></a>supervised upstart - signal upstart by putting Redis into SIGSTOP mode</h1><h1 id="supervised-systemd-signal-systemd-by-writing-READY-1-to-NOTIFY-SOCKET"><a href="#supervised-systemd-signal-systemd-by-writing-READY-1-to-NOTIFY-SOCKET" class="headerlink" title="supervised systemd - signal systemd by writing READY=1 to $NOTIFY_SOCKET"></a>supervised systemd - signal systemd by writing READY=1 to $NOTIFY_SOCKET</h1><h1 id="supervised-auto-detect-upstart-or-systemd-method-based-on"><a href="#supervised-auto-detect-upstart-or-systemd-method-based-on" class="headerlink" title="supervised auto    - detect upstart or systemd method based on"></a>supervised auto    - detect upstart or systemd method based on</h1><h1 id="UPSTART-JOB-or-NOTIFY-SOCKET-environment-variables"><a href="#UPSTART-JOB-or-NOTIFY-SOCKET-environment-variables" class="headerlink" title="UPSTART_JOB or NOTIFY_SOCKET environment variables"></a>UPSTART_JOB or NOTIFY_SOCKET environment variables</h1><h1 id="Note-these-supervision-methods-only-signal-“process-is-ready-”"><a href="#Note-these-supervision-methods-only-signal-“process-is-ready-”" class="headerlink" title="Note: these supervision methods only signal “process is ready.”"></a>Note: these supervision methods only signal “process is ready.”</h1><h1 id="They-do-not-enable-continuous-liveness-pings-back-to-your-supervisor"><a href="#They-do-not-enable-continuous-liveness-pings-back-to-your-supervisor" class="headerlink" title="They do not enable continuous liveness pings back to your supervisor."></a>They do not enable continuous liveness pings back to your supervisor.</h1><p>supervised no</p>
+<h1 id="If-a-pid-file-is-specified-Redis-writes-it-where-specified-at-startup"><a href="#If-a-pid-file-is-specified-Redis-writes-it-where-specified-at-startup" class="headerlink" title="If a pid file is specified, Redis writes it where specified at startup"></a>If a pid file is specified, Redis writes it where specified at startup</h1><h1 id="and-removes-it-at-exit"><a href="#and-removes-it-at-exit" class="headerlink" title="and removes it at exit."></a>and removes it at exit.</h1><p>#</p>
+<h1 id="When-the-server-runs-non-daemonized-no-pid-file-is-created-if-none-is"><a href="#When-the-server-runs-non-daemonized-no-pid-file-is-created-if-none-is" class="headerlink" title="When the server runs non daemonized, no pid file is created if none is"></a>When the server runs non daemonized, no pid file is created if none is</h1><h1 id="specified-in-the-configuration-When-the-server-is-daemonized-the-pid-file"><a href="#specified-in-the-configuration-When-the-server-is-daemonized-the-pid-file" class="headerlink" title="specified in the configuration. When the server is daemonized, the pid file"></a>specified in the configuration. When the server is daemonized, the pid file</h1><h1 id="is-used-even-if-not-specified-defaulting-to-“-var-run-redis-pid”"><a href="#is-used-even-if-not-specified-defaulting-to-“-var-run-redis-pid”" class="headerlink" title="is used even if not specified, defaulting to “/var/run/redis.pid”."></a>is used even if not specified, defaulting to “/var/run/redis.pid”.</h1><p>#</p>
+<h1 id="Creating-a-pid-file-is-best-effort-if-Redis-is-not-able-to-create-it"><a href="#Creating-a-pid-file-is-best-effort-if-Redis-is-not-able-to-create-it" class="headerlink" title="Creating a pid file is best effort: if Redis is not able to create it"></a>Creating a pid file is best effort: if Redis is not able to create it</h1><h1 id="nothing-bad-happens-the-server-will-start-and-run-normally"><a href="#nothing-bad-happens-the-server-will-start-and-run-normally" class="headerlink" title="nothing bad happens, the server will start and run normally."></a>nothing bad happens, the server will start and run normally.</h1><p>pidfile /var/run/redis_6379.pid</p>
+<h1 id="Specify-the-server-verbosity-level"><a href="#Specify-the-server-verbosity-level" class="headerlink" title="Specify the server verbosity level."></a>Specify the server verbosity level.</h1><h1 id="This-can-be-one-of"><a href="#This-can-be-one-of" class="headerlink" title="This can be one of:"></a>This can be one of:</h1><h1 id="debug-a-lot-of-information-useful-for-development-testing"><a href="#debug-a-lot-of-information-useful-for-development-testing" class="headerlink" title="debug (a lot of information, useful for development/testing)"></a>debug (a lot of information, useful for development/testing)</h1><h1 id="verbose-many-rarely-useful-info-but-not-a-mess-like-the-debug-level"><a href="#verbose-many-rarely-useful-info-but-not-a-mess-like-the-debug-level" class="headerlink" title="verbose (many rarely useful info, but not a mess like the debug level)"></a>verbose (many rarely useful info, but not a mess like the debug level)</h1><h1 id="notice-moderately-verbose-what-you-want-in-production-probably"><a href="#notice-moderately-verbose-what-you-want-in-production-probably" class="headerlink" title="notice (moderately verbose, what you want in production probably)"></a>notice (moderately verbose, what you want in production probably)</h1><h1 id="warning-only-very-important-critical-messages-are-logged"><a href="#warning-only-very-important-critical-messages-are-logged" class="headerlink" title="warning (only very important / critical messages are logged)"></a>warning (only very important / critical messages are logged)</h1><p>loglevel notice</p>
+<h1 id="Specify-the-log-file-name-Also-the-empty-string-can-be-used-to-force"><a href="#Specify-the-log-file-name-Also-the-empty-string-can-be-used-to-force" class="headerlink" title="Specify the log file name. Also the empty string can be used to force"></a>Specify the log file name. Also the empty string can be used to force</h1><h1 id="Redis-to-log-on-the-standard-output-Note-that-if-you-use-standard"><a href="#Redis-to-log-on-the-standard-output-Note-that-if-you-use-standard" class="headerlink" title="Redis to log on the standard output. Note that if you use standard"></a>Redis to log on the standard output. Note that if you use standard</h1><h1 id="output-for-logging-but-daemonize-logs-will-be-sent-to-dev-null"><a href="#output-for-logging-but-daemonize-logs-will-be-sent-to-dev-null" class="headerlink" title="output for logging but daemonize, logs will be sent to /dev/null"></a>output for logging but daemonize, logs will be sent to /dev/null</h1><p>logfile “”</p>
+<h1 id="To-enable-logging-to-the-system-logger-just-set-‘syslog-enabled’-to-yes"><a href="#To-enable-logging-to-the-system-logger-just-set-‘syslog-enabled’-to-yes" class="headerlink" title="To enable logging to the system logger, just set ‘syslog-enabled’ to yes,"></a>To enable logging to the system logger, just set ‘syslog-enabled’ to yes,</h1><h1 id="and-optionally-update-the-other-syslog-parameters-to-suit-your-needs"><a href="#and-optionally-update-the-other-syslog-parameters-to-suit-your-needs" class="headerlink" title="and optionally update the other syslog parameters to suit your needs."></a>and optionally update the other syslog parameters to suit your needs.</h1><h1 id="syslog-enabled-no"><a href="#syslog-enabled-no" class="headerlink" title="syslog-enabled no"></a>syslog-enabled no</h1><h1 id="Specify-the-syslog-identity"><a href="#Specify-the-syslog-identity" class="headerlink" title="Specify the syslog identity."></a>Specify the syslog identity.</h1><h1 id="syslog-ident-redis"><a href="#syslog-ident-redis" class="headerlink" title="syslog-ident redis"></a>syslog-ident redis</h1><h1 id="Specify-the-syslog-facility-Must-be-USER-or-between-LOCAL0-LOCAL7"><a href="#Specify-the-syslog-facility-Must-be-USER-or-between-LOCAL0-LOCAL7" class="headerlink" title="Specify the syslog facility. Must be USER or between LOCAL0-LOCAL7."></a>Specify the syslog facility. Must be USER or between LOCAL0-LOCAL7.</h1><h1 id="syslog-facility-local0"><a href="#syslog-facility-local0" class="headerlink" title="syslog-facility local0"></a>syslog-facility local0</h1><h1 id="Set-the-number-of-databases-The-default-database-is-DB-0-you-can-select"><a href="#Set-the-number-of-databases-The-default-database-is-DB-0-you-can-select" class="headerlink" title="Set the number of databases. The default database is DB 0, you can select"></a>Set the number of databases. The default database is DB 0, you can select</h1><h1 id="a-different-one-on-a-per-connection-basis-using-SELECT-where"><a href="#a-different-one-on-a-per-connection-basis-using-SELECT-where" class="headerlink" title="a different one on a per-connection basis using SELECT  where"></a>a different one on a per-connection basis using SELECT  where</h1></li>
+<li><p>测试redis-cli连接上来</p>
+<p>docker exec -it 运行着Rediis服务的容器ID redis-cli</p>
+</li>
+<li><p>测试持久化文件生成</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="本地镜像发布到阿里云"><a href="#本地镜像发布到阿里云" class="headerlink" title="本地镜像发布到阿里云"></a>本地镜像发布到阿里云</h2><h3 id="本地镜像发布到阿里云流程"><a href="#本地镜像发布到阿里云流程" class="headerlink" title="本地镜像发布到阿里云流程"></a>本地镜像发布到阿里云流程<img src="/2020/09/11/docker-basic/dbc99b01b0f86556604f518515f9de99e82d07acb53bf5bcdbbef777b51649fd.png"></h3><h3 id="镜像的生成方法"><a href="#镜像的生成方法" class="headerlink" title="镜像的生成方法"></a>镜像的生成方法</h3><ul>
+<li><p>前面的DockerFile</p>
+</li>
+<li><p>从容器创建一个新的镜像<br>docker commit [OPTIONS] 容器ID [REPOSITORY[:TAG]]</p>
+<ul>
+<li><p>OPTIONS说明：</p>
+<ul>
+<li>-a :提交的镜像作者；</li>
+<li>-m :提交时的说明文字；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="将本地镜像推送到阿里云"><a href="#将本地镜像推送到阿里云" class="headerlink" title="将本地镜像推送到阿里云"></a>将本地镜像推送到阿里云</h3><ul>
+<li><p>本地镜像素材原型</p>
+</li>
+<li><p>阿里云开发者平台</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.aliyun.com/search.html">https://dev.aliyun.com/search.html</a></li>
+</ul>
+</li>
+<li><p>创建仓库镜像</p>
+<ul>
+<li>命名空间</li>
+<li>仓库名称:一个仓库对应一个应用<img src="/2020/09/11/docker-basic/d4f6a8b1163caa9df400b48078510f6b4f5a8ca73fda2baf22267654027e95e6.png"></li>
+</ul>
+</li>
+<li><p>将镜像推送到registry</p>
+</li>
+<li><p>公有云可以查询到</p>
+</li>
+<li><p>查看详情</p>
+</li>
+</ul>
+<h3 id="将阿里云上的镜像下载到本地"><a href="#将阿里云上的镜像下载到本地" class="headerlink" title="将阿里云上的镜像下载到本地"></a>将阿里云上的镜像下载到本地</h3><ul>
+<li>下载到本地</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/11/hello/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker%E5%9F%BA%E7%A1%80%E7%AF%87"><span class="nav-number">1.</span> <span class="nav-text">Docker基础篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-docker%E4%B8%AD%E7%9A%84mysql%E5%AE%B9%E5%99%A8%E4%B8%AD%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8vim%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. docker中的mysql容器中无法使用vim命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker%E7%AE%80%E4%BB%8B"><span class="nav-number">1.2.</span> <span class="nav-text">Docker简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%E7%9F%A5%E8%AF%86"><span class="nav-number">1.2.1.</span> <span class="nav-text">前提知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E7%A8%8B%E5%AE%9A%E4%BD%8D"><span class="nav-number">1.2.2.</span> <span class="nav-text">课程定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.2.3.</span> <span class="nav-text">是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%BD%E5%B9%B2%E5%98%9B"><span class="nav-number">1.2.4.</span> <span class="nav-text">能干嘛</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%BB%E5%93%AA%E4%B8%8B"><span class="nav-number">1.2.5.</span> <span class="nav-text">去哪下</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker%E5%AE%89%E8%A3%85"><span class="nav-number">1.3.</span> <span class="nav-text">Docker安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%E8%AF%B4%E6%98%8E"><span class="nav-number">1.3.1.</span> <span class="nav-text">前提说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90"><span class="nav-number">1.3.2.</span> <span class="nav-text">Docker的基本组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.3.3.</span> <span class="nav-text">安装步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B0%B8%E8%BF%9C%E7%9A%84HelloWorld"><span class="nav-number">1.3.4.</span> <span class="nav-text">永远的HelloWorld</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">1.3.5.</span> <span class="nav-text">底层原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">1.4.</span> <span class="nav-text">Docker常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4"><span class="nav-number">1.4.1.</span> <span class="nav-text">帮助命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E5%91%BD%E4%BB%A4"><span class="nav-number">1.4.2.</span> <span class="nav-text">镜像命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">1.4.3.</span> <span class="nav-text">容器命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E6%80%BB%E7%BB%93"><span class="nav-number">1.4.4.</span> <span class="nav-text">小总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E9%95%9C%E5%83%8F"><span class="nav-number">1.5.</span> <span class="nav-text">Docker 镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E5%85%A5"><span class="nav-number">1.5.1.</span> <span class="nav-text">引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.5.2.</span> <span class="nav-text">镜像是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">1.5.3.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker%E9%95%9C%E5%83%8Fcommit%E6%93%8D%E4%BD%9C%E8%A1%A5%E5%85%85"><span class="nav-number">1.5.4.</span> <span class="nav-text">Docker镜像commit操作补充</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="nav-number">1.6.</span> <span class="nav-text">Docker容器数据卷</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88-1"><span class="nav-number">1.6.1.</span> <span class="nav-text">是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%BD%E5%B9%B2%E5%98%9B-1"><span class="nav-number">1.6.2.</span> <span class="nav-text">能干嘛</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="nav-number">1.6.3.</span> <span class="nav-text">数据卷</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#volume-test"><span class="nav-number">2.</span> <span class="nav-text">volume test</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AE%B9%E5%99%A8"><span class="nav-number">2.0.1.</span> <span class="nav-text">数据卷容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DockerFile%E8%A7%A3%E6%9E%90"><span class="nav-number">2.1.</span> <span class="nav-text">DockerFile解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88-2"><span class="nav-number">2.1.1.</span> <span class="nav-text">是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DockerFile%E6%9E%84%E5%BB%BA%E8%BF%87%E7%A8%8B%E8%A7%A3%E6%9E%90"><span class="nav-number">2.1.2.</span> <span class="nav-text">DockerFile构建过程解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DockerFile%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84-%E4%BF%9D%E7%95%99%E5%AD%97%E6%8C%87%E4%BB%A4"><span class="nav-number">2.1.3.</span> <span class="nav-text">DockerFile体系结构(保留字指令)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B"><span class="nav-number">2.1.4.</span> <span class="nav-text">案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E6%80%BB%E7%BB%93-1"><span class="nav-number">2.1.5.</span> <span class="nav-text">小总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker%E5%B8%B8%E7%94%A8%E5%AE%89%E8%A3%85"><span class="nav-number">2.2.</span> <span class="nav-text">Docker常用安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E4%BD%93%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.2.1.</span> <span class="nav-text">总体步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85tomcat"><span class="nav-number">2.2.2.</span> <span class="nav-text">安装tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85mysql"><span class="nav-number">2.2.3.</span> <span class="nav-text">安装mysql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85redis"><span class="nav-number">2.2.4.</span> <span class="nav-text">安装redis</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis-configuration-file-example"><span class="nav-number">3.</span> <span class="nav-text">Redis configuration file example.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Note-that-in-order-to-read-the-configuration-file-Redis-must-be"><span class="nav-number">4.</span> <span class="nav-text">Note that in order to read the configuration file, Redis must be</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#started-with-the-file-path-as-first-argument"><span class="nav-number">5.</span> <span class="nav-text">started with the file path as first argument:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#redis-server-path-to-redis-conf"><span class="nav-number">6.</span> <span class="nav-text">.&#x2F;redis-server &#x2F;path&#x2F;to&#x2F;redis.conf</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Note-on-units-when-memory-size-is-needed-it-is-possible-to-specify"><span class="nav-number">7.</span> <span class="nav-text">Note on units: when memory size is needed, it is possible to specify</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#it-in-the-usual-form-of-1k-5GB-4M-and-so-forth"><span class="nav-number">8.</span> <span class="nav-text">it in the usual form of 1k 5GB 4M and so forth:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1k-gt-1000-bytes"><span class="nav-number">9.</span> <span class="nav-text">1k &#x3D;&gt; 1000 bytes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1kb-gt-1024-bytes"><span class="nav-number">10.</span> <span class="nav-text">1kb &#x3D;&gt; 1024 bytes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1m-gt-1000000-bytes"><span class="nav-number">11.</span> <span class="nav-text">1m &#x3D;&gt; 1000000 bytes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1mb-gt-1024-1024-bytes"><span class="nav-number">12.</span> <span class="nav-text">1mb &#x3D;&gt; 1024*1024 bytes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1g-gt-1000000000-bytes"><span class="nav-number">13.</span> <span class="nav-text">1g &#x3D;&gt; 1000000000 bytes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1gb-gt-102410241024-bytes"><span class="nav-number">14.</span> <span class="nav-text">1gb &#x3D;&gt; 102410241024 bytes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#units-are-case-insensitive-so-1GB-1Gb-1gB-are-all-the-same"><span class="nav-number">15.</span> <span class="nav-text">units are case insensitive so 1GB 1Gb 1gB are all the same.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Include-one-or-more-other-config-files-here-This-is-useful-if-you"><span class="nav-number">16.</span> <span class="nav-text">Include one or more other config files here.  This is useful if you</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#have-a-standard-template-that-goes-to-all-Redis-servers-but-also-need"><span class="nav-number">17.</span> <span class="nav-text">have a standard template that goes to all Redis servers but also need</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#to-customize-a-few-per-server-settings-Include-files-can-include"><span class="nav-number">18.</span> <span class="nav-text">to customize a few per-server settings.  Include files can include</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#other-files-so-use-this-wisely"><span class="nav-number">19.</span> <span class="nav-text">other files, so use this wisely.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Notice-option-%E2%80%9Cinclude%E2%80%9D-won%E2%80%99t-be-rewritten-by-command-%E2%80%9CCONFIG-REWRITE%E2%80%9D"><span class="nav-number">20.</span> <span class="nav-text">Notice option “include” won’t be rewritten by command “CONFIG REWRITE”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#from-admin-or-Redis-Sentinel-Since-Redis-always-uses-the-last-processed"><span class="nav-number">21.</span> <span class="nav-text">from admin or Redis Sentinel. Since Redis always uses the last processed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#line-as-value-of-a-configuration-directive-you%E2%80%99d-better-put-includes"><span class="nav-number">22.</span> <span class="nav-text">line as value of a configuration directive, you’d better put includes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#at-the-beginning-of-this-file-to-avoid-overwriting-config-change-at-runtime"><span class="nav-number">23.</span> <span class="nav-text">at the beginning of this file to avoid overwriting config change at runtime.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#If-instead-you-are-interested-in-using-includes-to-override-configuration"><span class="nav-number">24.</span> <span class="nav-text">If instead you are interested in using includes to override configuration</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#options-it-is-better-to-use-include-as-the-last-line"><span class="nav-number">25.</span> <span class="nav-text">options, it is better to use include as the last line.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#include-path-to-local-conf"><span class="nav-number">26.</span> <span class="nav-text">include &#x2F;path&#x2F;to&#x2F;local.conf</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#include-path-to-other-conf"><span class="nav-number">27.</span> <span class="nav-text">include &#x2F;path&#x2F;to&#x2F;other.conf</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#By-default-if-no-%E2%80%9Cbind%E2%80%9D-configuration-directive-is-specified-Redis-listens"><span class="nav-number">28.</span> <span class="nav-text">By default, if no “bind” configuration directive is specified, Redis listens</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#for-connections-from-all-the-network-interfaces-available-on-the-server"><span class="nav-number">29.</span> <span class="nav-text">for connections from all the network interfaces available on the server.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#It-is-possible-to-listen-to-just-one-or-multiple-selected-interfaces-using"><span class="nav-number">30.</span> <span class="nav-text">It is possible to listen to just one or multiple selected interfaces using</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#the-%E2%80%9Cbind%E2%80%9D-configuration-directive-followed-by-one-or-more-IP-addresses"><span class="nav-number">31.</span> <span class="nav-text">the “bind” configuration directive, followed by one or more IP addresses.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Examples"><span class="nav-number">32.</span> <span class="nav-text">Examples:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bind-192-168-1-100-10-0-0-1"><span class="nav-number">33.</span> <span class="nav-text">bind 192.168.1.100 10.0.0.1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bind-127-0-0-1-1"><span class="nav-number">34.</span> <span class="nav-text">bind 127.0.0.1 ::1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WARNING-If-the-computer-running-Redis-is-directly-exposed-to-the"><span class="nav-number">35.</span> <span class="nav-text">~ WARNING ~ If the computer running Redis is directly exposed to the</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#internet-binding-to-all-the-interfaces-is-dangerous-and-will-expose-the"><span class="nav-number">36.</span> <span class="nav-text">internet, binding to all the interfaces is dangerous and will expose the</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#instance-to-everybody-on-the-internet-So-by-default-we-uncomment-the"><span class="nav-number">37.</span> <span class="nav-text">instance to everybody on the internet. So by default we uncomment the</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#following-bind-directive-that-will-force-Redis-to-listen-only-into"><span class="nav-number">38.</span> <span class="nav-text">following bind directive, that will force Redis to listen only into</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#the-IPv4-lookback-interface-address-this-means-Redis-will-be-able-to"><span class="nav-number">39.</span> <span class="nav-text">the IPv4 lookback interface address (this means Redis will be able to</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#accept-connections-only-from-clients-running-into-the-same-computer-it"><span class="nav-number">40.</span> <span class="nav-text">accept connections only from clients running into the same computer it</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#is-running"><span class="nav-number">41.</span> <span class="nav-text">is running).</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IF-YOU-ARE-SURE-YOU-WANT-YOUR-INSTANCE-TO-LISTEN-TO-ALL-THE-INTERFACES"><span class="nav-number">42.</span> <span class="nav-text">IF YOU ARE SURE YOU WANT YOUR INSTANCE TO LISTEN TO ALL THE INTERFACES</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JUST-COMMENT-THE-FOLLOWING-LINE"><span class="nav-number">43.</span> <span class="nav-text">JUST COMMENT THE FOLLOWING LINE.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">44.</span> <span class="nav-text">~</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Protected-mode-is-a-layer-of-security-protection-in-order-to-avoid-that"><span class="nav-number">45.</span> <span class="nav-text">Protected mode is a layer of security protection, in order to avoid that</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis-instances-left-open-on-the-internet-are-accessed-and-exploited"><span class="nav-number">46.</span> <span class="nav-text">Redis instances left open on the internet are accessed and exploited.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#When-protected-mode-is-on-and-if"><span class="nav-number">47.</span> <span class="nav-text">When protected mode is on and if:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-The-server-is-not-binding-explicitly-to-a-set-of-addresses-using-the"><span class="nav-number">48.</span> <span class="nav-text">1) The server is not binding explicitly to a set of addresses using the</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E2%80%9Cbind%E2%80%9D-directive"><span class="nav-number">49.</span> <span class="nav-text">“bind” directive.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-No-password-is-configured"><span class="nav-number">50.</span> <span class="nav-text">2) No password is configured.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-server-only-accepts-connections-from-clients-connecting-from-the"><span class="nav-number">51.</span> <span class="nav-text">The server only accepts connections from clients connecting from the</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IPv4-and-IPv6-loopback-addresses-127-0-0-1-and-1-and-from-Unix-domain"><span class="nav-number">52.</span> <span class="nav-text">IPv4 and IPv6 loopback addresses 127.0.0.1 and ::1, and from Unix domain</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sockets"><span class="nav-number">53.</span> <span class="nav-text">sockets.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#By-default-protected-mode-is-enabled-You-should-disable-it-only-if"><span class="nav-number">54.</span> <span class="nav-text">By default protected mode is enabled. You should disable it only if</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#you-are-sure-you-want-clients-from-other-hosts-to-connect-to-Redis"><span class="nav-number">55.</span> <span class="nav-text">you are sure you want clients from other hosts to connect to Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#even-if-no-authentication-is-configured-nor-a-specific-set-of-interfaces"><span class="nav-number">56.</span> <span class="nav-text">even if no authentication is configured, nor a specific set of interfaces</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#are-explicitly-listed-using-the-%E2%80%9Cbind%E2%80%9D-directive"><span class="nav-number">57.</span> <span class="nav-text">are explicitly listed using the “bind” directive.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Accept-connections-on-the-specified-port-default-is-6379-IANA-815344"><span class="nav-number">58.</span> <span class="nav-text">Accept connections on the specified port, default is 6379 (IANA #815344).</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#If-port-0-is-specified-Redis-will-not-listen-on-a-TCP-socket"><span class="nav-number">59.</span> <span class="nav-text">If port 0 is specified Redis will not listen on a TCP socket.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP-listen-backlog"><span class="nav-number">60.</span> <span class="nav-text">TCP listen() backlog.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#In-high-requests-per-second-environments-you-need-an-high-backlog-in-order"><span class="nav-number">61.</span> <span class="nav-text">In high requests-per-second environments you need an high backlog in order</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#to-avoid-slow-clients-connections-issues-Note-that-the-Linux-kernel"><span class="nav-number">62.</span> <span class="nav-text">to avoid slow clients connections issues. Note that the Linux kernel</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#will-silently-truncate-it-to-the-value-of-proc-sys-net-core-somaxconn-so"><span class="nav-number">63.</span> <span class="nav-text">will silently truncate it to the value of &#x2F;proc&#x2F;sys&#x2F;net&#x2F;core&#x2F;somaxconn so</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#make-sure-to-raise-both-the-value-of-somaxconn-and-tcp-max-syn-backlog"><span class="nav-number">64.</span> <span class="nav-text">make sure to raise both the value of somaxconn and tcp_max_syn_backlog</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#in-order-to-get-the-desired-effect"><span class="nav-number">65.</span> <span class="nav-text">in order to get the desired effect.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Unix-socket"><span class="nav-number">66.</span> <span class="nav-text">Unix socket.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Specify-the-path-for-the-Unix-socket-that-will-be-used-to-listen-for"><span class="nav-number">67.</span> <span class="nav-text">Specify the path for the Unix socket that will be used to listen for</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#incoming-connections-There-is-no-default-so-Redis-will-not-listen"><span class="nav-number">68.</span> <span class="nav-text">incoming connections. There is no default, so Redis will not listen</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#on-a-unix-socket-when-not-specified"><span class="nav-number">69.</span> <span class="nav-text">on a unix socket when not specified.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#unixsocket-tmp-redis-sock"><span class="nav-number">70.</span> <span class="nav-text">unixsocket &#x2F;tmp&#x2F;redis.sock</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#unixsocketperm-700"><span class="nav-number">71.</span> <span class="nav-text">unixsocketperm 700</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Close-the-connection-after-a-client-is-idle-for-N-seconds-0-to-disable"><span class="nav-number">72.</span> <span class="nav-text">Close the connection after a client is idle for N seconds (0 to disable)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP-keepalive"><span class="nav-number">73.</span> <span class="nav-text">TCP keepalive.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#If-non-zero-use-SO-KEEPALIVE-to-send-TCP-ACKs-to-clients-in-absence"><span class="nav-number">74.</span> <span class="nav-text">If non-zero, use SO_KEEPALIVE to send TCP ACKs to clients in absence</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#of-communication-This-is-useful-for-two-reasons"><span class="nav-number">75.</span> <span class="nav-text">of communication. This is useful for two reasons:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Detect-dead-peers"><span class="nav-number">76.</span> <span class="nav-text">1) Detect dead peers.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Take-the-connection-alive-from-the-point-of-view-of-network"><span class="nav-number">77.</span> <span class="nav-text">2) Take the connection alive from the point of view of network</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#equipment-in-the-middle"><span class="nav-number">78.</span> <span class="nav-text">equipment in the middle.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#On-Linux-the-specified-value-in-seconds-is-the-period-used-to-send-ACKs"><span class="nav-number">79.</span> <span class="nav-text">On Linux, the specified value (in seconds) is the period used to send ACKs.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Note-that-to-close-the-connection-the-double-of-the-time-is-needed"><span class="nav-number">80.</span> <span class="nav-text">Note that to close the connection the double of the time is needed.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#On-other-kernels-the-period-depends-on-the-kernel-configuration"><span class="nav-number">81.</span> <span class="nav-text">On other kernels the period depends on the kernel configuration.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A-reasonable-value-for-this-option-is-300-seconds-which-is-the-new"><span class="nav-number">82.</span> <span class="nav-text">A reasonable value for this option is 300 seconds, which is the new</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis-default-starting-with-Redis-3-2-1"><span class="nav-number">83.</span> <span class="nav-text">Redis default starting with Redis 3.2.1.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#By-default-Redis-does-not-run-as-a-daemon-Use-%E2%80%98yes%E2%80%99-if-you-need-it"><span class="nav-number">84.</span> <span class="nav-text">By default Redis does not run as a daemon. Use ‘yes’ if you need it.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Note-that-Redis-will-write-a-pid-file-in-var-run-redis-pid-when-daemonized"><span class="nav-number">85.</span> <span class="nav-text">Note that Redis will write a pid file in &#x2F;var&#x2F;run&#x2F;redis.pid when daemonized.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#If-you-run-Redis-from-upstart-or-systemd-Redis-can-interact-with-your"><span class="nav-number">86.</span> <span class="nav-text">If you run Redis from upstart or systemd, Redis can interact with your</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#supervision-tree-Options"><span class="nav-number">87.</span> <span class="nav-text">supervision tree. Options:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#supervised-no-no-supervision-interaction"><span class="nav-number">88.</span> <span class="nav-text">supervised no      - no supervision interaction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#supervised-upstart-signal-upstart-by-putting-Redis-into-SIGSTOP-mode"><span class="nav-number">89.</span> <span class="nav-text">supervised upstart - signal upstart by putting Redis into SIGSTOP mode</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#supervised-systemd-signal-systemd-by-writing-READY-1-to-NOTIFY-SOCKET"><span class="nav-number">90.</span> <span class="nav-text">supervised systemd - signal systemd by writing READY&#x3D;1 to $NOTIFY_SOCKET</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#supervised-auto-detect-upstart-or-systemd-method-based-on"><span class="nav-number">91.</span> <span class="nav-text">supervised auto    - detect upstart or systemd method based on</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UPSTART-JOB-or-NOTIFY-SOCKET-environment-variables"><span class="nav-number">92.</span> <span class="nav-text">UPSTART_JOB or NOTIFY_SOCKET environment variables</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Note-these-supervision-methods-only-signal-%E2%80%9Cprocess-is-ready-%E2%80%9D"><span class="nav-number">93.</span> <span class="nav-text">Note: these supervision methods only signal “process is ready.”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#They-do-not-enable-continuous-liveness-pings-back-to-your-supervisor"><span class="nav-number">94.</span> <span class="nav-text">They do not enable continuous liveness pings back to your supervisor.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#If-a-pid-file-is-specified-Redis-writes-it-where-specified-at-startup"><span class="nav-number">95.</span> <span class="nav-text">If a pid file is specified, Redis writes it where specified at startup</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#and-removes-it-at-exit"><span class="nav-number">96.</span> <span class="nav-text">and removes it at exit.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#When-the-server-runs-non-daemonized-no-pid-file-is-created-if-none-is"><span class="nav-number">97.</span> <span class="nav-text">When the server runs non daemonized, no pid file is created if none is</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#specified-in-the-configuration-When-the-server-is-daemonized-the-pid-file"><span class="nav-number">98.</span> <span class="nav-text">specified in the configuration. When the server is daemonized, the pid file</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#is-used-even-if-not-specified-defaulting-to-%E2%80%9C-var-run-redis-pid%E2%80%9D"><span class="nav-number">99.</span> <span class="nav-text">is used even if not specified, defaulting to “&#x2F;var&#x2F;run&#x2F;redis.pid”.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Creating-a-pid-file-is-best-effort-if-Redis-is-not-able-to-create-it"><span class="nav-number">100.</span> <span class="nav-text">Creating a pid file is best effort: if Redis is not able to create it</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nothing-bad-happens-the-server-will-start-and-run-normally"><span class="nav-number">101.</span> <span class="nav-text">nothing bad happens, the server will start and run normally.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Specify-the-server-verbosity-level"><span class="nav-number">102.</span> <span class="nav-text">Specify the server verbosity level.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#This-can-be-one-of"><span class="nav-number">103.</span> <span class="nav-text">This can be one of:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#debug-a-lot-of-information-useful-for-development-testing"><span class="nav-number">104.</span> <span class="nav-text">debug (a lot of information, useful for development&#x2F;testing)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#verbose-many-rarely-useful-info-but-not-a-mess-like-the-debug-level"><span class="nav-number">105.</span> <span class="nav-text">verbose (many rarely useful info, but not a mess like the debug level)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#notice-moderately-verbose-what-you-want-in-production-probably"><span class="nav-number">106.</span> <span class="nav-text">notice (moderately verbose, what you want in production probably)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#warning-only-very-important-critical-messages-are-logged"><span class="nav-number">107.</span> <span class="nav-text">warning (only very important &#x2F; critical messages are logged)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Specify-the-log-file-name-Also-the-empty-string-can-be-used-to-force"><span class="nav-number">108.</span> <span class="nav-text">Specify the log file name. Also the empty string can be used to force</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis-to-log-on-the-standard-output-Note-that-if-you-use-standard"><span class="nav-number">109.</span> <span class="nav-text">Redis to log on the standard output. Note that if you use standard</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#output-for-logging-but-daemonize-logs-will-be-sent-to-dev-null"><span class="nav-number">110.</span> <span class="nav-text">output for logging but daemonize, logs will be sent to &#x2F;dev&#x2F;null</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#To-enable-logging-to-the-system-logger-just-set-%E2%80%98syslog-enabled%E2%80%99-to-yes"><span class="nav-number">111.</span> <span class="nav-text">To enable logging to the system logger, just set ‘syslog-enabled’ to yes,</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#and-optionally-update-the-other-syslog-parameters-to-suit-your-needs"><span class="nav-number">112.</span> <span class="nav-text">and optionally update the other syslog parameters to suit your needs.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#syslog-enabled-no"><span class="nav-number">113.</span> <span class="nav-text">syslog-enabled no</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Specify-the-syslog-identity"><span class="nav-number">114.</span> <span class="nav-text">Specify the syslog identity.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#syslog-ident-redis"><span class="nav-number">115.</span> <span class="nav-text">syslog-ident redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Specify-the-syslog-facility-Must-be-USER-or-between-LOCAL0-LOCAL7"><span class="nav-number">116.</span> <span class="nav-text">Specify the syslog facility. Must be USER or between LOCAL0-LOCAL7.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#syslog-facility-local0"><span class="nav-number">117.</span> <span class="nav-text">syslog-facility local0</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Set-the-number-of-databases-The-default-database-is-DB-0-you-can-select"><span class="nav-number">118.</span> <span class="nav-text">Set the number of databases. The default database is DB 0, you can select</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#a-different-one-on-a-per-connection-basis-using-SELECT-where"><span class="nav-number">119.</span> <span class="nav-text">a different one on a per-connection basis using SELECT  where</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%95%9C%E5%83%8F%E5%8F%91%E5%B8%83%E5%88%B0%E9%98%BF%E9%87%8C%E4%BA%91"><span class="nav-number">119.1.</span> <span class="nav-text">本地镜像发布到阿里云</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%95%9C%E5%83%8F%E5%8F%91%E5%B8%83%E5%88%B0%E9%98%BF%E9%87%8C%E4%BA%91%E6%B5%81%E7%A8%8B"><span class="nav-number">119.1.1.</span> <span class="nav-text">本地镜像发布到阿里云流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E7%9A%84%E7%94%9F%E6%88%90%E6%96%B9%E6%B3%95"><span class="nav-number">119.1.2.</span> <span class="nav-text">镜像的生成方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E6%9C%AC%E5%9C%B0%E9%95%9C%E5%83%8F%E6%8E%A8%E9%80%81%E5%88%B0%E9%98%BF%E9%87%8C%E4%BA%91"><span class="nav-number">119.1.3.</span> <span class="nav-text">将本地镜像推送到阿里云</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E7%9A%84%E9%95%9C%E5%83%8F%E4%B8%8B%E8%BD%BD%E5%88%B0%E6%9C%AC%E5%9C%B0"><span class="nav-number">119.1.4.</span> <span class="nav-text">将阿里云上的镜像下载到本地</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">raymond</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">raymond</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
