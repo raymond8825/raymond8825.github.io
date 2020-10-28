@@ -152,6 +152,112 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Tmux.textbundle/Tmux" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="mac上使用-iterm2的基础上使用tmux-CC-接下来一切都是-iterm2-的快捷键"><a href="#mac上使用-iterm2的基础上使用tmux-CC-接下来一切都是-iterm2-的快捷键" class="headerlink" title="mac上使用 iterm2的基础上使用tmux -CC,接下来一切都是 iterm2 的快捷键"></a>mac上使用 iterm2的基础上使用<code>tmux -CC</code>,接下来一切都是 iterm2 的快捷键</h2><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><h3 id="命令行的典型使用方式是，打开一个终端窗口（terminal-window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session）"><a href="#命令行的典型使用方式是，打开一个终端窗口（terminal-window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session）" class="headerlink" title="命令行的典型使用方式是，打开一个终端窗口（terminal window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session） ,"></a>命令行的典型使用方式是，打开一个终端窗口（terminal window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session） ,</h3><h3 id="会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。"><a href="#会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。" class="headerlink" title="会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。"></a>会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。</h3><h3 id="一个典型的例子就是，SSH-登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次-SSH-会话已经终止了，里面的进程也随之消失了。"><a href="#一个典型的例子就是，SSH-登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次-SSH-会话已经终止了，里面的进程也随之消失了。" class="headerlink" title="一个典型的例子就是，SSH 登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次 SSH 会话已经终止了，里面的进程也随之消失了。"></a>一个典型的例子就是，SSH 登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次 SSH 会话已经终止了，里面的进程也随之消失了。</h3><h3 id="为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。"><a href="#为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。" class="headerlink" title="为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。"></a>为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。</h3><h2 id="Tmux的作用"><a href="#Tmux的作用" class="headerlink" title="Tmux的作用"></a>Tmux的作用</h2><h3 id="（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。"><a href="#（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。" class="headerlink" title="（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。"></a>（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。</h3><h3 id="（2）-它可以让新窗口”接入”已经存在的会话。"><a href="#（2）-它可以让新窗口”接入”已经存在的会话。" class="headerlink" title="（2） 它可以让新窗口”接入”已经存在的会话。"></a>（2） 它可以让新窗口”接入”已经存在的会话。</h3><h3 id="（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。"><a href="#（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。" class="headerlink" title="（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。"></a>（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。</h3><h3 id="（4）它还支持窗口任意的垂直和水平拆分。"><a href="#（4）它还支持窗口任意的垂直和水平拆分。" class="headerlink" title="（4）它还支持窗口任意的垂直和水平拆分。"></a>（4）它还支持窗口任意的垂直和水平拆分。</h3><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念<img src="/2020/10/28/Tmux.textbundle/Tmux/b561f357b5247d485585e7245469cbab552ec219c32f80dbfbee60292fab03c5.png"></h2><h3 id><a href="#" class="headerlink" title></a><img src="/2020/10/28/Tmux.textbundle/Tmux/39d2a5b1a690832c4f399736cf908bf6c25e4c3ea2f10b9d2b6a4e2b1d5c1e21.png"></h3><h2 id="Tmux的前缀键"><a href="#Tmux的前缀键" class="headerlink" title="Tmux的前缀键"></a>Tmux的前缀键</h2><h3 id="Ctrl-b"><a href="#Ctrl-b" class="headerlink" title="Ctrl+b"></a><code>Ctrl+b</code></h3><ul>
+<li>即先按下<code>Ctrl+b</code>，再按下其他快捷键(如:?)才会生效。</li>
+</ul>
+<h2 id="会话管理-session"><a href="#会话管理-session" class="headerlink" title="会话管理(session)"></a>会话管理(session)</h2><h3 id="新建会话"><a href="#新建会话" class="headerlink" title="新建会话"></a>新建会话</h3><ul>
+<li><p><code>tmux new -s &lt;session-name&gt;</code></p>
+<ul>
+<li>新建一个指定名称的会话。</li>
+</ul>
+</li>
+</ul>
+<h3 id="分离会话"><a href="#分离会话" class="headerlink" title="分离会话"></a>分离会话</h3><ul>
+<li><p><code>Ctrl+b d</code>或者<code>tmux detach</code></p>
+<ul>
+<li>将当前会话与窗口分离,命令执行后，就会退出当前 Tmux 窗口，但是会话和里面的进程仍然在后台运行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="查看所有会话"><a href="#查看所有会话" class="headerlink" title="查看所有会话"></a>查看所有会话</h3><ul>
+<li><p><code>tmux ls</code></p>
+<ul>
+<li>查看当前所有的 Tmux 会话。</li>
+</ul>
+</li>
+</ul>
+<h3 id="接入会话"><a href="#接入会话" class="headerlink" title="接入会话"></a>接入会话</h3><ul>
+<li><p><code>tmux attach -t &lt;session-name&gt;</code></p>
+<ul>
+<li>用于重新接入某个已存在的会话。</li>
+</ul>
+</li>
+</ul>
+<h3 id="杀死会话"><a href="#杀死会话" class="headerlink" title="杀死会话"></a>杀死会话</h3><ul>
+<li><p><code>tmux kill-session -t &lt;session-name&gt;</code></p>
+<ul>
+<li>用于杀死某个会话</li>
+</ul>
+</li>
+<li><p>直接在tmux窗口中使用<code>exit</code>命令</p>
+</li>
+</ul>
+<h3 id="切换会话"><a href="#切换会话" class="headerlink" title="切换会话"></a>切换会话</h3><ul>
+<li><p><code>tmux switch -t &lt;session-name&gt;</code></p>
+<ul>
+<li>用于切换会话。</li>
+</ul>
+</li>
+</ul>
+<h3 id="重命名会话"><a href="#重命名会话" class="headerlink" title="重命名会话"></a>重命名会话</h3><ul>
+<li><p><code>tmux rename-session</code>-t <old-name> <new name></new></old-name></p>
+<ul>
+<li>命令用于重命名会话</li>
+</ul>
+</li>
+</ul>
+<h3 id="会还快捷键"><a href="#会还快捷键" class="headerlink" title="会还快捷键"></a>会还快捷键</h3><ul>
+<li><code>Ctrl+b d</code>：分离当前会话。</li>
+<li><code>Ctrl+b s</code>：列出所有会话。</li>
+<li><code>Ctrl+b $</code>：重命名当前会话。</li>
+</ul>
+<h2 id="窗格操作-pane"><a href="#窗格操作-pane" class="headerlink" title="窗格操作(pane)"></a>窗格操作(pane)</h2><h3 id="其他操作使用鼠标来操作"><a href="#其他操作使用鼠标来操作" class="headerlink" title="其他操作使用鼠标来操作"></a>其他操作使用鼠标来操作</h3><h3 id="Ctrl-b-：划分左右两个窗格。"><a href="#Ctrl-b-：划分左右两个窗格。" class="headerlink" title="Ctrl+b %：划分左右两个窗格。"></a><code>Ctrl+b %</code>：划分左右两个窗格。</h3><h3 id="Ctrl-b-quot-：划分上下两个窗格。"><a href="#Ctrl-b-quot-：划分上下两个窗格。" class="headerlink" title="Ctrl+b &quot;：划分上下两个窗格。"></a><code>Ctrl+b &quot;</code>：划分上下两个窗格。</h3><h3 id="Ctrl-b-lt-arrow-key-gt-：光标切换到其他窗格"><a href="#Ctrl-b-lt-arrow-key-gt-：光标切换到其他窗格" class="headerlink" title="Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格"></a><code>Ctrl+b &lt;arrow key&gt;</code>：光标切换到其他窗格</h3><h3 id="Ctrl-b-：当前窗格左移。"><a href="#Ctrl-b-：当前窗格左移。" class="headerlink" title="Ctrl+b {：当前窗格左移。"></a>Ctrl+b {：当前窗格左移。</h3><h3 id="Ctrl-b-：当前窗格右移。"><a href="#Ctrl-b-：当前窗格右移。" class="headerlink" title="Ctrl+b }：当前窗格右移。"></a>Ctrl+b }：当前窗格右移。</h3><h3 id="Ctrl-b-Ctrl-o：当前窗格上移。"><a href="#Ctrl-b-Ctrl-o：当前窗格上移。" class="headerlink" title="Ctrl+b Ctrl+o：当前窗格上移。"></a>Ctrl+b Ctrl+o：当前窗格上移。</h3><h3 id="Ctrl-b-Alt-o：当前窗格下移。"><a href="#Ctrl-b-Alt-o：当前窗格下移。" class="headerlink" title="Ctrl+b Alt+o：当前窗格下移。"></a>Ctrl+b Alt+o：当前窗格下移。</h3><h3 id="Ctrl-b-x：关闭当前窗格。"><a href="#Ctrl-b-x：关闭当前窗格。" class="headerlink" title="Ctrl+b x：关闭当前窗格。"></a>Ctrl+b x：关闭当前窗格。</h3><h2 id="窗口操作-window"><a href="#窗口操作-window" class="headerlink" title="窗口操作(window)"></a>窗口操作(window)</h2><h3 id="用的比较少"><a href="#用的比较少" class="headerlink" title="用的比较少"></a>用的比较少</h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/28/Tmux.textbundle/Tmux/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-git使用.textbundle/git使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
