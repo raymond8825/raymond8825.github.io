@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://blog.raymondtxx.top">
-  <title>Archives: 2020 | raymond</title>
+  <title>raymond</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="分支主题 1python 中字符串去除空格和换行符的问题去除空格 str.strip() 只能去除位于字符串句首,句尾的空格     str.replace() 可以位于字符串句任意位置的空格  如上图所示,使用str.replace(&quot; &quot;,&quot;&quot;)即可    去除换行符 引入  在python中存在继承了 回车符\r 和 换行符\n 两种标记  \r 代表">
+<meta property="og:type" content="article">
 <meta property="og:title" content="raymond">
-<meta property="og:url" content="https://blog.raymondtxx.top/archives/2020/index.html">
+<meta property="og:url" content="https://blog.raymondtxx.top/2020/10/28/python.textbundle/python/index.html">
 <meta property="og:site_name" content="raymond">
+<meta property="og:description" content="分支主题 1python 中字符串去除空格和换行符的问题去除空格 str.strip() 只能去除位于字符串句首,句尾的空格     str.replace() 可以位于字符串句任意位置的空格  如上图所示,使用str.replace(&quot; &quot;,&quot;&quot;)即可    去除换行符 引入  在python中存在继承了 回车符\r 和 换行符\n 两种标记  \r 代表">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/10/28/python.textbundle/python/2462cd2fbbbbfc010c97dd6e2b94c23dd9abef876b4b73c9b50f8f67143b5ec9.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/10/28/python.textbundle/python/ce54d35f8d552e4c54478f73daa8d7ae63afdf35a1f02177a45ba80face0a9a5.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/10/28/python.textbundle/python/4f95a33cd6b487ac5d642e0e8c90623b7ce7cfb0b1f55df8d386d915e623ad55.png">
+<meta property="og:image" content="https://blog.raymondtxx.top/2020/10/28/python.textbundle/python/2968168fcfb6411f97c89c5ba4a8c81305aa499ce99e167f9a3c4cfe8bad278d.png">
+<meta property="article:published_time" content="2020-10-28T06:19:23.574Z">
+<meta property="article:modified_time" content="2020-10-28T06:19:23.574Z">
 <meta property="article:author" content="raymond">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.raymondtxx.top/2020/10/28/python.textbundle/python/2462cd2fbbbbfc010c97dd6e2b94c23dd9abef876b4b73c9b50f8f67143b5ec9.png">
   
     <link rel="alternative" href="/atom.xml" title="raymond" type="application/atom+xml">
   
@@ -150,139 +159,313 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-python.textbundle/python" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="分支主题-1"><a href="#分支主题-1" class="headerlink" title="分支主题 1"></a>分支主题 1</h2><h2 id="python-中字符串去除空格和换行符的问题"><a href="#python-中字符串去除空格和换行符的问题" class="headerlink" title="python 中字符串去除空格和换行符的问题"></a>python 中字符串去除空格和换行符的问题</h2><h3 id="去除空格"><a href="#去除空格" class="headerlink" title="去除空格"></a>去除空格</h3><ul>
+<li><p>str.strip() 只能去除位于字符串句首,句尾的空格</p>
+<ul>
+<li><img src="/2020/10/28/python.textbundle/python/2462cd2fbbbbfc010c97dd6e2b94c23dd9abef876b4b73c9b50f8f67143b5ec9.png"></li>
+</ul>
+</li>
+<li><p>str.replace() 可以位于字符串句任意位置的空格</p>
+<ul>
+<li>如上图所示,使用<code>str.replace(&quot; &quot;,&quot;&quot;)</code>即可</li>
+</ul>
+</li>
+</ul>
+<h3 id="去除换行符"><a href="#去除换行符" class="headerlink" title="去除换行符"></a>去除换行符</h3><ul>
+<li><p>引入</p>
+<ul>
+<li><p>在python中存在继承了 <code>回车符\r</code> 和 <code>换行符\n</code> 两种标记</p>
+<ul>
+<li>\r 代表回车，也就是打印头归位，回到某一行的开头。</li>
+<li>\n 代表换行，就是走纸，下一行。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>解决</p>
+<ul>
+<li>python 在去除换行时，需要同时去除两者才行，即使用<code>str.replace(&#39;\n&#39;, &#39;&#39;).replace(&#39;\r&#39;, &#39;&#39;)</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ul>
+<li><p>操作文件的几个重要函数</p>
+<ul>
+<li><p>01    open(“文件路径”,”打开文件的读写方式”)    打开文件，并且返回文件操作对象</p>
+<ul>
+<li>open()函数是 py 内置函数</li>
+</ul>
+</li>
+<li><p>02    read()    将文件内容一次性全部读取到内存,并把 文件指针(指向下次读取文件的位置) 移动到读取内容的末尾</p>
+<ul>
+<li>read() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
+</ul>
+</li>
+<li><p>03    write()    将指定内容写入文件</p>
+<ul>
+<li>write() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
+</ul>
+</li>
+<li><p>04    close()    关闭文件(如果 忘记关闭文件，会造成系统资源消耗，而且会影响到后续对文件的访问<br>)</p>
+<ul>
+<li>close() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
+</ul>
+</li>
+<li><p>05 truncate() 方法用于截断文件，如果指定了可选参数 size，则表示截断文件为 size 个字符。 如果没有指定 size，则从当前位置起截断；截断之后 size 后面的所有字符被删除。</p>
+<ul>
+<li>truncate() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
+</ul>
+</li>
+<li><p>06 seek() 方法用于移动文件读取指针到指定位置。(注意,该指针只是适用于读取)</p>
+<ul>
+<li><p>fileObject.seek(offset[, whence])</p>
+<ul>
+<li>offset – 开始的偏移量，也就是代表需要移动偏移的字节数</li>
+<li>whence：可选，默认值为 0。给offset参数一个定义，表示要从哪个位置开始偏移；0代表从文件开头开始算起，1代表从当前位置开始算起，2代表从文件末尾算起。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>关于 open()函数的几种打开文件的方式</p>
+<ul>
+<li><p><img src="/2020/10/28/python.textbundle/python/ce54d35f8d552e4c54478f73daa8d7ae63afdf35a1f02177a45ba80face0a9a5.png"></p>
+<ul>
+<li><p>是否可读</p>
+<ul>
+<li>是</li>
+<li>否</li>
+<li>否</li>
+<li>是</li>
+<li>是</li>
+<li>是</li>
+</ul>
+</li>
+<li><p>是否可写</p>
+<ul>
+<li>否</li>
+<li>是，清空原内容</li>
+<li>是，从文件末尾追加写</li>
+<li>是，从文件开头覆盖写</li>
+<li>是，清空原内容</li>
+<li>是，从文件末尾追加写</li>
+</ul>
+</li>
+<li><p>文件不存在时</p>
+<ul>
+<li>报错</li>
+<li>创建新文件</li>
+<li>创建新文件</li>
+<li>报错</li>
+<li>创建新文件</li>
+<li>创建新文件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h3><ul>
+<li><p>按行读取文件内容</p>
+<ul>
+<li><p>引入</p>
+<ul>
+<li>read() 方法默认会把文件的 所有内容 一次性读取到内存</li>
+<li>如果文件太大，对内存的占用会非常严重</li>
+</ul>
+</li>
+<li><p>readline()方法</p>
+<ul>
+<li><p>概述</p>
+<ul>
+<li>readline() 方法用于从文件读取整行，包括 “\n” 字符。如果指定了一个非负数的参数，则返回指定大小的字节数，包括 “\n” 字符。</li>
+</ul>
+</li>
+<li><p>语法</p>
+<ul>
+<li>fileObject.readline([size]); </li>
+</ul>
+</li>
+<li><p>参数</p>
+<ul>
+<li>size – 从文件中读取的字节数。</li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li>返回从字符串中读取的字节。</li>
+</ul>
+</li>
+<li><p>readline()案例<img src="/2020/10/28/python.textbundle/python/4f95a33cd6b487ac5d642e0e8c90623b7ce7cfb0b1f55df8d386d915e623ad55.png"></p>
+</li>
+</ul>
+</li>
+<li><p>readlines()方法</p>
+<ul>
+<li><p>概述</p>
+<ul>
+<li>readlines() 方法用于读取所有行(直到结束符 EOF)并返回列表，该列表可以由 Python 的 for… in … 结构进行处理。 如果碰到结束符 EOF 则返回空字符串。如果碰到结束符 EOF 则返回空字符串。</li>
+</ul>
+</li>
+<li><p>语法</p>
+<ul>
+<li>fileObject.readlines( );</li>
+</ul>
+</li>
+<li><p>参数</p>
+<ul>
+<li>无。</li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li>返回列表，包含所有的行。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
+<li>最暴力的修改文件的方式<img src="/2020/10/28/python.textbundle/python/2968168fcfb6411f97c89c5ba4a8c81305aa499ce99e167f9a3c4cfe8bad278d.png"></li>
+</ul>
+<h2 id="python-中的模块"><a href="#python-中的模块" class="headerlink" title="python 中的模块"></a>python 中的模块</h2><h3 id="我们使用import-helloworld模块的时候-helloworld-py中的代码语句会从上至下执行一遍"><a href="#我们使用import-helloworld模块的时候-helloworld-py中的代码语句会从上至下执行一遍" class="headerlink" title="我们使用import helloworld模块的时候,helloworld.py中的代码语句会从上至下执行一遍"></a>我们使用<code>import helloworld</code>模块的时候,<code>helloworld.py</code>中的代码语句会从上至下执行一遍</h3>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/28/python.textbundle/python/" class="archive-article-date">
-  	<time datetime="2020-10-28T06:19:23.574Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://blog.raymondtxx.top/2020/10/28/python.textbundle/python/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.textbundle/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-10-27T15:21:31.372Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-27</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/22/nosql/" class="archive-article-date">
-  	<time datetime="2020-09-22T16:10:53.055Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-23</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+<nav id="article-nav">
+  
+  
+    <a href="/2020/10/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.textbundle/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/10/hello/" class="archive-article-date">
-  	<time datetime="2020-09-10T21:47:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-11</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/10/hello/">Linux-basic</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/10/docker-basic/" class="archive-article-date">
-  	<time datetime="2020-09-10T21:47:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/10/docker-basic/">docker-basic</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -305,8 +488,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
