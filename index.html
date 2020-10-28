@@ -152,996 +152,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-Tmux.textbundle/Tmux" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="mac上使用-iterm2的基础上使用tmux-CC-接下来一切都是-iterm2-的快捷键"><a href="#mac上使用-iterm2的基础上使用tmux-CC-接下来一切都是-iterm2-的快捷键" class="headerlink" title="mac上使用 iterm2的基础上使用tmux -CC,接下来一切都是 iterm2 的快捷键"></a>mac上使用 iterm2的基础上使用<code>tmux -CC</code>,接下来一切都是 iterm2 的快捷键</h2><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><h3 id="命令行的典型使用方式是，打开一个终端窗口（terminal-window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session）"><a href="#命令行的典型使用方式是，打开一个终端窗口（terminal-window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session）" class="headerlink" title="命令行的典型使用方式是，打开一个终端窗口（terminal window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session） ,"></a>命令行的典型使用方式是，打开一个终端窗口（terminal window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session） ,</h3><h3 id="会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。"><a href="#会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。" class="headerlink" title="会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。"></a>会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。</h3><h3 id="一个典型的例子就是，SSH-登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次-SSH-会话已经终止了，里面的进程也随之消失了。"><a href="#一个典型的例子就是，SSH-登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次-SSH-会话已经终止了，里面的进程也随之消失了。" class="headerlink" title="一个典型的例子就是，SSH 登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次 SSH 会话已经终止了，里面的进程也随之消失了。"></a>一个典型的例子就是，SSH 登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次 SSH 会话已经终止了，里面的进程也随之消失了。</h3><h3 id="为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。"><a href="#为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。" class="headerlink" title="为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。"></a>为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。</h3><h2 id="Tmux的作用"><a href="#Tmux的作用" class="headerlink" title="Tmux的作用"></a>Tmux的作用</h2><h3 id="（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。"><a href="#（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。" class="headerlink" title="（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。"></a>（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。</h3><h3 id="（2）-它可以让新窗口”接入”已经存在的会话。"><a href="#（2）-它可以让新窗口”接入”已经存在的会话。" class="headerlink" title="（2） 它可以让新窗口”接入”已经存在的会话。"></a>（2） 它可以让新窗口”接入”已经存在的会话。</h3><h3 id="（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。"><a href="#（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。" class="headerlink" title="（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。"></a>（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。</h3><h3 id="（4）它还支持窗口任意的垂直和水平拆分。"><a href="#（4）它还支持窗口任意的垂直和水平拆分。" class="headerlink" title="（4）它还支持窗口任意的垂直和水平拆分。"></a>（4）它还支持窗口任意的垂直和水平拆分。</h3><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念<img src="/2020/10/28/Tmux.textbundle/Tmux/b561f357b5247d485585e7245469cbab552ec219c32f80dbfbee60292fab03c5.png"></h2><h3 id><a href="#" class="headerlink" title></a><img src="/2020/10/28/Tmux.textbundle/Tmux/39d2a5b1a690832c4f399736cf908bf6c25e4c3ea2f10b9d2b6a4e2b1d5c1e21.png"></h3><h2 id="Tmux的前缀键"><a href="#Tmux的前缀键" class="headerlink" title="Tmux的前缀键"></a>Tmux的前缀键</h2><h3 id="Ctrl-b"><a href="#Ctrl-b" class="headerlink" title="Ctrl+b"></a><code>Ctrl+b</code></h3><ul>
-<li>即先按下<code>Ctrl+b</code>，再按下其他快捷键(如:?)才会生效。</li>
-</ul>
-<h2 id="会话管理-session"><a href="#会话管理-session" class="headerlink" title="会话管理(session)"></a>会话管理(session)</h2><h3 id="新建会话"><a href="#新建会话" class="headerlink" title="新建会话"></a>新建会话</h3><ul>
-<li><p><code>tmux new -s &lt;session-name&gt;</code></p>
-<ul>
-<li>新建一个指定名称的会话。</li>
-</ul>
-</li>
-</ul>
-<h3 id="分离会话"><a href="#分离会话" class="headerlink" title="分离会话"></a>分离会话</h3><ul>
-<li><p><code>Ctrl+b d</code>或者<code>tmux detach</code></p>
-<ul>
-<li>将当前会话与窗口分离,命令执行后，就会退出当前 Tmux 窗口，但是会话和里面的进程仍然在后台运行。</li>
-</ul>
-</li>
-</ul>
-<h3 id="查看所有会话"><a href="#查看所有会话" class="headerlink" title="查看所有会话"></a>查看所有会话</h3><ul>
-<li><p><code>tmux ls</code></p>
-<ul>
-<li>查看当前所有的 Tmux 会话。</li>
-</ul>
-</li>
-</ul>
-<h3 id="接入会话"><a href="#接入会话" class="headerlink" title="接入会话"></a>接入会话</h3><ul>
-<li><p><code>tmux attach -t &lt;session-name&gt;</code></p>
-<ul>
-<li>用于重新接入某个已存在的会话。</li>
-</ul>
-</li>
-</ul>
-<h3 id="杀死会话"><a href="#杀死会话" class="headerlink" title="杀死会话"></a>杀死会话</h3><ul>
-<li><p><code>tmux kill-session -t &lt;session-name&gt;</code></p>
-<ul>
-<li>用于杀死某个会话</li>
-</ul>
-</li>
-<li><p>直接在tmux窗口中使用<code>exit</code>命令</p>
-</li>
-</ul>
-<h3 id="切换会话"><a href="#切换会话" class="headerlink" title="切换会话"></a>切换会话</h3><ul>
-<li><p><code>tmux switch -t &lt;session-name&gt;</code></p>
-<ul>
-<li>用于切换会话。</li>
-</ul>
-</li>
-</ul>
-<h3 id="重命名会话"><a href="#重命名会话" class="headerlink" title="重命名会话"></a>重命名会话</h3><ul>
-<li><p><code>tmux rename-session</code>-t <old-name> <new name></new></old-name></p>
-<ul>
-<li>命令用于重命名会话</li>
-</ul>
-</li>
-</ul>
-<h3 id="会还快捷键"><a href="#会还快捷键" class="headerlink" title="会还快捷键"></a>会还快捷键</h3><ul>
-<li><code>Ctrl+b d</code>：分离当前会话。</li>
-<li><code>Ctrl+b s</code>：列出所有会话。</li>
-<li><code>Ctrl+b $</code>：重命名当前会话。</li>
-</ul>
-<h2 id="窗格操作-pane"><a href="#窗格操作-pane" class="headerlink" title="窗格操作(pane)"></a>窗格操作(pane)</h2><h3 id="其他操作使用鼠标来操作"><a href="#其他操作使用鼠标来操作" class="headerlink" title="其他操作使用鼠标来操作"></a>其他操作使用鼠标来操作</h3><h3 id="Ctrl-b-：划分左右两个窗格。"><a href="#Ctrl-b-：划分左右两个窗格。" class="headerlink" title="Ctrl+b %：划分左右两个窗格。"></a><code>Ctrl+b %</code>：划分左右两个窗格。</h3><h3 id="Ctrl-b-quot-：划分上下两个窗格。"><a href="#Ctrl-b-quot-：划分上下两个窗格。" class="headerlink" title="Ctrl+b &quot;：划分上下两个窗格。"></a><code>Ctrl+b &quot;</code>：划分上下两个窗格。</h3><h3 id="Ctrl-b-lt-arrow-key-gt-：光标切换到其他窗格"><a href="#Ctrl-b-lt-arrow-key-gt-：光标切换到其他窗格" class="headerlink" title="Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格"></a><code>Ctrl+b &lt;arrow key&gt;</code>：光标切换到其他窗格</h3><h3 id="Ctrl-b-：当前窗格左移。"><a href="#Ctrl-b-：当前窗格左移。" class="headerlink" title="Ctrl+b {：当前窗格左移。"></a>Ctrl+b {：当前窗格左移。</h3><h3 id="Ctrl-b-：当前窗格右移。"><a href="#Ctrl-b-：当前窗格右移。" class="headerlink" title="Ctrl+b }：当前窗格右移。"></a>Ctrl+b }：当前窗格右移。</h3><h3 id="Ctrl-b-Ctrl-o：当前窗格上移。"><a href="#Ctrl-b-Ctrl-o：当前窗格上移。" class="headerlink" title="Ctrl+b Ctrl+o：当前窗格上移。"></a>Ctrl+b Ctrl+o：当前窗格上移。</h3><h3 id="Ctrl-b-Alt-o：当前窗格下移。"><a href="#Ctrl-b-Alt-o：当前窗格下移。" class="headerlink" title="Ctrl+b Alt+o：当前窗格下移。"></a>Ctrl+b Alt+o：当前窗格下移。</h3><h3 id="Ctrl-b-x：关闭当前窗格。"><a href="#Ctrl-b-x：关闭当前窗格。" class="headerlink" title="Ctrl+b x：关闭当前窗格。"></a>Ctrl+b x：关闭当前窗格。</h3><h2 id="窗口操作-window"><a href="#窗口操作-window" class="headerlink" title="窗口操作(window)"></a>窗口操作(window)</h2><h3 id="用的比较少"><a href="#用的比较少" class="headerlink" title="用的比较少"></a>用的比较少</h3>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/28/Tmux.textbundle/Tmux/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-git使用.textbundle/git使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="origin-origin-master-origin-master"><a href="#origin-origin-master-origin-master" class="headerlink" title="origin,origin master,origin/master"></a>origin,origin master,origin/master</h2><h3 id="origin"><a href="#origin" class="headerlink" title="origin"></a>origin</h3><ul>
-<li><p>远程仓库的别名，我们可以指定为任意名字</p>
-<ul>
-<li><p><code>git remote add yuancheng file:///user/xxx</code></p>
-<ul>
-<li>指定远程仓库别名为<code>yuancheng</code>:</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="origin-master"><a href="#origin-master" class="headerlink" title="origin master"></a>origin master</h3><ul>
-<li>这个是两个词，origin表示远程仓库，而master表示远程仓库的master分支</li>
-</ul>
-<h3 id="origin-master-1"><a href="#origin-master-1" class="headerlink" title="origin/master"></a>origin/master</h3><ul>
-<li><p>本质上是本地分支（但是来源于对远程origin master的分支的拷贝）,该分支会在<code>git pull</code>的时候自动复制远端<code>master</code>分支到<code>origin/master</code>分支,在<code>git push</code>的时候自动把本地最新的<code>master</code>更新到<code>origin/master</code>分支</p>
-<ul>
-<li><p>git pull的详细步骤(在master分支)</p>
-<ul>
-<li><p>图示</p>
-<ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b6a1754f10dd8fe0c55338f238e40481332ec5ba549f488beff54b3b1ce89eaa.png"></li>
-</ul>
-</li>
-<li><p>步骤</p>
-<ol>
-<li>拷远程origin master分支到本地的origin/master分支<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin master</span><br></pre></td></tr></table></figure></li>
-<li>合并本地origin/master分支到master分支<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge origin/master</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="master"><a href="#master" class="headerlink" title="master"></a>master</h3><ul>
-<li>本地的master分支</li>
-</ul>
-<h2 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h2><h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><ul>
-<li>当我们在创建仓库的时候，首先github会给我们推荐一个.gitignore文件，虽然有对应语言的模板，但是只能满足前期需求，后期如果想过滤掉一些别的文件，就需要修改.gitignore文件，但是直接修改是不行的，该文件只对创建其以后的文件进行过滤，后期直接修改是不行的</li>
-</ul>
-<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><ul>
-<li><ol>
-<li>我们可以使用<code>git status --ignored</code>来查看当前我们.gitignore所过滤的所有文件</li>
-</ol>
-</li>
-<li><ol start="2">
-<li><code>git rm -r --cached .</code>  #清除缓存 -r 表示递归删除（如果有文件夹的话） . 表示所有文件</li>
-</ol>
-</li>
-<li><ol start="3">
-<li>修改<code>.gitignore</code>文件</li>
-</ol>
-</li>
-<li><ol start="4">
-<li>再次使用<code>git status --ignored</code>查看所有修改后的<code>.gitignore</code>的过滤效果</li>
-</ol>
-</li>
-<li>5.<code>$ git add .</code>           #重新trace file</li>
-<li><ol start="6">
-<li><code>$ git commit -m &quot;update .gitignore&quot;</code></li>
-</ol>
-</li>
-</ul>
-<h2 id="git解决终端输出中文八进制乱码"><a href="#git解决终端输出中文八进制乱码" class="headerlink" title="git解决终端输出中文八进制乱码"></a>git解决终端输出中文八进制乱码</h2><h3 id="git-config-global-core-quotepath-false"><a href="#git-config-global-core-quotepath-false" class="headerlink" title="git config --global core.quotepath false "></a><code>git config --global core.quotepath false </code></h3><h2 id="如何在本地使用git来备份自己的代码"><a href="#如何在本地使用git来备份自己的代码" class="headerlink" title="如何在本地使用git来备份自己的代码"></a>如何在本地使用<code>git</code>来备份自己的代码</h2><h3 id="1-本地新建项目然后使用git-init来初始化项目-称之为local"><a href="#1-本地新建项目然后使用git-init来初始化项目-称之为local" class="headerlink" title="1. 本地新建项目然后使用git init来初始化项目(称之为local)"></a>1. 本地新建项目然后使用<code>git init</code>来初始化项目(称之为<code>local</code>)</h3><h3 id="2-在local项目使用git-commit来发布新版本"><a href="#2-在local项目使用git-commit来发布新版本" class="headerlink" title="2. 在local项目使用git commit来发布新版本"></a>2. 在<code>local</code>项目使用<code>git commit</code>来发布新版本</h3><h3 id="3-本地新建一个空仓库并git-init来作为远程仓库-称之为remote"><a href="#3-本地新建一个空仓库并git-init来作为远程仓库-称之为remote" class="headerlink" title="3. 本地新建一个空仓库并git init来作为远程仓库(称之为remote)"></a>3. 本地新建一个空仓库并<code>git init</code>来作为远程仓库(称之为<code>remote</code>)</h3><h3 id="4-remote仓库新建一个分支git-checkout-b-dev-必须这么做-否则local和remote由于处于同一个分支而导致local无法推送至remote"><a href="#4-remote仓库新建一个分支git-checkout-b-dev-必须这么做-否则local和remote由于处于同一个分支而导致local无法推送至remote" class="headerlink" title="4. remote仓库新建一个分支git checkout -b dev(必须这么做,否则local和remote由于处于同一个分支而导致local无法推送至remote)"></a>4. <code>remote</code>仓库新建一个分支<code>git checkout -b dev</code>(必须这么做,否则<code>local</code>和<code>remote</code>由于处于同一个分支而导致<code>local</code>无法推送至<code>remote</code>)</h3><h3 id="5-local使用git-remote-add-file-path-to-remote来给local项目添加名为origin的远程仓库"><a href="#5-local使用git-remote-add-file-path-to-remote来给local项目添加名为origin的远程仓库" class="headerlink" title="5. local使用git remote add file://path/to/remote来给local项目添加名为origin的远程仓库"></a>5. <code>local</code>使用<code>git remote add file://path/to/remote</code>来给<code>local</code>项目添加名为<code>origin</code>的远程仓库</h3><h3 id="6-local使用git-push-u-origin-master完成推送"><a href="#6-local使用git-push-u-origin-master完成推送" class="headerlink" title="6. local使用git push -u origin master完成推送"></a>6. <code>local</code>使用<code>git push -u origin master</code>完成推送</h3><h2 id="给本地仓库添加多个远程仓库地址"><a href="#给本地仓库添加多个远程仓库地址" class="headerlink" title="给本地仓库添加多个远程仓库地址"></a>给本地仓库添加多个远程仓库地址</h2><h3 id="git-remote-add-远程仓库别名1-远程仓库地址"><a href="#git-remote-add-远程仓库别名1-远程仓库地址" class="headerlink" title="git remote add 远程仓库别名1 远程仓库地址"></a><code>git remote add 远程仓库别名1 远程仓库地址</code></h3><h3 id="git-remote-add-远程仓库别名1-远程仓库地址-1"><a href="#git-remote-add-远程仓库别名1-远程仓库地址-1" class="headerlink" title="git remote add 远程仓库别名1 远程仓库地址"></a><code>git remote add 远程仓库别名1 远程仓库地址</code></h3><h2 id="给本地仓库删除某个远程仓库"><a href="#给本地仓库删除某个远程仓库" class="headerlink" title="给本地仓库删除某个远程仓库"></a>给本地仓库删除某个远程仓库</h2><h3 id="git-remote-rm-远程仓库别名1"><a href="#git-remote-rm-远程仓库别名1" class="headerlink" title="git remote rm 远程仓库别名1"></a><code>git remote rm 远程仓库别名1</code></h3><h2 id="修改本地长仓库连接的远程仓库链接"><a href="#修改本地长仓库连接的远程仓库链接" class="headerlink" title="修改本地长仓库连接的远程仓库链接"></a>修改本地长仓库连接的远程仓库链接</h2><h3 id="git-remote-set-url-remote-name-new-url"><a href="#git-remote-set-url-remote-name-new-url" class="headerlink" title="git remote set-url remote_name new_url"></a><code>git remote set-url remote_name new_url</code></h3><h2 id><a href="#" class="headerlink" title></a><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b59eaf2c4cd6da22d88e880cba22ed60d216359b04147cc17edb80c9c10786c6.png"></h2><h2 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a><code>git reset</code></h2><h3 id="git-reset-hard-版本c-三个区都同步为版本c"><a href="#git-reset-hard-版本c-三个区都同步为版本c" class="headerlink" title="git reset --hard 版本c:三个区都同步为版本c"></a><code>git reset --hard 版本c</code>:三个区都同步为<code>版本c</code></h3><h3 id="git-reset-soft-版本c-只有本地仓库同步为版本c-其他两个区当前内容保持不变"><a href="#git-reset-soft-版本c-只有本地仓库同步为版本c-其他两个区当前内容保持不变" class="headerlink" title="git reset --soft 版本c:只有本地仓库同步为版本c,其他两个区当前内容保持不变"></a><code>git reset --soft 版本c</code>:只有本地仓库同步为<code>版本c</code>,其他两个区当前内容保持不变</h3><h3 id="git-reset-mixed-版本c-暂存区和本地仓库都同步为版本c-工作区保持当前内容不变-如果本地仓库使用该命令在同步为版本c之前-已经有内容-那么就把该内容放回工作区-然后再同步到版本c"><a href="#git-reset-mixed-版本c-暂存区和本地仓库都同步为版本c-工作区保持当前内容不变-如果本地仓库使用该命令在同步为版本c之前-已经有内容-那么就把该内容放回工作区-然后再同步到版本c" class="headerlink" title="git reset --mixed 版本c:暂存区和本地仓库都同步为版本c,工作区保持当前内容不变.如果本地仓库使用该命令在同步为版本c之前,已经有内容,那么就把该内容放回工作区,然后再同步到版本c"></a><code>git reset --mixed 版本c</code>:<code>暂存区</code>和<code>本地仓库</code>都同步为<code>版本c</code>,工作区保持当前内容不变.如果<code>本地仓库</code>使用该命令在同步为<code>版本c</code>之前,已经有内容,那么就把该内容<code>放回</code>工作区,然后再同步到<code>版本c</code></h3><h2 id="git-checkout-b-dev-origin-dev"><a href="#git-checkout-b-dev-origin-dev" class="headerlink" title="git checkout -b dev origin/dev"></a>git checkout -b dev origin/dev</h2><h3 id="git-checkout-b-dev-commit版本"><a href="#git-checkout-b-dev-commit版本" class="headerlink" title="git checkout -b dev commit版本"></a><code>git checkout -b dev commit</code>版本</h3><ul>
-<li>以该<code>commit</code>版本为基础创建一个<code>branch</code>，当改<code>commit</code>为<code>origin/dev</code>的时候默认将本地的<code>dev</code>绑定到远程的<code>origin/dev</code>上</li>
-</ul>
-<h2 id="git初始化"><a href="#git初始化" class="headerlink" title="git初始化"></a>git初始化</h2><h3 id="git-config-–global-user-name-userName"><a href="#git-config-–global-user-name-userName" class="headerlink" title="git config –global user.name userName"></a>git config –global user.name userName</h3><h3 id="git-config-–global-user-email-userEmail"><a href="#git-config-–global-user-email-userEmail" class="headerlink" title="git config –global user.email userEmail"></a>git config –global user.email userEmail</h3><h2 id="config的作用域"><a href="#config的作用域" class="headerlink" title="config的作用域"></a>config的作用域</h2><h3 id="–local"><a href="#–local" class="headerlink" title="–local"></a>–local</h3><ul>
-<li>对于当前用户的当前仓库生效</li>
-</ul>
-<h3 id="–global（默认）"><a href="#–global（默认）" class="headerlink" title="–global（默认）"></a>–global（默认）</h3><ul>
-<li>对于当前用户的所有仓库生效</li>
-</ul>
-<h3 id="–system"><a href="#–system" class="headerlink" title="–system"></a>–system</h3><ul>
-<li>对于登录该主机的所有用户的所有仓库生效</li>
-</ul>
-<h2 id="显示config配置"><a href="#显示config配置" class="headerlink" title="显示config配置"></a>显示config配置</h2><h3 id="git-config-–list-–local"><a href="#git-config-–list-–local" class="headerlink" title="git config –list –local"></a>git config –list –local</h3><h3 id="git-config-–list-–global"><a href="#git-config-–list-–global" class="headerlink" title="git config –list –global"></a>git config –list –global</h3><h3 id="git-config-–list-–system"><a href="#git-config-–list-–system" class="headerlink" title="git config –list –system"></a>git config –list –system</h3><h3 id="git-config-–list"><a href="#git-config-–list" class="headerlink" title="git config –list"></a>git config –list</h3><ul>
-<li>显示上述三种情况的所有配置</li>
-</ul>
-<h2 id="git重命名文件"><a href="#git重命名文件" class="headerlink" title="git重命名文件"></a>git重命名文件</h2><h3 id="第一种方法"><a href="#第一种方法" class="headerlink" title="第一种方法"></a>第一种方法</h3><ul>
-<li><ol>
-<li><code>git mv old.txt new.txt</code></li>
-</ol>
-</li>
-<li><ol start="2">
-<li><code>git commit -m &quot;commit&quot;</code></li>
-</ol>
-</li>
-</ul>
-<h3 id="第二种方法"><a href="#第二种方法" class="headerlink" title="第二种方法"></a>第二种方法</h3><ul>
-<li><ol>
-<li><code>mv old.txt new txt</code></li>
-</ol>
-</li>
-<li><ol start="2">
-<li><code>git add .</code></li>
-</ol>
-</li>
-<li><ol start="3">
-<li><code>git commit -m &quot;coomit&quot;</code></li>
-</ol>
-</li>
-</ul>
-<h2 id="git删除文件"><a href="#git删除文件" class="headerlink" title="git删除文件"></a>git删除文件</h2><h3 id="git的方法"><a href="#git的方法" class="headerlink" title="git的方法"></a>git的方法</h3><ul>
-<li>git rm 文件</li>
-</ul>
-<h2 id="git命令补充"><a href="#git命令补充" class="headerlink" title="git命令补充"></a><code>git</code>命令补充</h2><h3 id="git-log-pretty-all"><a href="#git-log-pretty-all" class="headerlink" title="git log --pretty --all"></a><code>git log --pretty --all</code></h3><h3 id="git-branch-d-dev-删除dev分支-前提是dev分支已经被当前分支合并"><a href="#git-branch-d-dev-删除dev分支-前提是dev分支已经被当前分支合并" class="headerlink" title="git branch -d dev:删除dev分支,前提是dev分支已经被当前分支合并"></a><code>git branch -d dev</code>:删除<code>dev</code>分支,前提是<code>dev</code>分支已经被当前分支合并</h3><h3 id="git-branch-d-dev-强制删除dev分支-不管是否合并分支"><a href="#git-branch-d-dev-强制删除dev分支-不管是否合并分支" class="headerlink" title="git branch -d dev:强制删除dev分支,不管是否合并分支"></a><code>git branch -d dev</code>:强制删除<code>dev</code>分支,不管是否合并分支</h3><h3 id="git-checkout-b-dev-在git的新版本中-提供了git-switch-c-dev来取代这个令人困惑的命令"><a href="#git-checkout-b-dev-在git的新版本中-提供了git-switch-c-dev来取代这个令人困惑的命令" class="headerlink" title="git checkout -b dev:在git的新版本中,提供了git switch -c dev来取代这个令人困惑的命令"></a><code>git checkout -b dev</code>:在<code>git</code>的新版本中,提供了<code>git switch -c dev</code>来取代这个令人困惑的命令</h3><h3 id="git-commit-am-quot-commit-quot-直接可以add之后加上commit命令"><a href="#git-commit-am-quot-commit-quot-直接可以add之后加上commit命令" class="headerlink" title="git commit -am &quot;commit&quot;:直接可以add之后加上commit命令"></a><code>git commit -am &quot;commit&quot;</code>:直接可以<code>add</code>之后加上<code>commit</code>命令</h3><h3 id="git-diff用法"><a href="#git-diff用法" class="headerlink" title="git diff用法"></a><code>git diff</code>用法</h3><ul>
-<li><ol>
-<li><p><code>git diff</code></p>
-<ul>
-<li>当工作区有改动,暂存区为空的时候,<code>diff</code>比较的是<code>工作区</code>和本地的<code>origin/master</code>分支</li>
-<li>当工作区有改动,暂存区不为空,<code>diff</code>比较的是<code>工作区</code>和<code>暂存区</code>的比较</li>
-</ul>
-</li>
-</ol>
-</li>
-<li><ol start="2">
-<li><p><code>git diff --cached</code>或者<code>git diff --staged</code></p>
-<ul>
-<li>这两个命令作用是一样的,作用是比较<code>暂存区</code>和本地的<code>origin/master</code>分支</li>
-</ul>
-</li>
-</ol>
-</li>
-<li><ol start="3">
-<li><p><code>git diff HEAD</code></p>
-<ul>
-<li>这个命令是比较当前<code>工作区</code>跟<code>origin/master</code>,(此时<code>暂存区</code>是否为空不重要,因为比较的内容是<code>工作区</code>和<code>HEAD</code>)</li>
-</ul>
-</li>
-</ol>
-</li>
-<li><ol start="4">
-<li><p><code>git diff commit1 commit2</code></p>
-<ul>
-<li>比较<code>commit1</code>和<code>commit2</code>的差异</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h2 id="git文件"><a href="#git文件" class="headerlink" title=".git文件"></a>.git文件</h2><h3 id="HEAD文件"><a href="#HEAD文件" class="headerlink" title="HEAD文件"></a>HEAD文件</h3><ul>
-<li><p>保存当前指针指向哪个分支</p>
-<ul>
-<li>cat HEAD<br>ref: refs/heads/dev</li>
-</ul>
-</li>
-</ul>
-<h3 id="config文件"><a href="#config文件" class="headerlink" title="config文件"></a>config文件</h3><ul>
-<li><p>保存三个域的配置信息</p>
-<ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b64dcb9af5d0a10df841920773b5d98cc8e482a02ae5b6d8689fb193e7518fe4.png"></li>
-</ul>
-</li>
-</ul>
-<h2 id="git的commit，tree，blob"><a href="#git的commit，tree，blob" class="headerlink" title="git的commit，tree，blob"></a>git的commit，tree，blob</h2><h3 id="commit"><a href="#commit" class="headerlink" title="commit"></a><code>commit</code></h3><ul>
-<li><p>一次提交相当于对当前仓库的一次快照</p>
-<ul>
-<li>但是如果提交版本越来越多，那git的文件夹岂不是很大？</li>
-</ul>
-</li>
-</ul>
-<h3 id="tree"><a href="#tree" class="headerlink" title="tree"></a><code>tree</code></h3><ul>
-<li><code>tree</code>是某一个<code>commit</code>仓库快照下的的一个目录(且仅有一个目录)，那么<code>tree</code>里就可能包含文件（<code>blob</code>和<code>tree</code>,就像文件和子目录）</li>
-</ul>
-<h3 id="blob"><a href="#blob" class="headerlink" title="blob"></a><code>blob</code></h3><ul>
-<li>一个文件是一个<code>blob</code>，如果文件内容完全一致，那么就会只保存一个相等的<code>blob</code></li>
-</ul>
-<h3 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h3><ul>
-<li><p>注意<code>commit</code>的结构:一个<code>commit</code>只对应一个<code>tree</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/1dae763260a3a22860a11722532d87c5312c677f89ebf2f37d31e770f79037aa.png"></p>
-</li>
-<li><p>从图中可以得知，git中无论是commit还是tree还是blob都有哈希函数值一一对应，所以直接给你一个哈希值，你并不知道到底是是什么文件</p>
-<ul>
-<li><p>git cat-file -t 哈希值</p>
-<ul>
-<li>可以查看对应哈希值的文件类型（commit，tree，blob）</li>
-</ul>
-</li>
-<li><p>git cat-file -p 哈希值</p>
-<ul>
-<li>可以查看对应哈希值的文件的具体内容（commit，tree，blob）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/29329c5d6160271391e5d62be91128a16dd6da0e4b54ae3857e7ef0118329b01.png"></li>
-</ul>
-<h2 id="分离头指针"><a href="#分离头指针" class="headerlink" title="分离头指针"></a>分离头指针</h2><h3 id="HEAD-头指针"><a href="#HEAD-头指针" class="headerlink" title="HEAD 头指针"></a>HEAD 头指针</h3><ul>
-<li>指向你正在其基础上进行工作的版本,就是你当前位于的版本号。(可以是 master 分支,也可以是某个版本号)</li>
-</ul>
-<h3 id="分离头指针-1"><a href="#分离头指针-1" class="headerlink" title="分离头指针"></a>分离头指针</h3><ul>
-<li><p>分离的HEAD就是让其指向了某个具体的提交记录而不是某个分支名。</p>
-</li>
-<li><p>举例</p>
-<ul>
-<li><p>未分离头指针</p>
-<ul>
-<li><p><code>HEAD -&gt; master -&gt; C1</code>,HEAD 指向 master， master 指向 C1<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b2dc98183c8a40737afce652d99cda874e9ce5db9841bb7ed47fffe762bf83c5.png"></p>
-<ul>
-<li>HEAD指针默认指向了 master,此时 master 上有一个*</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>分离头指针(执行<code>git checkout c1</code>或者<code>git switch c1</code>)</p>
-<ul>
-<li><p><code>HEAD -&gt; C1,master -&gt; C1</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/d8422848cbe29d1ba3a07da1e0621d0cd46e7c27f3c2cb68fcc420ce27238ed0.png"></p>
-<ul>
-<li>HEAD 直接指向了 c1,此时 master 上的*不见了</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="我们平时使用git-checkout-branchName来切换分支，这个是正常的"><a href="#我们平时使用git-checkout-branchName来切换分支，这个是正常的" class="headerlink" title="我们平时使用git checkout branchName来切换分支，这个是正常的"></a>我们平时使用<code>git checkout branchName</code>来切换分支，这个是正常的</h3><h3 id="图示分离头指针"><a href="#图示分离头指针" class="headerlink" title="图示分离头指针"></a>图示分离头指针</h3><ul>
-<li><ol>
-<li>一开始,<code>HEAD</code>—&gt;<code>master</code>—&gt;<code>C1</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b2dc98183c8a40737afce652d99cda874e9ce5db9841bb7ed47fffe762bf83c5.png"></li>
-</ol>
-</li>
-<li><ol start="2">
-<li>执行<code>git checkout C1</code></li>
-</ol>
-</li>
-<li><ol start="3">
-<li>现在变成了<code>HEAD</code>—&gt;<code>C1</code>,这就是分离头指针<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/0bcdff46042b1bb7031449ffa46b1ff161d9582eda8289ce8844e54a63619c87.png"></li>
-</ol>
-</li>
-<li><code>branch</code>本质上就是指向一个特殊的<code>commit</code>,我们可以使用<code>git branch -f master C0</code>或者<code>git branch -f master HEAD^</code>来把<code>master</code>强制指向某个<code>commit</code></li>
-</ul>
-<h3 id="git-branch-f-master-c0-直接强制移动master分支的指针指向-c0"><a href="#git-branch-f-master-c0-直接强制移动master分支的指针指向-c0" class="headerlink" title="git branch -f master c0:直接强制移动master分支的指针指向 c0"></a><code>git branch -f master c0</code>:直接强制移动master分支的指针指向 c0</h3><ul>
-<li><p>案例</p>
-<ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/f2d1d6c8b6fb179924d8ae4ef55f9f72811e830192d1b7853d0b9b5d9e549526.png"></li>
-<li>执行<code>git branch -f master c0</code></li>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/fd9c259590d30ed72e34b8e143c080d64cc5cd20dd61c8b19f77c2b85086a091.png"></li>
-<li>执行<code>git branch -f dev c4</code></li>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/4bcef6fc5f54112faf9022b7487a9ae0773146764efb1de2170177fcb762973f.png"></li>
-</ul>
-</li>
-<li><p>总结:说白了这些分支本质也就是一个类似与头指针的指针而已,可以自由的指向,但是这样的做法显然不是很常见</p>
-</li>
-</ul>
-<h3 id="但是如果我们使用git-checkout-某个commit，那么就会触发分离头指针HEAD（所谓的头指针就是指向我们当前所在的分支的某个commit，但是我们git-checkout-某个commit，相当于我们HEAD指向了一个commit，但是这个commit并没有指向任何branch-branch本质上就是一个特殊的commit-，就称之为头指针分离。）"><a href="#但是如果我们使用git-checkout-某个commit，那么就会触发分离头指针HEAD（所谓的头指针就是指向我们当前所在的分支的某个commit，但是我们git-checkout-某个commit，相当于我们HEAD指向了一个commit，但是这个commit并没有指向任何branch-branch本质上就是一个特殊的commit-，就称之为头指针分离。）" class="headerlink" title="但是如果我们使用git checkout 某个commit，那么就会触发分离头指针HEAD（所谓的头指针就是指向我们当前所在的分支的某个commit，但是我们git checkout 某个commit，相当于我们HEAD指向了一个commit，但是这个commit并没有指向任何branch(branch本质上就是一个特殊的commit)，就称之为头指针分离。）"></a>但是如果我们使用<code>git checkout 某个commit</code>，那么就会触发分离头指针<code>HEAD</code>（所谓的头指针就是指向我们当前所在的分支的某个<code>commit</code>，但是我们<code>git checkout 某个commit</code>，相当于我们<code>HEAD</code>指向了一个<code>commit</code>，但是这个<code>commit</code>并没有指向任何<code>branch</code>(<font color="red">branch本质上就是一个特殊的commit</font>)，就称之为头指针分离。）</h3><ul>
-<li><p>我们可以在这个commit上做实验性的修改，如果觉得不好，就可以抛弃（直接切回原来的分支，修改的内容自动抛弃），如果觉得好，就可以保留（具体怎么做，git会提醒）</p>
-<ul>
-<li><p>分离头指针后的分支</p>
-<ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b237db78114e101679b4be8488ab61f1464cdd1a79ca169f821540e44fce229a.png"></li>
-</ul>
-</li>
-<li><p>分离头指针之后放弃修改，直接切回原来的分支</p>
-<ul>
-<li><p><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/bfd5f61ff328f1346f573d98643d45e8914664b674fb7703d38d465499904462.png"></p>
-<ul>
-<li>只有一个分支了，做修改的那个分支自动抛弃<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/a280e376dbdd0ac8b69ebb6470c7c068802e6b127e32282463175f447b49fd17.png"></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ul>
-<li>正常的头指针,<code>HEAD</code>—&gt;<code>dev</code>—&gt;<code>228732...</code>（<code>HEAD</code>绑定了<code>dev</code>分支）<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/bd11611d3a01499cb99166c92feaef8ad829fe0d2ab3fc17f667ae7ee26e7030.png"></li>
-<li>分离后的头指针,<code>HEAD</code>—&gt;<code>2d649b</code>（<code>HEAD</code>只是指向某个<code>commit</code>,没有绑定任何分支）<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/85b941d7557b2172b91a83be4f1c4c6af908564ca4075fece5c23398dcb96c2e.png"></li>
-</ul>
-<h2 id="git-merge-dev和git-rebase-dev"><a href="#git-merge-dev和git-rebase-dev" class="headerlink" title="git merge dev和git rebase dev"></a><code>git merge dev</code>和<code>git rebase dev</code></h2><h3 id="merge和rebase都是做分支合并-本质就是做不同commit版本的合并-因为分支本身就是一个特殊的commit的链表-所以二者都是用来合并分支的"><a href="#merge和rebase都是做分支合并-本质就是做不同commit版本的合并-因为分支本身就是一个特殊的commit的链表-所以二者都是用来合并分支的" class="headerlink" title="merge和rebase都是做分支合并(本质就是做不同commit版本的合并,因为分支本身就是一个特殊的commit的链表),所以二者都是用来合并分支的"></a><code>merge</code>和<code>rebase</code>都是做分支合并(本质就是做不同<code>commit</code>版本的合并,因为分支本身就是一个特殊的<code>commit</code>的链表),所以二者都是用来合并分支的</h3><h3 id="git-merge-master命令用于将指定分支dev的commit-从dev和master分支出现分离开始到最后一个commit的所有commit-合并到当前分支dev-并用一个commit来存储合并分支后的结果"><a href="#git-merge-master命令用于将指定分支dev的commit-从dev和master分支出现分离开始到最后一个commit的所有commit-合并到当前分支dev-并用一个commit来存储合并分支后的结果" class="headerlink" title="git merge master命令用于将指定分支dev的commit(从dev和master分支出现分离开始到最后一个commit的所有commit)合并到当前分支dev,并用一个commit来存储合并分支后的结果"></a><code>git merge master</code>命令用于将指定分支<code>dev</code>的<code>commit</code>(从<code>dev</code>和<code>master</code>分支出现分离开始到最后一个<code>commit</code>的所有<code>commit</code>)合并到当前分支<code>dev</code>,并用一个<code>commit</code>来存储合并分支后的结果</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/30692b7285aad08cd2ec065b49784c53e2951a43f66508acfda56665b370727a.png"></li>
-</ul>
-<h3 id="git-rebase-master命令用于指定当前分支dev的commit-从dev和master分支出现分离开始到最后一个commit的所有commit-复制到master分支的最新的commit之后"><a href="#git-rebase-master命令用于指定当前分支dev的commit-从dev和master分支出现分离开始到最后一个commit的所有commit-复制到master分支的最新的commit之后" class="headerlink" title="git rebase master命令用于指定当前分支dev的commit(从dev和master分支出现分离开始到最后一个commit的所有commit)复制到master分支的最新的commit之后"></a><code>git rebase master</code>命令用于指定当前分支<code>dev</code>的<code>commit</code>(从<code>dev</code>和<code>master</code>分支出现分离开始到最后一个<code>commit</code>的所有<code>commit</code>)复制到<code>master</code>分支的最新的<code>commit</code>之后</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/21954f0de71a078db74349e8522e6ad0fa6997cafa1bb84aa82ae5c2af890fba.png"></li>
-</ul>
-<h3 id="-1"><a href="#-1" class="headerlink" title></a><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/44901de711ee9dcad07ee5bfd99143c8221f0d591bf8c4c1dc238742f4fa42c1.png"></h3><h3 id="想改变哪个分支-就在那个分支上执行merge-而rebase的命令和merge刚好相反-merge-A-是合并-A并新建一个合并的分支-B-rebase-A-是把自己放到-A-后面"><a href="#想改变哪个分支-就在那个分支上执行merge-而rebase的命令和merge刚好相反-merge-A-是合并-A并新建一个合并的分支-B-rebase-A-是把自己放到-A-后面" class="headerlink" title="想改变哪个分支,就在那个分支上执行merge,而rebase的命令和merge刚好相反(merge A 是合并 A并新建一个合并的分支 B,rebase A 是把自己放到 A 后面)"></a>想改变哪个分支,就在那个分支上执行<code>merge</code>,而<code>rebase</code>的命令和<code>merge</code>刚好相反(merge A 是合并 A并新建一个合并的分支 B,rebase A 是把自己放到 A 后面)</h3><ul>
-<li><p>merge 示例</p>
-<ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/521b9538f060668ac982fb39ffcb916e7b1a38faf70ab10fd8993b6699773ddd.png"></li>
-<li>在master 分支上执行<code>git merge bugFix</code></li>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/f925eb7bc71634ddc6e9c076aec5161cc42e8bbe2037de13bfe9ce5dfce4b078.png"></li>
-</ul>
-</li>
-<li><p>rebase 示例</p>
-<ul>
-<li><p>示例1</p>
-<ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/793d233baa8905bd12bbec0bc862b1aa89e6782be89c4444aac2b29576b8342d.png"></li>
-<li>在<code>bugFix</code>分支执行<code>git rebase master</code></li>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/8f6beefb0d682885b503a0570450aaf4c010ab0379ccdbda33c886a643689a5c.png"></li>
-</ul>
-</li>
-<li><p>示例2</p>
-<ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/5d46f420fdf1ccef721b41e61c2536c81024e8f822495ead50216fb4d25450e5.png"></li>
-<li>在<code>master</code>分支上执行<code>git rebase bugFix</code></li>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/3563f83fbd9d45e31bcd579fd6990707cd03c3790fd7816953e2c627c3213c6c.png"></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意:"></a>注意:</h3><ul>
-<li><p>merge</p>
-<ul>
-<li><p>如果我们此时想在 dev 分支上,运行<code>git merge master</code>,会发生什么??<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/baa230d5fbea4427b2e5d9d0267359165ff6cf15163665d9da9bf6f48a19b7a4.png"></p>
-<ul>
-<li>并没有出现想像中的:c2和c4重新合并成为一个新的 c5结点,然后 dev 指向 c5,这是因为 c4已经包含了 c2了,没法在进行合并成为一个新结点了<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/aeb8b618e1822be3e8be1df8b0d8b67324c0c1f70b10af0bf4f6b3f9e33d4ef4.png"></li>
-<li>因为当前分支是 dev,dev 要 merge 分支 master,但是分支 master 已经是合并后的分支了,而我们只能控制 dev 分支,所以直接把当前分支分支 dev 指向 c4,完成合并</li>
-</ul>
-</li>
-<li><p>如果我们此时想在 master分支上,运行<code>git merge dev</code>,会发生什么??<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/003843710a4a6d1eb8f5d81b0663dfee8fe19a806bf12ca7e6de704da106e41c.png"></p>
-<ul>
-<li>没有发生任何变化,因为<code>git merge dev</code>命令在c2和c3合并成 c4的时候就执行一遍了,再执行一遍没有任何意义<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/003843710a4a6d1eb8f5d81b0663dfee8fe19a806bf12ca7e6de704da106e41c.png"></li>
-<li>因为当前分支是 master,master 要 merge 分支 dev,但是分支 master 已经是合并后的分支了,而我们只能控制 master 分支,由于 master 已经是合并后的结果了,和 dev 重新合并生成 c5是不肯能的(因为没法再合并了),所以保持不变</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>rebase</p>
-<ul>
-<li><p>在 dev 分支上运行<code>git rebase master</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/2bb0b72b3075464be9e742044c40507615a726ba8a05b83e9f76f4292a131ba1.png"></p>
-<ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/91c299b86ae1c0e90012a77d6f9aafdff9c0e316cbf11b266a53a50fe2070004.png"></li>
-<li>因为当前分支是 dev 分支,dev 想要 rebase 到分支 master 的下面,但是分支 master 已经是合并后的分支了,而我们只能控制 dev 分支,所以直接把当前分支 dev 指向c4,完成合并</li>
-</ul>
-</li>
-<li><p>在 master 分支上运行<code>git rebase dev</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/8191b9b86f52d00893271100cf97de4dbdc9b45d8da8223458fe68cc451755de.png"></p>
-<ul>
-<li>没有任何变化<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/0cd745304fac5cb9f23173f092b64b911bbf368dd56823b5bbe33174e18e9327.png"></li>
-<li>因为当前分支是 master 分支,master 想要 rebase 到分支 dev 的下面,但是分支 master 已经是合并后的分支了,由于 master 已经是合并后的结果了,和 dev 重新合并生成 c5是不肯能的(因为没法再合并了),所以保持不变</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>总结:</p>
-<ul>
-<li>想让dev 指针移动到 master,那就需要把 HEAD指针移动到 dev 分支上(即为 dev 设置为当前指针),然后使用<code>git merge master</code>或者<code>git rebase master</code>就行</li>
-</ul>
-</li>
-</ul>
-<h2 id="cherry-pick-onenote中有这个详细的笔记"><a href="#cherry-pick-onenote中有这个详细的笔记" class="headerlink" title="cherry-pick:onenote中有这个详细的笔记"></a><code>cherry-pick</code>:onenote中有这个详细的笔记</h2><h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><ul>
-<li><code>git cherry-pick 版本号 ...</code></li>
-</ul>
-<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ul>
-<li>将一些提交复制到当前所在的位置(HEAD)下面的话,</li>
-</ul>
-<h3 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h3><ul>
-<li><p>比如,当前 HEAD-&gt;master-&gt;c3,然后使用<code>git cherry-pick c0/c1/c2</code>,都是不行的,因为 c0/1/2都已经位于 c3了<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/dc20d493a48533c6643a0f1fa4ebed1376bef65aded8c87a13f69f009b1003e4.png"></p>
-</li>
-<li><p>执行<code>git branch -f master cl</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/dc20d493a48533c6643a0f1fa4ebed1376bef65aded8c87a13f69f009b1003e4.png"></p>
-<ul>
-<li><p>那么此时执行<code>git cherry-pick c3</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/f373ee07d740650656ce9cb0457e40aea227057d48092bf65177ef58bf85eeba.png"></p>
-<ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/4390c6eca1dc433e4193111aa1ee300e2ec1d0eb489c72afefaeede1f35f71f0.png"></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/4341b2588339256357823aed803692e37931869ba905f8ca34017351be6a378b.png"></li>
-<li>在<code>master</code>分支执行<code>git cherry-pick C2 C4</code></li>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/7aa7be3d81d2ac4945683b7daa45c3d6c545305bd4fd89f56c38191b67c75d00.png"></li>
-</ul>
-<h2 id="git-tag"><a href="#git-tag" class="headerlink" title="git tag"></a><code>git tag</code></h2><h3 id="执行git-tag-v1-c1-如果不指定c1-那么默认是-HEAD-指针指向的结点"><a href="#执行git-tag-v1-c1-如果不指定c1-那么默认是-HEAD-指针指向的结点" class="headerlink" title="执行git tag v1 c1,如果不指定c1,那么默认是 HEAD 指针指向的结点"></a>执行<code>git tag v1 c1</code>,如果不指定c1,那么默认是 HEAD 指针指向的结点<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/4de0050f38169dfe0847324398377f74265c9e30ff765ad5b473bcd1656fe1e7.png"></h3><h2 id="如何修改最近的一次提交的commit"><a href="#如何修改最近的一次提交的commit" class="headerlink" title="如何修改最近的一次提交的commit"></a>如何修改最近的一次提交的commit</h2><h3 id="1-git-commit-–amend"><a href="#1-git-commit-–amend" class="headerlink" title="1. git commit –amend"></a>1. git commit –amend</h3><h3 id="2-进入vim进行编辑commit"><a href="#2-进入vim进行编辑commit" class="headerlink" title="2. 进入vim进行编辑commit"></a>2. 进入vim进行编辑commit</h3><h2 id="如何修改之前任意一次提交的commit"><a href="#如何修改之前任意一次提交的commit" class="headerlink" title="如何修改之前任意一次提交的commit"></a>如何修改之前任意一次提交的commit</h2><h3 id="1-git-rebase-i-commit版本号"><a href="#1-git-rebase-i-commit版本号" class="headerlink" title="1. git rebase -i commit版本号"></a>1. git rebase -i commit版本号</h3><ul>
-<li>该版本号必须是要修改的commit的上一个commit<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/ae521308a517565b4a45c50596af0e8b4bd2b4c1a767eba43c855966b78e5631.png"></li>
-</ul>
-<h3 id="2-进入vim根据提示选择想要编辑的commit进行编辑"><a href="#2-进入vim根据提示选择想要编辑的commit进行编辑" class="headerlink" title="2. 进入vim根据提示选择想要编辑的commit进行编辑"></a>2. 进入vim根据提示选择想要编辑的commit进行编辑</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/7c46109d39b7aa9f4630a14d5013cfe38b62bfb1c0cb667c774fc32bea973e21.png"></li>
-</ul>
-<h3 id="3-选择想要编辑的commit后直接自动跳转到vim中进行编辑"><a href="#3-选择想要编辑的commit后直接自动跳转到vim中进行编辑" class="headerlink" title="3. 选择想要编辑的commit后直接自动跳转到vim中进行编辑"></a>3. 选择想要编辑的commit后直接自动跳转到vim中进行编辑</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/1ef5c6474acd3a7e3423be7d733fcfcce4069fb9590c4ad0f6ae891f91f19306.png"></li>
-</ul>
-<h3 id="4-修改完成"><a href="#4-修改完成" class="headerlink" title="4. 修改完成"></a>4. 修改完成</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/c981e113f4b0b453c7cd835aa7968c1cb3442a19aa04c5ae196ebfdcc6a6f4e4.png"></li>
-</ul>
-<h2 id="把任意的连续几个commit合并成一个commit提交"><a href="#把任意的连续几个commit合并成一个commit提交" class="headerlink" title="把任意的连续几个commit合并成一个commit提交"></a>把任意的连续几个commit合并成一个commit提交</h2><h3 id="1-git-rebase-i-606175ce16"><a href="#1-git-rebase-i-606175ce16" class="headerlink" title="1. git rebase -i 606175ce16"></a>1. git rebase -i 606175ce16</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/86863c2f7f31a3a9e5ce096f89b2ac0dc88a59a291904e183382a40d9ab3dea7.png"></li>
-</ul>
-<h3 id="2-在vim来根据提示使用命令来合并commit"><a href="#2-在vim来根据提示使用命令来合并commit" class="headerlink" title="2. 在vim来根据提示使用命令来合并commit"></a>2. 在vim来根据提示使用命令来合并commit</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/73e7870bfa26ff27bc74fd5897757d3a1eee0391273c8014aa95d8d6030feba7.png"></li>
-</ul>
-<h3 id="3-在vim中为合并的三个commit写一个commit"><a href="#3-在vim中为合并的三个commit写一个commit" class="headerlink" title="3. 在vim中为合并的三个commit写一个commit"></a>3. 在vim中为合并的三个commit写一个commit</h3><ul>
-<li><p><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/21da34656667191825031d034d88e88780b07b7db698ab41e1802fb425cccb06.png"></p>
-</li>
-<li><p>这个合并的commit也可以不写， 如果不写，就是</p>
-<ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/d0e91be89079c87ee952d37654195e7d11da3fed42f6dfb56e7850f3386bb561.png"></li>
-</ul>
-</li>
-</ul>
-<h3 id="4-完成"><a href="#4-完成" class="headerlink" title="4. 完成"></a>4. 完成</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b87ed271c729d4a4e0db0b56c78812b8b94227e24f91f2573fadff48f3955445.png"></li>
-</ul>
-<h2 id="把任意的不连续几个commit合并成一个commit提交"><a href="#把任意的不连续几个commit合并成一个commit提交" class="headerlink" title="把任意的不连续几个commit合并成一个commit提交"></a>把任意的不连续几个commit合并成一个commit提交</h2><h3 id="1-git-rebase-i-606175c"><a href="#1-git-rebase-i-606175c" class="headerlink" title="1. git rebase -i 606175c"></a>1. git rebase -i 606175c</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/c69c4362d45dd3f8e4bed44a9a510762ffd007b675b4cb4899d743883ab7c0ee.png"></li>
-</ul>
-<h3 id="2-一开始只有这个页面，发现git没有为我们提供最初始的commit，我们需要手动增加最初始的commit上去"><a href="#2-一开始只有这个页面，发现git没有为我们提供最初始的commit，我们需要手动增加最初始的commit上去" class="headerlink" title="2. 一开始只有这个页面，发现git没有为我们提供最初始的commit，我们需要手动增加最初始的commit上去"></a>2. 一开始只有这个页面，发现git没有为我们提供最初始的commit，我们需要手动增加最初始的commit上去</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/51fcf8e03608e1cbea8cc34a4b13e36ae3767659a9303ea7d3aa3f44de411266.png"></li>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/cd48e33fd9aa7d86026a7518e536a23216cef473044f1e9342e4b4e564faa945.png"></li>
-</ul>
-<h3 id="3-跳转到vim中根据提示操作"><a href="#3-跳转到vim中根据提示操作" class="headerlink" title="3. 跳转到vim中根据提示操作"></a>3. 跳转到vim中根据提示操作</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/4f915d7e043442f65480285e7bfc3a080fb43deb246a2f362c37b0466d0e95ec.png"></li>
-</ul>
-<h3 id="4-保存后使用git-rebase-–continue"><a href="#4-保存后使用git-rebase-–continue" class="headerlink" title="4. 保存后使用git rebase –continue"></a>4. 保存后使用git rebase –continue</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/1a6aa1ae4dc5d815c73d2883d4ca3e55ec8db58450b412fe09727db3684de893.png"></li>
-</ul>
-<h3 id="5-完成"><a href="#5-完成" class="headerlink" title="5. 完成"></a>5. 完成</h3><ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/31c407e4e43d0b708944bdaaece796dfca85fd716eab79747de04f3c3ff4613f.png"></li>
-</ul>
-<h2 id="比较暂存区和HEAD的差异"><a href="#比较暂存区和HEAD的差异" class="headerlink" title="比较暂存区和HEAD的差异"></a>比较暂存区和HEAD的差异</h2><h3 id="git-diff-–cached"><a href="#git-diff-–cached" class="headerlink" title="git diff –cached"></a>git diff –cached</h3><h2 id="git远程仓库操作"><a href="#git远程仓库操作" class="headerlink" title="git远程仓库操作"></a>git远程仓库操作</h2><h3 id="远程分支origin-master分支-但是本分支实际是存在本地仓库中的"><a href="#远程分支origin-master分支-但是本分支实际是存在本地仓库中的" class="headerlink" title="远程分支origin/master分支(但是本分支实际是存在本地仓库中的)"></a>远程分支<code>origin/master</code>分支(但是本分支实际是存在本地仓库中的)</h3><ul>
-<li><p>作用</p>
-<ul>
-<li>远程分支反映了远程仓库(在你上次和它通信时)的状态</li>
-</ul>
-</li>
-<li><p>特点</p>
-<ul>
-<li><p>当我们想要切换到<code>origin/master</code>分支的时候,执行<code>git switch origin/master</code>时,git 会自动进入指针分离模式,而不是转而进入<code>origin/master</code>分支,git 这么做的目的是:出于不能直接在这些分支进行操作的原因,你必须在别的地方完成你的工作,(更新了远程分支之后)再用远程分享你的工作成果</p>
-<ul>
-<li>执行<code>git switch origin/master</code>,发现分离了头指针,然后在头指针执行<code>git commit</code>,发现<code>origin/master</code>不会发生变化,该分支只在 push/pull 的时候才会发生变化<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/2574c86451c7951bc39aec6b7c67cc606cacd2f549c80898182d8359e0c25e0e.png"></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a><code>git fetch</code></h3><ul>
-<li><p>案例</p>
-<ul>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/7fac5dcf6333e8e3157e9ddf4966635bccf02e5e599649c6fd99dab3456d88e9.png"></li>
-<li>执行<code>git fetch</code></li>
-<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/f6ecd2110ed28f03c6100e0ef86b134785cdbce3e1f5a10c66c1904e13f2aa77.png"></li>
-</ul>
-</li>
-<li><p>作用</p>
-<ul>
-<li>从远程仓库下载本地仓库中缺失的提交记录</li>
-<li>更新”远程分支”(位于本地仓库的远程分支)指针(如 origin/master)</li>
-</ul>
-</li>
-<li><p>总结</p>
-<ul>
-<li>可以把<code>git fetch</code>单纯的理解为是一个下载工具</li>
-</ul>
-</li>
-</ul>
-<h3 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a><code>git pull</code></h3><ul>
-<li><p>引入</p>
-<ul>
-<li>我们已经知道了使用<code>git fetch</code>可以把远程仓库的代码下载到本地,但是还需要我们手动进行<code>merge</code>,<code>rebase</code>,<code>cherry-pick</code>才能更新本地 master 分支为本地仓库的origin/master版本,过于麻烦,所以 git 默认为我们提供了<code>git pull</code>这种方式</li>
-</ul>
-</li>
-<li><p>实际上<code>git pull</code>= <code>git fetch</code>+<code>git merge origin/master</code></p>
-</li>
-<li><p>实际上<code>git pull --rebase</code>= <code>git fetch</code>+<code>git rebase origin/master</code></p>
-</li>
-</ul>
-<h3 id="git-push"><a href="#git-push" class="headerlink" title="git push"></a><code>git push</code></h3><ul>
-<li><p>作用</p>
-<ul>
-<li>负责将你的变更上传到指定的远程仓库，并在远程仓库上合并你的新提交记录。一旦 git push 完成, 你的朋友们就可以从这个远程仓库下载你分享的成果了！</li>
-</ul>
-</li>
-<li><p>细节</p>
-<ul>
-<li>远程仓库中的 master 分支也被更新到我们<code>git push</code>的版本了，我们的远程分支 (origin/master) 也同样被更新了</li>
-</ul>
-</li>
-<li><p>问题:远程库提交历史的偏离</p>
-<ul>
-<li><p>概念</p>
-<ul>
-<li>假设你周一克隆了一个仓库，然后开始研发某个新功能。到周五时，你新功能开发测试完毕，可以发布了。但是 —— 天啊！你的同事这周写了一堆代码，还改了许多你的功能中使用的 API，这些变动会导致你新开发的功能变得不可用。但是他们已经将那些提交推送到远程仓库了，因此你的工作就变成了基于项目旧版的代码，与远程仓库最新的代码不匹配了。</li>
-<li>因为这情况(历史偏离)有许多的不确定性,Git是不会允许你push变更的。实际上它会强制你先合并远程最新的代码,然后才能分享你的工作。</li>
-</ul>
-</li>
-<li><p>解决</p>
-<ul>
-<li>我们通过先拉下来远程代码,然后手动合并(rebase/merge),然后再 push</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="远程服务器拒绝-Remote-Rejected"><a href="#远程服务器拒绝-Remote-Rejected" class="headerlink" title="远程服务器拒绝(Remote Rejected)"></a>远程服务器拒绝(Remote Rejected)</h3><ul>
-<li><p>引入</p>
-<ul>
-<li>如果我们在一个大团队工作,我们不允许直接对 origin/master分支进行推送(这个是由策略配置要求 pull requests 来提交更新),但我们在尝试直接推送本地分支 master 到 origin/master 上时,会有图中的错误<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/3a7d25cd8c9a6f45d8b02351e05dbe3bde0c91ed50fa7e0adde674544f7ebde6.png"></li>
-</ul>
-</li>
-<li><p>解决</p>
-<ul>
-<li>新建一个分支feature, 推送到远程服务器. 然后reset你的master分支和远程服务器保持一致, 否则下次你pull并且他人的提交和你冲突的时候就会有问题.</li>
-</ul>
-</li>
-</ul>
-<h3 id="htc的-git-推送拉取策略居然是很大团队采用的方式-rebase"><a href="#htc的-git-推送拉取策略居然是很大团队采用的方式-rebase" class="headerlink" title="htc的 git 推送拉取策略居然是很大团队采用的方式(rebase)"></a>htc的 git 推送拉取策略居然是很大团队采用的方式(rebase)</h3><ul>
-<li><p>前面说了,在 push 到远程仓库的 master分支之前,我们首先让本地分支 origin/master 跟远程仓库 master 分支保持一致,然后我们把我们自己的开发的提交跟 origin/master 分支进行合并(rebase/merge),但是到底用 rebase 还是 merge呢?</p>
-<ul>
-<li><p>rebase</p>
-<ul>
-<li><p>优点:</p>
-<ul>
-<li>Rebase 使你的提交树变得很干净, 所有的提交都在一条线上</li>
-</ul>
-</li>
-<li><p>缺点:</p>
-<ul>
-<li>Rebase 修改了提交树的历史</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="本地仓库分支映射远程仓库分支"><a href="#本地仓库分支映射远程仓库分支" class="headerlink" title="本地仓库分支映射远程仓库分支"></a>本地仓库分支映射远程仓库分支</h3><ul>
-<li><p>我们默认都是本地仓库的 master 分支对应远程仓库的 master 分支,事实上是 git 为我们默认设置的,我们可以自己来设置</p>
-</li>
-<li><p>两种方法(实际上不止)</p>
-<ul>
-<li><code>git checkout -b totallyNotMaster o/master</code>:创建totallyNotMaster 分支的时候指定映射远程仓库的 master 分支,那么原来的 master 将会失去远程仓库 master 的映射</li>
-<li><code>git branch -u o/master totallyNotMaster</code>:适用于分支已经创建,然后指定远程仓库映射.如果当前分支已经是<code>totallyNotMaster</code>分支了,直接使用<code>git branch -u o/master</code>即可映射</li>
-</ul>
-</li>
-</ul>
-<h3 id="git-push进阶"><a href="#git-push进阶" class="headerlink" title="git push进阶"></a><code>git push</code>进阶</h3><ul>
-<li><p>我们可以为 push 指定参数，语法是：<code>git push &lt;remote&gt; &lt;place&gt;</code> </p>
-<ul>
-<li><p><code>remote</code>:指定远程仓库的名称,如 origin</p>
-</li>
-<li><p><code>place</code>:指定本地仓库和远程仓库的名称,如 master(二者必须相同,如果不相同,看下面)</p>
-</li>
-<li><p>案例1:<code>git checkout C0; git push origin master</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/f89fcb9cd5a98e0a7c613d7f3563c8945a55fbcfb3fe9b2aad0bcd451737e059.png"></p>
-</li>
-<li><p>案例2:<code>git checkout C0; git push</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/af55de245c615b824b74c4be4cf538aa8b32b7590ccd47b01fb30b8eebbded7f.png"></p>
-<ul>
-<li>命令失败了(正如你看到的,什么也没有发生)!因为我们所 检出的HEAD没有跟踪任何分支。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>我们可以为 push 指定参数，语法是：<code>git push &lt;remote&gt; &lt;source&gt;:&lt;destination&gt;</code> </p>
-<ul>
-<li><code>remote</code>:指定远程仓库的名称,如 origin</li>
-<li><code>source</code>:本地分支</li>
-<li><code>destination</code>:远程仓库的分支</li>
-<li>案例:<code>git push origin foo^: master</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/d1b3f21ab96c37abbd8782539336495c6ba786691cde784c2c2225754b98801e.png"></li>
-</ul>
-</li>
-</ul>
-<h3 id="git-push的参数同样可以用到git-fetch上-但是开发中不会有人这么做-所以不建议学习-这里只是为了说明其实git-fetch和git-pull本质上就是方向不同的两个命令而已"><a href="#git-push的参数同样可以用到git-fetch上-但是开发中不会有人这么做-所以不建议学习-这里只是为了说明其实git-fetch和git-pull本质上就是方向不同的两个命令而已" class="headerlink" title="git push的参数同样可以用到git fetch上,但是开发中不会有人这么做,所以不建议学习,这里只是为了说明其实git fetch和git pull本质上就是方向不同的两个命令而已"></a><code>git push</code>的参数同样可以用到<code>git fetch</code>上,但是开发中不会有人这么做,所以不建议学习,这里只是为了说明其实<code>git fetch</code>和<code>git pull</code>本质上就是方向不同的两个命令而已</h3><h2 id="github如何更好的搜索资料"><a href="#github如何更好的搜索资料" class="headerlink" title="github如何更好的搜索资料"></a>github如何更好的搜索资料</h2><h3 id="-2"><a href="#-2" class="headerlink" title></a><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/7c7f3f31c0d6609ad982d0711da42acd4e073559b4cb84c076d59568f8adab75.png"></h3>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-python.textbundle/python" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="分支主题-1"><a href="#分支主题-1" class="headerlink" title="分支主题 1"></a>分支主题 1</h2><h2 id="python-中字符串去除空格和换行符的问题"><a href="#python-中字符串去除空格和换行符的问题" class="headerlink" title="python 中字符串去除空格和换行符的问题"></a>python 中字符串去除空格和换行符的问题</h2><h3 id="去除空格"><a href="#去除空格" class="headerlink" title="去除空格"></a>去除空格</h3><ul>
-<li><p>str.strip() 只能去除位于字符串句首,句尾的空格</p>
-<ul>
-<li><img src="/2020/10/28/python.textbundle/python/2462cd2fbbbbfc010c97dd6e2b94c23dd9abef876b4b73c9b50f8f67143b5ec9.png"></li>
-</ul>
-</li>
-<li><p>str.replace() 可以位于字符串句任意位置的空格</p>
-<ul>
-<li>如上图所示,使用<code>str.replace(&quot; &quot;,&quot;&quot;)</code>即可</li>
-</ul>
-</li>
-</ul>
-<h3 id="去除换行符"><a href="#去除换行符" class="headerlink" title="去除换行符"></a>去除换行符</h3><ul>
-<li><p>引入</p>
-<ul>
-<li><p>在python中存在继承了 <code>回车符\r</code> 和 <code>换行符\n</code> 两种标记</p>
-<ul>
-<li>\r 代表回车，也就是打印头归位，回到某一行的开头。</li>
-<li>\n 代表换行，就是走纸，下一行。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>解决</p>
-<ul>
-<li>python 在去除换行时，需要同时去除两者才行，即使用<code>str.replace(&#39;\n&#39;, &#39;&#39;).replace(&#39;\r&#39;, &#39;&#39;)</code></li>
-</ul>
-</li>
-</ul>
-<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ul>
-<li><p>操作文件的几个重要函数</p>
-<ul>
-<li><p>01    open(“文件路径”,”打开文件的读写方式”)    打开文件，并且返回文件操作对象</p>
-<ul>
-<li>open()函数是 py 内置函数</li>
-</ul>
-</li>
-<li><p>02    read()    将文件内容一次性全部读取到内存,并把 文件指针(指向下次读取文件的位置) 移动到读取内容的末尾</p>
-<ul>
-<li>read() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
-</ul>
-</li>
-<li><p>03    write()    将指定内容写入文件</p>
-<ul>
-<li>write() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
-</ul>
-</li>
-<li><p>04    close()    关闭文件(如果 忘记关闭文件，会造成系统资源消耗，而且会影响到后续对文件的访问<br>)</p>
-<ul>
-<li>close() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
-</ul>
-</li>
-<li><p>05 truncate() 方法用于截断文件，如果指定了可选参数 size，则表示截断文件为 size 个字符。 如果没有指定 size，则从当前位置起截断；截断之后 size 后面的所有字符被删除。</p>
-<ul>
-<li>truncate() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
-</ul>
-</li>
-<li><p>06 seek() 方法用于移动文件读取指针到指定位置。(注意,该指针只是适用于读取)</p>
-<ul>
-<li><p>fileObject.seek(offset[, whence])</p>
-<ul>
-<li>offset – 开始的偏移量，也就是代表需要移动偏移的字节数</li>
-<li>whence：可选，默认值为 0。给offset参数一个定义，表示要从哪个位置开始偏移；0代表从文件开头开始算起，1代表从当前位置开始算起，2代表从文件末尾算起。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>关于 open()函数的几种打开文件的方式</p>
-<ul>
-<li><p><img src="/2020/10/28/python.textbundle/python/ce54d35f8d552e4c54478f73daa8d7ae63afdf35a1f02177a45ba80face0a9a5.png"></p>
-<ul>
-<li><p>是否可读</p>
-<ul>
-<li>是</li>
-<li>否</li>
-<li>否</li>
-<li>是</li>
-<li>是</li>
-<li>是</li>
-</ul>
-</li>
-<li><p>是否可写</p>
-<ul>
-<li>否</li>
-<li>是，清空原内容</li>
-<li>是，从文件末尾追加写</li>
-<li>是，从文件开头覆盖写</li>
-<li>是，清空原内容</li>
-<li>是，从文件末尾追加写</li>
-</ul>
-</li>
-<li><p>文件不存在时</p>
-<ul>
-<li>报错</li>
-<li>创建新文件</li>
-<li>创建新文件</li>
-<li>报错</li>
-<li>创建新文件</li>
-<li>创建新文件</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h3><ul>
-<li><p>按行读取文件内容</p>
-<ul>
-<li><p>引入</p>
-<ul>
-<li>read() 方法默认会把文件的 所有内容 一次性读取到内存</li>
-<li>如果文件太大，对内存的占用会非常严重</li>
-</ul>
-</li>
-<li><p>readline()方法</p>
-<ul>
-<li><p>概述</p>
-<ul>
-<li>readline() 方法用于从文件读取整行，包括 “\n” 字符。如果指定了一个非负数的参数，则返回指定大小的字节数，包括 “\n” 字符。</li>
-</ul>
-</li>
-<li><p>语法</p>
-<ul>
-<li>fileObject.readline([size]); </li>
-</ul>
-</li>
-<li><p>参数</p>
-<ul>
-<li>size – 从文件中读取的字节数。</li>
-</ul>
-</li>
-<li><p>返回值</p>
-<ul>
-<li>返回从字符串中读取的字节。</li>
-</ul>
-</li>
-<li><p>readline()案例<img src="/2020/10/28/python.textbundle/python/4f95a33cd6b487ac5d642e0e8c90623b7ce7cfb0b1f55df8d386d915e623ad55.png"></p>
-</li>
-</ul>
-</li>
-<li><p>readlines()方法</p>
-<ul>
-<li><p>概述</p>
-<ul>
-<li>readlines() 方法用于读取所有行(直到结束符 EOF)并返回列表，该列表可以由 Python 的 for… in … 结构进行处理。 如果碰到结束符 EOF 则返回空字符串。如果碰到结束符 EOF 则返回空字符串。</li>
-</ul>
-</li>
-<li><p>语法</p>
-<ul>
-<li>fileObject.readlines( );</li>
-</ul>
-</li>
-<li><p>参数</p>
-<ul>
-<li>无。</li>
-</ul>
-</li>
-<li><p>返回值</p>
-<ul>
-<li>返回列表，包含所有的行。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
-<li>最暴力的修改文件的方式<img src="/2020/10/28/python.textbundle/python/2968168fcfb6411f97c89c5ba4a8c81305aa499ce99e167f9a3c4cfe8bad278d.png"></li>
-</ul>
-<h2 id="python-中的模块"><a href="#python-中的模块" class="headerlink" title="python 中的模块"></a>python 中的模块</h2><h3 id="我们使用import-helloworld模块的时候-helloworld-py中的代码语句会从上至下执行一遍"><a href="#我们使用import-helloworld模块的时候-helloworld-py中的代码语句会从上至下执行一遍" class="headerlink" title="我们使用import helloworld模块的时候,helloworld.py中的代码语句会从上至下执行一遍"></a>我们使用<code>import helloworld</code>模块的时候,<code>helloworld.py</code>中的代码语句会从上至下执行一遍</h3>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/28/python.textbundle/python/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-test" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/28/test/">test</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/28/test/" class="archive-article-date">
-  	<time datetime="2020-10-28T05:21:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/28/test/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-设计模式.textbundle/设计模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1155,7 +165,7 @@
 
         
         <a href="/2020/10/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.textbundle/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-10-28T05:21:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-28</time>
+  	<time datetime="2020-10-28T13:46:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-28</time>
 </a>
         
       </header>
@@ -3387,6 +2397,996 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/10/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.textbundle/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Tmux.textbundle/Tmux" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="mac上使用-iterm2的基础上使用tmux-CC-接下来一切都是-iterm2-的快捷键"><a href="#mac上使用-iterm2的基础上使用tmux-CC-接下来一切都是-iterm2-的快捷键" class="headerlink" title="mac上使用 iterm2的基础上使用tmux -CC,接下来一切都是 iterm2 的快捷键"></a>mac上使用 iterm2的基础上使用<code>tmux -CC</code>,接下来一切都是 iterm2 的快捷键</h2><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><h3 id="命令行的典型使用方式是，打开一个终端窗口（terminal-window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session）"><a href="#命令行的典型使用方式是，打开一个终端窗口（terminal-window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session）" class="headerlink" title="命令行的典型使用方式是，打开一个终端窗口（terminal window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session） ,"></a>命令行的典型使用方式是，打开一个终端窗口（terminal window，以下简称”窗口”），在里面输入命令。用户与计算机的这种临时的交互，称为一次”会话”（session） ,</h3><h3 id="会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。"><a href="#会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。" class="headerlink" title="会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。"></a>会话的一个重要特点是，窗口与其中启动的进程是连在一起的。打开窗口，会话开始；关闭窗口，会话结束，会话内部的进程也会随之终止，不管有没有运行完。</h3><h3 id="一个典型的例子就是，SSH-登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次-SSH-会话已经终止了，里面的进程也随之消失了。"><a href="#一个典型的例子就是，SSH-登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次-SSH-会话已经终止了，里面的进程也随之消失了。" class="headerlink" title="一个典型的例子就是，SSH 登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次 SSH 会话已经终止了，里面的进程也随之消失了。"></a>一个典型的例子就是，SSH 登录远程计算机，打开一个远程窗口执行命令。这时，网络突然断线，再次登录的时候，是找不回上一次执行的命令的。因为上一次 SSH 会话已经终止了，里面的进程也随之消失了。</h3><h3 id="为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。"><a href="#为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。" class="headerlink" title="为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。"></a>为了解决这个问题，会话与窗口可以”解绑”：窗口关闭时，会话并不终止，而是继续运行，等到以后需要的时候，再让会话”绑定”其他窗口。</h3><h2 id="Tmux的作用"><a href="#Tmux的作用" class="headerlink" title="Tmux的作用"></a>Tmux的作用</h2><h3 id="（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。"><a href="#（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。" class="headerlink" title="（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。"></a>（1）它允许在单个窗口中，同时访问多个会话。这对于同时运行多个命令行程序很有用。</h3><h3 id="（2）-它可以让新窗口”接入”已经存在的会话。"><a href="#（2）-它可以让新窗口”接入”已经存在的会话。" class="headerlink" title="（2） 它可以让新窗口”接入”已经存在的会话。"></a>（2） 它可以让新窗口”接入”已经存在的会话。</h3><h3 id="（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。"><a href="#（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。" class="headerlink" title="（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。"></a>（3）它允许每个会话有多个连接窗口，因此可以多人实时共享会话。</h3><h3 id="（4）它还支持窗口任意的垂直和水平拆分。"><a href="#（4）它还支持窗口任意的垂直和水平拆分。" class="headerlink" title="（4）它还支持窗口任意的垂直和水平拆分。"></a>（4）它还支持窗口任意的垂直和水平拆分。</h3><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念<img src="/2020/10/28/Tmux.textbundle/Tmux/b561f357b5247d485585e7245469cbab552ec219c32f80dbfbee60292fab03c5.png"></h2><h3 id><a href="#" class="headerlink" title></a><img src="/2020/10/28/Tmux.textbundle/Tmux/39d2a5b1a690832c4f399736cf908bf6c25e4c3ea2f10b9d2b6a4e2b1d5c1e21.png"></h3><h2 id="Tmux的前缀键"><a href="#Tmux的前缀键" class="headerlink" title="Tmux的前缀键"></a>Tmux的前缀键</h2><h3 id="Ctrl-b"><a href="#Ctrl-b" class="headerlink" title="Ctrl+b"></a><code>Ctrl+b</code></h3><ul>
+<li>即先按下<code>Ctrl+b</code>，再按下其他快捷键(如:?)才会生效。</li>
+</ul>
+<h2 id="会话管理-session"><a href="#会话管理-session" class="headerlink" title="会话管理(session)"></a>会话管理(session)</h2><h3 id="新建会话"><a href="#新建会话" class="headerlink" title="新建会话"></a>新建会话</h3><ul>
+<li><p><code>tmux new -s &lt;session-name&gt;</code></p>
+<ul>
+<li>新建一个指定名称的会话。</li>
+</ul>
+</li>
+</ul>
+<h3 id="分离会话"><a href="#分离会话" class="headerlink" title="分离会话"></a>分离会话</h3><ul>
+<li><p><code>Ctrl+b d</code>或者<code>tmux detach</code></p>
+<ul>
+<li>将当前会话与窗口分离,命令执行后，就会退出当前 Tmux 窗口，但是会话和里面的进程仍然在后台运行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="查看所有会话"><a href="#查看所有会话" class="headerlink" title="查看所有会话"></a>查看所有会话</h3><ul>
+<li><p><code>tmux ls</code></p>
+<ul>
+<li>查看当前所有的 Tmux 会话。</li>
+</ul>
+</li>
+</ul>
+<h3 id="接入会话"><a href="#接入会话" class="headerlink" title="接入会话"></a>接入会话</h3><ul>
+<li><p><code>tmux attach -t &lt;session-name&gt;</code></p>
+<ul>
+<li>用于重新接入某个已存在的会话。</li>
+</ul>
+</li>
+</ul>
+<h3 id="杀死会话"><a href="#杀死会话" class="headerlink" title="杀死会话"></a>杀死会话</h3><ul>
+<li><p><code>tmux kill-session -t &lt;session-name&gt;</code></p>
+<ul>
+<li>用于杀死某个会话</li>
+</ul>
+</li>
+<li><p>直接在tmux窗口中使用<code>exit</code>命令</p>
+</li>
+</ul>
+<h3 id="切换会话"><a href="#切换会话" class="headerlink" title="切换会话"></a>切换会话</h3><ul>
+<li><p><code>tmux switch -t &lt;session-name&gt;</code></p>
+<ul>
+<li>用于切换会话。</li>
+</ul>
+</li>
+</ul>
+<h3 id="重命名会话"><a href="#重命名会话" class="headerlink" title="重命名会话"></a>重命名会话</h3><ul>
+<li><p><code>tmux rename-session</code>-t <old-name> <new name></new></old-name></p>
+<ul>
+<li>命令用于重命名会话</li>
+</ul>
+</li>
+</ul>
+<h3 id="会还快捷键"><a href="#会还快捷键" class="headerlink" title="会还快捷键"></a>会还快捷键</h3><ul>
+<li><code>Ctrl+b d</code>：分离当前会话。</li>
+<li><code>Ctrl+b s</code>：列出所有会话。</li>
+<li><code>Ctrl+b $</code>：重命名当前会话。</li>
+</ul>
+<h2 id="窗格操作-pane"><a href="#窗格操作-pane" class="headerlink" title="窗格操作(pane)"></a>窗格操作(pane)</h2><h3 id="其他操作使用鼠标来操作"><a href="#其他操作使用鼠标来操作" class="headerlink" title="其他操作使用鼠标来操作"></a>其他操作使用鼠标来操作</h3><h3 id="Ctrl-b-：划分左右两个窗格。"><a href="#Ctrl-b-：划分左右两个窗格。" class="headerlink" title="Ctrl+b %：划分左右两个窗格。"></a><code>Ctrl+b %</code>：划分左右两个窗格。</h3><h3 id="Ctrl-b-quot-：划分上下两个窗格。"><a href="#Ctrl-b-quot-：划分上下两个窗格。" class="headerlink" title="Ctrl+b &quot;：划分上下两个窗格。"></a><code>Ctrl+b &quot;</code>：划分上下两个窗格。</h3><h3 id="Ctrl-b-lt-arrow-key-gt-：光标切换到其他窗格"><a href="#Ctrl-b-lt-arrow-key-gt-：光标切换到其他窗格" class="headerlink" title="Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格"></a><code>Ctrl+b &lt;arrow key&gt;</code>：光标切换到其他窗格</h3><h3 id="Ctrl-b-：当前窗格左移。"><a href="#Ctrl-b-：当前窗格左移。" class="headerlink" title="Ctrl+b {：当前窗格左移。"></a>Ctrl+b {：当前窗格左移。</h3><h3 id="Ctrl-b-：当前窗格右移。"><a href="#Ctrl-b-：当前窗格右移。" class="headerlink" title="Ctrl+b }：当前窗格右移。"></a>Ctrl+b }：当前窗格右移。</h3><h3 id="Ctrl-b-Ctrl-o：当前窗格上移。"><a href="#Ctrl-b-Ctrl-o：当前窗格上移。" class="headerlink" title="Ctrl+b Ctrl+o：当前窗格上移。"></a>Ctrl+b Ctrl+o：当前窗格上移。</h3><h3 id="Ctrl-b-Alt-o：当前窗格下移。"><a href="#Ctrl-b-Alt-o：当前窗格下移。" class="headerlink" title="Ctrl+b Alt+o：当前窗格下移。"></a>Ctrl+b Alt+o：当前窗格下移。</h3><h3 id="Ctrl-b-x：关闭当前窗格。"><a href="#Ctrl-b-x：关闭当前窗格。" class="headerlink" title="Ctrl+b x：关闭当前窗格。"></a>Ctrl+b x：关闭当前窗格。</h3><h2 id="窗口操作-window"><a href="#窗口操作-window" class="headerlink" title="窗口操作(window)"></a>窗口操作(window)</h2><h3 id="用的比较少"><a href="#用的比较少" class="headerlink" title="用的比较少"></a>用的比较少</h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/28/Tmux.textbundle/Tmux/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-git使用.textbundle/git使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="origin-origin-master-origin-master"><a href="#origin-origin-master-origin-master" class="headerlink" title="origin,origin master,origin/master"></a>origin,origin master,origin/master</h2><h3 id="origin"><a href="#origin" class="headerlink" title="origin"></a>origin</h3><ul>
+<li><p>远程仓库的别名，我们可以指定为任意名字</p>
+<ul>
+<li><p><code>git remote add yuancheng file:///user/xxx</code></p>
+<ul>
+<li>指定远程仓库别名为<code>yuancheng</code>:</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="origin-master"><a href="#origin-master" class="headerlink" title="origin master"></a>origin master</h3><ul>
+<li>这个是两个词，origin表示远程仓库，而master表示远程仓库的master分支</li>
+</ul>
+<h3 id="origin-master-1"><a href="#origin-master-1" class="headerlink" title="origin/master"></a>origin/master</h3><ul>
+<li><p>本质上是本地分支（但是来源于对远程origin master的分支的拷贝）,该分支会在<code>git pull</code>的时候自动复制远端<code>master</code>分支到<code>origin/master</code>分支,在<code>git push</code>的时候自动把本地最新的<code>master</code>更新到<code>origin/master</code>分支</p>
+<ul>
+<li><p>git pull的详细步骤(在master分支)</p>
+<ul>
+<li><p>图示</p>
+<ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b6a1754f10dd8fe0c55338f238e40481332ec5ba549f488beff54b3b1ce89eaa.png"></li>
+</ul>
+</li>
+<li><p>步骤</p>
+<ol>
+<li>拷远程origin master分支到本地的origin/master分支<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin master</span><br></pre></td></tr></table></figure></li>
+<li>合并本地origin/master分支到master分支<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge origin/master</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="master"><a href="#master" class="headerlink" title="master"></a>master</h3><ul>
+<li>本地的master分支</li>
+</ul>
+<h2 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h2><h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><ul>
+<li>当我们在创建仓库的时候，首先github会给我们推荐一个.gitignore文件，虽然有对应语言的模板，但是只能满足前期需求，后期如果想过滤掉一些别的文件，就需要修改.gitignore文件，但是直接修改是不行的，该文件只对创建其以后的文件进行过滤，后期直接修改是不行的</li>
+</ul>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><ul>
+<li><ol>
+<li>我们可以使用<code>git status --ignored</code>来查看当前我们.gitignore所过滤的所有文件</li>
+</ol>
+</li>
+<li><ol start="2">
+<li><code>git rm -r --cached .</code>  #清除缓存 -r 表示递归删除（如果有文件夹的话） . 表示所有文件</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>修改<code>.gitignore</code>文件</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>再次使用<code>git status --ignored</code>查看所有修改后的<code>.gitignore</code>的过滤效果</li>
+</ol>
+</li>
+<li>5.<code>$ git add .</code>           #重新trace file</li>
+<li><ol start="6">
+<li><code>$ git commit -m &quot;update .gitignore&quot;</code></li>
+</ol>
+</li>
+</ul>
+<h2 id="git解决终端输出中文八进制乱码"><a href="#git解决终端输出中文八进制乱码" class="headerlink" title="git解决终端输出中文八进制乱码"></a>git解决终端输出中文八进制乱码</h2><h3 id="git-config-global-core-quotepath-false"><a href="#git-config-global-core-quotepath-false" class="headerlink" title="git config --global core.quotepath false "></a><code>git config --global core.quotepath false </code></h3><h2 id="如何在本地使用git来备份自己的代码"><a href="#如何在本地使用git来备份自己的代码" class="headerlink" title="如何在本地使用git来备份自己的代码"></a>如何在本地使用<code>git</code>来备份自己的代码</h2><h3 id="1-本地新建项目然后使用git-init来初始化项目-称之为local"><a href="#1-本地新建项目然后使用git-init来初始化项目-称之为local" class="headerlink" title="1. 本地新建项目然后使用git init来初始化项目(称之为local)"></a>1. 本地新建项目然后使用<code>git init</code>来初始化项目(称之为<code>local</code>)</h3><h3 id="2-在local项目使用git-commit来发布新版本"><a href="#2-在local项目使用git-commit来发布新版本" class="headerlink" title="2. 在local项目使用git commit来发布新版本"></a>2. 在<code>local</code>项目使用<code>git commit</code>来发布新版本</h3><h3 id="3-本地新建一个空仓库并git-init来作为远程仓库-称之为remote"><a href="#3-本地新建一个空仓库并git-init来作为远程仓库-称之为remote" class="headerlink" title="3. 本地新建一个空仓库并git init来作为远程仓库(称之为remote)"></a>3. 本地新建一个空仓库并<code>git init</code>来作为远程仓库(称之为<code>remote</code>)</h3><h3 id="4-remote仓库新建一个分支git-checkout-b-dev-必须这么做-否则local和remote由于处于同一个分支而导致local无法推送至remote"><a href="#4-remote仓库新建一个分支git-checkout-b-dev-必须这么做-否则local和remote由于处于同一个分支而导致local无法推送至remote" class="headerlink" title="4. remote仓库新建一个分支git checkout -b dev(必须这么做,否则local和remote由于处于同一个分支而导致local无法推送至remote)"></a>4. <code>remote</code>仓库新建一个分支<code>git checkout -b dev</code>(必须这么做,否则<code>local</code>和<code>remote</code>由于处于同一个分支而导致<code>local</code>无法推送至<code>remote</code>)</h3><h3 id="5-local使用git-remote-add-file-path-to-remote来给local项目添加名为origin的远程仓库"><a href="#5-local使用git-remote-add-file-path-to-remote来给local项目添加名为origin的远程仓库" class="headerlink" title="5. local使用git remote add file://path/to/remote来给local项目添加名为origin的远程仓库"></a>5. <code>local</code>使用<code>git remote add file://path/to/remote</code>来给<code>local</code>项目添加名为<code>origin</code>的远程仓库</h3><h3 id="6-local使用git-push-u-origin-master完成推送"><a href="#6-local使用git-push-u-origin-master完成推送" class="headerlink" title="6. local使用git push -u origin master完成推送"></a>6. <code>local</code>使用<code>git push -u origin master</code>完成推送</h3><h2 id="给本地仓库添加多个远程仓库地址"><a href="#给本地仓库添加多个远程仓库地址" class="headerlink" title="给本地仓库添加多个远程仓库地址"></a>给本地仓库添加多个远程仓库地址</h2><h3 id="git-remote-add-远程仓库别名1-远程仓库地址"><a href="#git-remote-add-远程仓库别名1-远程仓库地址" class="headerlink" title="git remote add 远程仓库别名1 远程仓库地址"></a><code>git remote add 远程仓库别名1 远程仓库地址</code></h3><h3 id="git-remote-add-远程仓库别名1-远程仓库地址-1"><a href="#git-remote-add-远程仓库别名1-远程仓库地址-1" class="headerlink" title="git remote add 远程仓库别名1 远程仓库地址"></a><code>git remote add 远程仓库别名1 远程仓库地址</code></h3><h2 id="给本地仓库删除某个远程仓库"><a href="#给本地仓库删除某个远程仓库" class="headerlink" title="给本地仓库删除某个远程仓库"></a>给本地仓库删除某个远程仓库</h2><h3 id="git-remote-rm-远程仓库别名1"><a href="#git-remote-rm-远程仓库别名1" class="headerlink" title="git remote rm 远程仓库别名1"></a><code>git remote rm 远程仓库别名1</code></h3><h2 id="修改本地长仓库连接的远程仓库链接"><a href="#修改本地长仓库连接的远程仓库链接" class="headerlink" title="修改本地长仓库连接的远程仓库链接"></a>修改本地长仓库连接的远程仓库链接</h2><h3 id="git-remote-set-url-remote-name-new-url"><a href="#git-remote-set-url-remote-name-new-url" class="headerlink" title="git remote set-url remote_name new_url"></a><code>git remote set-url remote_name new_url</code></h3><h2 id><a href="#" class="headerlink" title></a><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b59eaf2c4cd6da22d88e880cba22ed60d216359b04147cc17edb80c9c10786c6.png"></h2><h2 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a><code>git reset</code></h2><h3 id="git-reset-hard-版本c-三个区都同步为版本c"><a href="#git-reset-hard-版本c-三个区都同步为版本c" class="headerlink" title="git reset --hard 版本c:三个区都同步为版本c"></a><code>git reset --hard 版本c</code>:三个区都同步为<code>版本c</code></h3><h3 id="git-reset-soft-版本c-只有本地仓库同步为版本c-其他两个区当前内容保持不变"><a href="#git-reset-soft-版本c-只有本地仓库同步为版本c-其他两个区当前内容保持不变" class="headerlink" title="git reset --soft 版本c:只有本地仓库同步为版本c,其他两个区当前内容保持不变"></a><code>git reset --soft 版本c</code>:只有本地仓库同步为<code>版本c</code>,其他两个区当前内容保持不变</h3><h3 id="git-reset-mixed-版本c-暂存区和本地仓库都同步为版本c-工作区保持当前内容不变-如果本地仓库使用该命令在同步为版本c之前-已经有内容-那么就把该内容放回工作区-然后再同步到版本c"><a href="#git-reset-mixed-版本c-暂存区和本地仓库都同步为版本c-工作区保持当前内容不变-如果本地仓库使用该命令在同步为版本c之前-已经有内容-那么就把该内容放回工作区-然后再同步到版本c" class="headerlink" title="git reset --mixed 版本c:暂存区和本地仓库都同步为版本c,工作区保持当前内容不变.如果本地仓库使用该命令在同步为版本c之前,已经有内容,那么就把该内容放回工作区,然后再同步到版本c"></a><code>git reset --mixed 版本c</code>:<code>暂存区</code>和<code>本地仓库</code>都同步为<code>版本c</code>,工作区保持当前内容不变.如果<code>本地仓库</code>使用该命令在同步为<code>版本c</code>之前,已经有内容,那么就把该内容<code>放回</code>工作区,然后再同步到<code>版本c</code></h3><h2 id="git-checkout-b-dev-origin-dev"><a href="#git-checkout-b-dev-origin-dev" class="headerlink" title="git checkout -b dev origin/dev"></a>git checkout -b dev origin/dev</h2><h3 id="git-checkout-b-dev-commit版本"><a href="#git-checkout-b-dev-commit版本" class="headerlink" title="git checkout -b dev commit版本"></a><code>git checkout -b dev commit</code>版本</h3><ul>
+<li>以该<code>commit</code>版本为基础创建一个<code>branch</code>，当改<code>commit</code>为<code>origin/dev</code>的时候默认将本地的<code>dev</code>绑定到远程的<code>origin/dev</code>上</li>
+</ul>
+<h2 id="git初始化"><a href="#git初始化" class="headerlink" title="git初始化"></a>git初始化</h2><h3 id="git-config-–global-user-name-userName"><a href="#git-config-–global-user-name-userName" class="headerlink" title="git config –global user.name userName"></a>git config –global user.name userName</h3><h3 id="git-config-–global-user-email-userEmail"><a href="#git-config-–global-user-email-userEmail" class="headerlink" title="git config –global user.email userEmail"></a>git config –global user.email userEmail</h3><h2 id="config的作用域"><a href="#config的作用域" class="headerlink" title="config的作用域"></a>config的作用域</h2><h3 id="–local"><a href="#–local" class="headerlink" title="–local"></a>–local</h3><ul>
+<li>对于当前用户的当前仓库生效</li>
+</ul>
+<h3 id="–global（默认）"><a href="#–global（默认）" class="headerlink" title="–global（默认）"></a>–global（默认）</h3><ul>
+<li>对于当前用户的所有仓库生效</li>
+</ul>
+<h3 id="–system"><a href="#–system" class="headerlink" title="–system"></a>–system</h3><ul>
+<li>对于登录该主机的所有用户的所有仓库生效</li>
+</ul>
+<h2 id="显示config配置"><a href="#显示config配置" class="headerlink" title="显示config配置"></a>显示config配置</h2><h3 id="git-config-–list-–local"><a href="#git-config-–list-–local" class="headerlink" title="git config –list –local"></a>git config –list –local</h3><h3 id="git-config-–list-–global"><a href="#git-config-–list-–global" class="headerlink" title="git config –list –global"></a>git config –list –global</h3><h3 id="git-config-–list-–system"><a href="#git-config-–list-–system" class="headerlink" title="git config –list –system"></a>git config –list –system</h3><h3 id="git-config-–list"><a href="#git-config-–list" class="headerlink" title="git config –list"></a>git config –list</h3><ul>
+<li>显示上述三种情况的所有配置</li>
+</ul>
+<h2 id="git重命名文件"><a href="#git重命名文件" class="headerlink" title="git重命名文件"></a>git重命名文件</h2><h3 id="第一种方法"><a href="#第一种方法" class="headerlink" title="第一种方法"></a>第一种方法</h3><ul>
+<li><ol>
+<li><code>git mv old.txt new.txt</code></li>
+</ol>
+</li>
+<li><ol start="2">
+<li><code>git commit -m &quot;commit&quot;</code></li>
+</ol>
+</li>
+</ul>
+<h3 id="第二种方法"><a href="#第二种方法" class="headerlink" title="第二种方法"></a>第二种方法</h3><ul>
+<li><ol>
+<li><code>mv old.txt new txt</code></li>
+</ol>
+</li>
+<li><ol start="2">
+<li><code>git add .</code></li>
+</ol>
+</li>
+<li><ol start="3">
+<li><code>git commit -m &quot;coomit&quot;</code></li>
+</ol>
+</li>
+</ul>
+<h2 id="git删除文件"><a href="#git删除文件" class="headerlink" title="git删除文件"></a>git删除文件</h2><h3 id="git的方法"><a href="#git的方法" class="headerlink" title="git的方法"></a>git的方法</h3><ul>
+<li>git rm 文件</li>
+</ul>
+<h2 id="git命令补充"><a href="#git命令补充" class="headerlink" title="git命令补充"></a><code>git</code>命令补充</h2><h3 id="git-log-pretty-all"><a href="#git-log-pretty-all" class="headerlink" title="git log --pretty --all"></a><code>git log --pretty --all</code></h3><h3 id="git-branch-d-dev-删除dev分支-前提是dev分支已经被当前分支合并"><a href="#git-branch-d-dev-删除dev分支-前提是dev分支已经被当前分支合并" class="headerlink" title="git branch -d dev:删除dev分支,前提是dev分支已经被当前分支合并"></a><code>git branch -d dev</code>:删除<code>dev</code>分支,前提是<code>dev</code>分支已经被当前分支合并</h3><h3 id="git-branch-d-dev-强制删除dev分支-不管是否合并分支"><a href="#git-branch-d-dev-强制删除dev分支-不管是否合并分支" class="headerlink" title="git branch -d dev:强制删除dev分支,不管是否合并分支"></a><code>git branch -d dev</code>:强制删除<code>dev</code>分支,不管是否合并分支</h3><h3 id="git-checkout-b-dev-在git的新版本中-提供了git-switch-c-dev来取代这个令人困惑的命令"><a href="#git-checkout-b-dev-在git的新版本中-提供了git-switch-c-dev来取代这个令人困惑的命令" class="headerlink" title="git checkout -b dev:在git的新版本中,提供了git switch -c dev来取代这个令人困惑的命令"></a><code>git checkout -b dev</code>:在<code>git</code>的新版本中,提供了<code>git switch -c dev</code>来取代这个令人困惑的命令</h3><h3 id="git-commit-am-quot-commit-quot-直接可以add之后加上commit命令"><a href="#git-commit-am-quot-commit-quot-直接可以add之后加上commit命令" class="headerlink" title="git commit -am &quot;commit&quot;:直接可以add之后加上commit命令"></a><code>git commit -am &quot;commit&quot;</code>:直接可以<code>add</code>之后加上<code>commit</code>命令</h3><h3 id="git-diff用法"><a href="#git-diff用法" class="headerlink" title="git diff用法"></a><code>git diff</code>用法</h3><ul>
+<li><ol>
+<li><p><code>git diff</code></p>
+<ul>
+<li>当工作区有改动,暂存区为空的时候,<code>diff</code>比较的是<code>工作区</code>和本地的<code>origin/master</code>分支</li>
+<li>当工作区有改动,暂存区不为空,<code>diff</code>比较的是<code>工作区</code>和<code>暂存区</code>的比较</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><ol start="2">
+<li><p><code>git diff --cached</code>或者<code>git diff --staged</code></p>
+<ul>
+<li>这两个命令作用是一样的,作用是比较<code>暂存区</code>和本地的<code>origin/master</code>分支</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><ol start="3">
+<li><p><code>git diff HEAD</code></p>
+<ul>
+<li>这个命令是比较当前<code>工作区</code>跟<code>origin/master</code>,(此时<code>暂存区</code>是否为空不重要,因为比较的内容是<code>工作区</code>和<code>HEAD</code>)</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><ol start="4">
+<li><p><code>git diff commit1 commit2</code></p>
+<ul>
+<li>比较<code>commit1</code>和<code>commit2</code>的差异</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="git文件"><a href="#git文件" class="headerlink" title=".git文件"></a>.git文件</h2><h3 id="HEAD文件"><a href="#HEAD文件" class="headerlink" title="HEAD文件"></a>HEAD文件</h3><ul>
+<li><p>保存当前指针指向哪个分支</p>
+<ul>
+<li>cat HEAD<br>ref: refs/heads/dev</li>
+</ul>
+</li>
+</ul>
+<h3 id="config文件"><a href="#config文件" class="headerlink" title="config文件"></a>config文件</h3><ul>
+<li><p>保存三个域的配置信息</p>
+<ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b64dcb9af5d0a10df841920773b5d98cc8e482a02ae5b6d8689fb193e7518fe4.png"></li>
+</ul>
+</li>
+</ul>
+<h2 id="git的commit，tree，blob"><a href="#git的commit，tree，blob" class="headerlink" title="git的commit，tree，blob"></a>git的commit，tree，blob</h2><h3 id="commit"><a href="#commit" class="headerlink" title="commit"></a><code>commit</code></h3><ul>
+<li><p>一次提交相当于对当前仓库的一次快照</p>
+<ul>
+<li>但是如果提交版本越来越多，那git的文件夹岂不是很大？</li>
+</ul>
+</li>
+</ul>
+<h3 id="tree"><a href="#tree" class="headerlink" title="tree"></a><code>tree</code></h3><ul>
+<li><code>tree</code>是某一个<code>commit</code>仓库快照下的的一个目录(且仅有一个目录)，那么<code>tree</code>里就可能包含文件（<code>blob</code>和<code>tree</code>,就像文件和子目录）</li>
+</ul>
+<h3 id="blob"><a href="#blob" class="headerlink" title="blob"></a><code>blob</code></h3><ul>
+<li>一个文件是一个<code>blob</code>，如果文件内容完全一致，那么就会只保存一个相等的<code>blob</code></li>
+</ul>
+<h3 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h3><ul>
+<li><p>注意<code>commit</code>的结构:一个<code>commit</code>只对应一个<code>tree</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/1dae763260a3a22860a11722532d87c5312c677f89ebf2f37d31e770f79037aa.png"></p>
+</li>
+<li><p>从图中可以得知，git中无论是commit还是tree还是blob都有哈希函数值一一对应，所以直接给你一个哈希值，你并不知道到底是是什么文件</p>
+<ul>
+<li><p>git cat-file -t 哈希值</p>
+<ul>
+<li>可以查看对应哈希值的文件类型（commit，tree，blob）</li>
+</ul>
+</li>
+<li><p>git cat-file -p 哈希值</p>
+<ul>
+<li>可以查看对应哈希值的文件的具体内容（commit，tree，blob）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/29329c5d6160271391e5d62be91128a16dd6da0e4b54ae3857e7ef0118329b01.png"></li>
+</ul>
+<h2 id="分离头指针"><a href="#分离头指针" class="headerlink" title="分离头指针"></a>分离头指针</h2><h3 id="HEAD-头指针"><a href="#HEAD-头指针" class="headerlink" title="HEAD 头指针"></a>HEAD 头指针</h3><ul>
+<li>指向你正在其基础上进行工作的版本,就是你当前位于的版本号。(可以是 master 分支,也可以是某个版本号)</li>
+</ul>
+<h3 id="分离头指针-1"><a href="#分离头指针-1" class="headerlink" title="分离头指针"></a>分离头指针</h3><ul>
+<li><p>分离的HEAD就是让其指向了某个具体的提交记录而不是某个分支名。</p>
+</li>
+<li><p>举例</p>
+<ul>
+<li><p>未分离头指针</p>
+<ul>
+<li><p><code>HEAD -&gt; master -&gt; C1</code>,HEAD 指向 master， master 指向 C1<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b2dc98183c8a40737afce652d99cda874e9ce5db9841bb7ed47fffe762bf83c5.png"></p>
+<ul>
+<li>HEAD指针默认指向了 master,此时 master 上有一个*</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>分离头指针(执行<code>git checkout c1</code>或者<code>git switch c1</code>)</p>
+<ul>
+<li><p><code>HEAD -&gt; C1,master -&gt; C1</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/d8422848cbe29d1ba3a07da1e0621d0cd46e7c27f3c2cb68fcc420ce27238ed0.png"></p>
+<ul>
+<li>HEAD 直接指向了 c1,此时 master 上的*不见了</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="我们平时使用git-checkout-branchName来切换分支，这个是正常的"><a href="#我们平时使用git-checkout-branchName来切换分支，这个是正常的" class="headerlink" title="我们平时使用git checkout branchName来切换分支，这个是正常的"></a>我们平时使用<code>git checkout branchName</code>来切换分支，这个是正常的</h3><h3 id="图示分离头指针"><a href="#图示分离头指针" class="headerlink" title="图示分离头指针"></a>图示分离头指针</h3><ul>
+<li><ol>
+<li>一开始,<code>HEAD</code>—&gt;<code>master</code>—&gt;<code>C1</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b2dc98183c8a40737afce652d99cda874e9ce5db9841bb7ed47fffe762bf83c5.png"></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>执行<code>git checkout C1</code></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>现在变成了<code>HEAD</code>—&gt;<code>C1</code>,这就是分离头指针<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/0bcdff46042b1bb7031449ffa46b1ff161d9582eda8289ce8844e54a63619c87.png"></li>
+</ol>
+</li>
+<li><code>branch</code>本质上就是指向一个特殊的<code>commit</code>,我们可以使用<code>git branch -f master C0</code>或者<code>git branch -f master HEAD^</code>来把<code>master</code>强制指向某个<code>commit</code></li>
+</ul>
+<h3 id="git-branch-f-master-c0-直接强制移动master分支的指针指向-c0"><a href="#git-branch-f-master-c0-直接强制移动master分支的指针指向-c0" class="headerlink" title="git branch -f master c0:直接强制移动master分支的指针指向 c0"></a><code>git branch -f master c0</code>:直接强制移动master分支的指针指向 c0</h3><ul>
+<li><p>案例</p>
+<ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/f2d1d6c8b6fb179924d8ae4ef55f9f72811e830192d1b7853d0b9b5d9e549526.png"></li>
+<li>执行<code>git branch -f master c0</code></li>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/fd9c259590d30ed72e34b8e143c080d64cc5cd20dd61c8b19f77c2b85086a091.png"></li>
+<li>执行<code>git branch -f dev c4</code></li>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/4bcef6fc5f54112faf9022b7487a9ae0773146764efb1de2170177fcb762973f.png"></li>
+</ul>
+</li>
+<li><p>总结:说白了这些分支本质也就是一个类似与头指针的指针而已,可以自由的指向,但是这样的做法显然不是很常见</p>
+</li>
+</ul>
+<h3 id="但是如果我们使用git-checkout-某个commit，那么就会触发分离头指针HEAD（所谓的头指针就是指向我们当前所在的分支的某个commit，但是我们git-checkout-某个commit，相当于我们HEAD指向了一个commit，但是这个commit并没有指向任何branch-branch本质上就是一个特殊的commit-，就称之为头指针分离。）"><a href="#但是如果我们使用git-checkout-某个commit，那么就会触发分离头指针HEAD（所谓的头指针就是指向我们当前所在的分支的某个commit，但是我们git-checkout-某个commit，相当于我们HEAD指向了一个commit，但是这个commit并没有指向任何branch-branch本质上就是一个特殊的commit-，就称之为头指针分离。）" class="headerlink" title="但是如果我们使用git checkout 某个commit，那么就会触发分离头指针HEAD（所谓的头指针就是指向我们当前所在的分支的某个commit，但是我们git checkout 某个commit，相当于我们HEAD指向了一个commit，但是这个commit并没有指向任何branch(branch本质上就是一个特殊的commit)，就称之为头指针分离。）"></a>但是如果我们使用<code>git checkout 某个commit</code>，那么就会触发分离头指针<code>HEAD</code>（所谓的头指针就是指向我们当前所在的分支的某个<code>commit</code>，但是我们<code>git checkout 某个commit</code>，相当于我们<code>HEAD</code>指向了一个<code>commit</code>，但是这个<code>commit</code>并没有指向任何<code>branch</code>(<font color="red">branch本质上就是一个特殊的commit</font>)，就称之为头指针分离。）</h3><ul>
+<li><p>我们可以在这个commit上做实验性的修改，如果觉得不好，就可以抛弃（直接切回原来的分支，修改的内容自动抛弃），如果觉得好，就可以保留（具体怎么做，git会提醒）</p>
+<ul>
+<li><p>分离头指针后的分支</p>
+<ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b237db78114e101679b4be8488ab61f1464cdd1a79ca169f821540e44fce229a.png"></li>
+</ul>
+</li>
+<li><p>分离头指针之后放弃修改，直接切回原来的分支</p>
+<ul>
+<li><p><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/bfd5f61ff328f1346f573d98643d45e8914664b674fb7703d38d465499904462.png"></p>
+<ul>
+<li>只有一个分支了，做修改的那个分支自动抛弃<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/a280e376dbdd0ac8b69ebb6470c7c068802e6b127e32282463175f447b49fd17.png"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ul>
+<li>正常的头指针,<code>HEAD</code>—&gt;<code>dev</code>—&gt;<code>228732...</code>（<code>HEAD</code>绑定了<code>dev</code>分支）<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/bd11611d3a01499cb99166c92feaef8ad829fe0d2ab3fc17f667ae7ee26e7030.png"></li>
+<li>分离后的头指针,<code>HEAD</code>—&gt;<code>2d649b</code>（<code>HEAD</code>只是指向某个<code>commit</code>,没有绑定任何分支）<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/85b941d7557b2172b91a83be4f1c4c6af908564ca4075fece5c23398dcb96c2e.png"></li>
+</ul>
+<h2 id="git-merge-dev和git-rebase-dev"><a href="#git-merge-dev和git-rebase-dev" class="headerlink" title="git merge dev和git rebase dev"></a><code>git merge dev</code>和<code>git rebase dev</code></h2><h3 id="merge和rebase都是做分支合并-本质就是做不同commit版本的合并-因为分支本身就是一个特殊的commit的链表-所以二者都是用来合并分支的"><a href="#merge和rebase都是做分支合并-本质就是做不同commit版本的合并-因为分支本身就是一个特殊的commit的链表-所以二者都是用来合并分支的" class="headerlink" title="merge和rebase都是做分支合并(本质就是做不同commit版本的合并,因为分支本身就是一个特殊的commit的链表),所以二者都是用来合并分支的"></a><code>merge</code>和<code>rebase</code>都是做分支合并(本质就是做不同<code>commit</code>版本的合并,因为分支本身就是一个特殊的<code>commit</code>的链表),所以二者都是用来合并分支的</h3><h3 id="git-merge-master命令用于将指定分支dev的commit-从dev和master分支出现分离开始到最后一个commit的所有commit-合并到当前分支dev-并用一个commit来存储合并分支后的结果"><a href="#git-merge-master命令用于将指定分支dev的commit-从dev和master分支出现分离开始到最后一个commit的所有commit-合并到当前分支dev-并用一个commit来存储合并分支后的结果" class="headerlink" title="git merge master命令用于将指定分支dev的commit(从dev和master分支出现分离开始到最后一个commit的所有commit)合并到当前分支dev,并用一个commit来存储合并分支后的结果"></a><code>git merge master</code>命令用于将指定分支<code>dev</code>的<code>commit</code>(从<code>dev</code>和<code>master</code>分支出现分离开始到最后一个<code>commit</code>的所有<code>commit</code>)合并到当前分支<code>dev</code>,并用一个<code>commit</code>来存储合并分支后的结果</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/30692b7285aad08cd2ec065b49784c53e2951a43f66508acfda56665b370727a.png"></li>
+</ul>
+<h3 id="git-rebase-master命令用于指定当前分支dev的commit-从dev和master分支出现分离开始到最后一个commit的所有commit-复制到master分支的最新的commit之后"><a href="#git-rebase-master命令用于指定当前分支dev的commit-从dev和master分支出现分离开始到最后一个commit的所有commit-复制到master分支的最新的commit之后" class="headerlink" title="git rebase master命令用于指定当前分支dev的commit(从dev和master分支出现分离开始到最后一个commit的所有commit)复制到master分支的最新的commit之后"></a><code>git rebase master</code>命令用于指定当前分支<code>dev</code>的<code>commit</code>(从<code>dev</code>和<code>master</code>分支出现分离开始到最后一个<code>commit</code>的所有<code>commit</code>)复制到<code>master</code>分支的最新的<code>commit</code>之后</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/21954f0de71a078db74349e8522e6ad0fa6997cafa1bb84aa82ae5c2af890fba.png"></li>
+</ul>
+<h3 id="-1"><a href="#-1" class="headerlink" title></a><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/44901de711ee9dcad07ee5bfd99143c8221f0d591bf8c4c1dc238742f4fa42c1.png"></h3><h3 id="想改变哪个分支-就在那个分支上执行merge-而rebase的命令和merge刚好相反-merge-A-是合并-A并新建一个合并的分支-B-rebase-A-是把自己放到-A-后面"><a href="#想改变哪个分支-就在那个分支上执行merge-而rebase的命令和merge刚好相反-merge-A-是合并-A并新建一个合并的分支-B-rebase-A-是把自己放到-A-后面" class="headerlink" title="想改变哪个分支,就在那个分支上执行merge,而rebase的命令和merge刚好相反(merge A 是合并 A并新建一个合并的分支 B,rebase A 是把自己放到 A 后面)"></a>想改变哪个分支,就在那个分支上执行<code>merge</code>,而<code>rebase</code>的命令和<code>merge</code>刚好相反(merge A 是合并 A并新建一个合并的分支 B,rebase A 是把自己放到 A 后面)</h3><ul>
+<li><p>merge 示例</p>
+<ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/521b9538f060668ac982fb39ffcb916e7b1a38faf70ab10fd8993b6699773ddd.png"></li>
+<li>在master 分支上执行<code>git merge bugFix</code></li>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/f925eb7bc71634ddc6e9c076aec5161cc42e8bbe2037de13bfe9ce5dfce4b078.png"></li>
+</ul>
+</li>
+<li><p>rebase 示例</p>
+<ul>
+<li><p>示例1</p>
+<ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/793d233baa8905bd12bbec0bc862b1aa89e6782be89c4444aac2b29576b8342d.png"></li>
+<li>在<code>bugFix</code>分支执行<code>git rebase master</code></li>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/8f6beefb0d682885b503a0570450aaf4c010ab0379ccdbda33c886a643689a5c.png"></li>
+</ul>
+</li>
+<li><p>示例2</p>
+<ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/5d46f420fdf1ccef721b41e61c2536c81024e8f822495ead50216fb4d25450e5.png"></li>
+<li>在<code>master</code>分支上执行<code>git rebase bugFix</code></li>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/3563f83fbd9d45e31bcd579fd6990707cd03c3790fd7816953e2c627c3213c6c.png"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意:"></a>注意:</h3><ul>
+<li><p>merge</p>
+<ul>
+<li><p>如果我们此时想在 dev 分支上,运行<code>git merge master</code>,会发生什么??<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/baa230d5fbea4427b2e5d9d0267359165ff6cf15163665d9da9bf6f48a19b7a4.png"></p>
+<ul>
+<li>并没有出现想像中的:c2和c4重新合并成为一个新的 c5结点,然后 dev 指向 c5,这是因为 c4已经包含了 c2了,没法在进行合并成为一个新结点了<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/aeb8b618e1822be3e8be1df8b0d8b67324c0c1f70b10af0bf4f6b3f9e33d4ef4.png"></li>
+<li>因为当前分支是 dev,dev 要 merge 分支 master,但是分支 master 已经是合并后的分支了,而我们只能控制 dev 分支,所以直接把当前分支分支 dev 指向 c4,完成合并</li>
+</ul>
+</li>
+<li><p>如果我们此时想在 master分支上,运行<code>git merge dev</code>,会发生什么??<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/003843710a4a6d1eb8f5d81b0663dfee8fe19a806bf12ca7e6de704da106e41c.png"></p>
+<ul>
+<li>没有发生任何变化,因为<code>git merge dev</code>命令在c2和c3合并成 c4的时候就执行一遍了,再执行一遍没有任何意义<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/003843710a4a6d1eb8f5d81b0663dfee8fe19a806bf12ca7e6de704da106e41c.png"></li>
+<li>因为当前分支是 master,master 要 merge 分支 dev,但是分支 master 已经是合并后的分支了,而我们只能控制 master 分支,由于 master 已经是合并后的结果了,和 dev 重新合并生成 c5是不肯能的(因为没法再合并了),所以保持不变</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>rebase</p>
+<ul>
+<li><p>在 dev 分支上运行<code>git rebase master</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/2bb0b72b3075464be9e742044c40507615a726ba8a05b83e9f76f4292a131ba1.png"></p>
+<ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/91c299b86ae1c0e90012a77d6f9aafdff9c0e316cbf11b266a53a50fe2070004.png"></li>
+<li>因为当前分支是 dev 分支,dev 想要 rebase 到分支 master 的下面,但是分支 master 已经是合并后的分支了,而我们只能控制 dev 分支,所以直接把当前分支 dev 指向c4,完成合并</li>
+</ul>
+</li>
+<li><p>在 master 分支上运行<code>git rebase dev</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/8191b9b86f52d00893271100cf97de4dbdc9b45d8da8223458fe68cc451755de.png"></p>
+<ul>
+<li>没有任何变化<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/0cd745304fac5cb9f23173f092b64b911bbf368dd56823b5bbe33174e18e9327.png"></li>
+<li>因为当前分支是 master 分支,master 想要 rebase 到分支 dev 的下面,但是分支 master 已经是合并后的分支了,由于 master 已经是合并后的结果了,和 dev 重新合并生成 c5是不肯能的(因为没法再合并了),所以保持不变</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>总结:</p>
+<ul>
+<li>想让dev 指针移动到 master,那就需要把 HEAD指针移动到 dev 分支上(即为 dev 设置为当前指针),然后使用<code>git merge master</code>或者<code>git rebase master</code>就行</li>
+</ul>
+</li>
+</ul>
+<h2 id="cherry-pick-onenote中有这个详细的笔记"><a href="#cherry-pick-onenote中有这个详细的笔记" class="headerlink" title="cherry-pick:onenote中有这个详细的笔记"></a><code>cherry-pick</code>:onenote中有这个详细的笔记</h2><h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><ul>
+<li><code>git cherry-pick 版本号 ...</code></li>
+</ul>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ul>
+<li>将一些提交复制到当前所在的位置(HEAD)下面的话,</li>
+</ul>
+<h3 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h3><ul>
+<li><p>比如,当前 HEAD-&gt;master-&gt;c3,然后使用<code>git cherry-pick c0/c1/c2</code>,都是不行的,因为 c0/1/2都已经位于 c3了<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/dc20d493a48533c6643a0f1fa4ebed1376bef65aded8c87a13f69f009b1003e4.png"></p>
+</li>
+<li><p>执行<code>git branch -f master cl</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/dc20d493a48533c6643a0f1fa4ebed1376bef65aded8c87a13f69f009b1003e4.png"></p>
+<ul>
+<li><p>那么此时执行<code>git cherry-pick c3</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/f373ee07d740650656ce9cb0457e40aea227057d48092bf65177ef58bf85eeba.png"></p>
+<ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/4390c6eca1dc433e4193111aa1ee300e2ec1d0eb489c72afefaeede1f35f71f0.png"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/4341b2588339256357823aed803692e37931869ba905f8ca34017351be6a378b.png"></li>
+<li>在<code>master</code>分支执行<code>git cherry-pick C2 C4</code></li>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/7aa7be3d81d2ac4945683b7daa45c3d6c545305bd4fd89f56c38191b67c75d00.png"></li>
+</ul>
+<h2 id="git-tag"><a href="#git-tag" class="headerlink" title="git tag"></a><code>git tag</code></h2><h3 id="执行git-tag-v1-c1-如果不指定c1-那么默认是-HEAD-指针指向的结点"><a href="#执行git-tag-v1-c1-如果不指定c1-那么默认是-HEAD-指针指向的结点" class="headerlink" title="执行git tag v1 c1,如果不指定c1,那么默认是 HEAD 指针指向的结点"></a>执行<code>git tag v1 c1</code>,如果不指定c1,那么默认是 HEAD 指针指向的结点<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/4de0050f38169dfe0847324398377f74265c9e30ff765ad5b473bcd1656fe1e7.png"></h3><h2 id="如何修改最近的一次提交的commit"><a href="#如何修改最近的一次提交的commit" class="headerlink" title="如何修改最近的一次提交的commit"></a>如何修改最近的一次提交的commit</h2><h3 id="1-git-commit-–amend"><a href="#1-git-commit-–amend" class="headerlink" title="1. git commit –amend"></a>1. git commit –amend</h3><h3 id="2-进入vim进行编辑commit"><a href="#2-进入vim进行编辑commit" class="headerlink" title="2. 进入vim进行编辑commit"></a>2. 进入vim进行编辑commit</h3><h2 id="如何修改之前任意一次提交的commit"><a href="#如何修改之前任意一次提交的commit" class="headerlink" title="如何修改之前任意一次提交的commit"></a>如何修改之前任意一次提交的commit</h2><h3 id="1-git-rebase-i-commit版本号"><a href="#1-git-rebase-i-commit版本号" class="headerlink" title="1. git rebase -i commit版本号"></a>1. git rebase -i commit版本号</h3><ul>
+<li>该版本号必须是要修改的commit的上一个commit<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/ae521308a517565b4a45c50596af0e8b4bd2b4c1a767eba43c855966b78e5631.png"></li>
+</ul>
+<h3 id="2-进入vim根据提示选择想要编辑的commit进行编辑"><a href="#2-进入vim根据提示选择想要编辑的commit进行编辑" class="headerlink" title="2. 进入vim根据提示选择想要编辑的commit进行编辑"></a>2. 进入vim根据提示选择想要编辑的commit进行编辑</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/7c46109d39b7aa9f4630a14d5013cfe38b62bfb1c0cb667c774fc32bea973e21.png"></li>
+</ul>
+<h3 id="3-选择想要编辑的commit后直接自动跳转到vim中进行编辑"><a href="#3-选择想要编辑的commit后直接自动跳转到vim中进行编辑" class="headerlink" title="3. 选择想要编辑的commit后直接自动跳转到vim中进行编辑"></a>3. 选择想要编辑的commit后直接自动跳转到vim中进行编辑</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/1ef5c6474acd3a7e3423be7d733fcfcce4069fb9590c4ad0f6ae891f91f19306.png"></li>
+</ul>
+<h3 id="4-修改完成"><a href="#4-修改完成" class="headerlink" title="4. 修改完成"></a>4. 修改完成</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/c981e113f4b0b453c7cd835aa7968c1cb3442a19aa04c5ae196ebfdcc6a6f4e4.png"></li>
+</ul>
+<h2 id="把任意的连续几个commit合并成一个commit提交"><a href="#把任意的连续几个commit合并成一个commit提交" class="headerlink" title="把任意的连续几个commit合并成一个commit提交"></a>把任意的连续几个commit合并成一个commit提交</h2><h3 id="1-git-rebase-i-606175ce16"><a href="#1-git-rebase-i-606175ce16" class="headerlink" title="1. git rebase -i 606175ce16"></a>1. git rebase -i 606175ce16</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/86863c2f7f31a3a9e5ce096f89b2ac0dc88a59a291904e183382a40d9ab3dea7.png"></li>
+</ul>
+<h3 id="2-在vim来根据提示使用命令来合并commit"><a href="#2-在vim来根据提示使用命令来合并commit" class="headerlink" title="2. 在vim来根据提示使用命令来合并commit"></a>2. 在vim来根据提示使用命令来合并commit</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/73e7870bfa26ff27bc74fd5897757d3a1eee0391273c8014aa95d8d6030feba7.png"></li>
+</ul>
+<h3 id="3-在vim中为合并的三个commit写一个commit"><a href="#3-在vim中为合并的三个commit写一个commit" class="headerlink" title="3. 在vim中为合并的三个commit写一个commit"></a>3. 在vim中为合并的三个commit写一个commit</h3><ul>
+<li><p><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/21da34656667191825031d034d88e88780b07b7db698ab41e1802fb425cccb06.png"></p>
+</li>
+<li><p>这个合并的commit也可以不写， 如果不写，就是</p>
+<ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/d0e91be89079c87ee952d37654195e7d11da3fed42f6dfb56e7850f3386bb561.png"></li>
+</ul>
+</li>
+</ul>
+<h3 id="4-完成"><a href="#4-完成" class="headerlink" title="4. 完成"></a>4. 完成</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/b87ed271c729d4a4e0db0b56c78812b8b94227e24f91f2573fadff48f3955445.png"></li>
+</ul>
+<h2 id="把任意的不连续几个commit合并成一个commit提交"><a href="#把任意的不连续几个commit合并成一个commit提交" class="headerlink" title="把任意的不连续几个commit合并成一个commit提交"></a>把任意的不连续几个commit合并成一个commit提交</h2><h3 id="1-git-rebase-i-606175c"><a href="#1-git-rebase-i-606175c" class="headerlink" title="1. git rebase -i 606175c"></a>1. git rebase -i 606175c</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/c69c4362d45dd3f8e4bed44a9a510762ffd007b675b4cb4899d743883ab7c0ee.png"></li>
+</ul>
+<h3 id="2-一开始只有这个页面，发现git没有为我们提供最初始的commit，我们需要手动增加最初始的commit上去"><a href="#2-一开始只有这个页面，发现git没有为我们提供最初始的commit，我们需要手动增加最初始的commit上去" class="headerlink" title="2. 一开始只有这个页面，发现git没有为我们提供最初始的commit，我们需要手动增加最初始的commit上去"></a>2. 一开始只有这个页面，发现git没有为我们提供最初始的commit，我们需要手动增加最初始的commit上去</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/51fcf8e03608e1cbea8cc34a4b13e36ae3767659a9303ea7d3aa3f44de411266.png"></li>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/cd48e33fd9aa7d86026a7518e536a23216cef473044f1e9342e4b4e564faa945.png"></li>
+</ul>
+<h3 id="3-跳转到vim中根据提示操作"><a href="#3-跳转到vim中根据提示操作" class="headerlink" title="3. 跳转到vim中根据提示操作"></a>3. 跳转到vim中根据提示操作</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/4f915d7e043442f65480285e7bfc3a080fb43deb246a2f362c37b0466d0e95ec.png"></li>
+</ul>
+<h3 id="4-保存后使用git-rebase-–continue"><a href="#4-保存后使用git-rebase-–continue" class="headerlink" title="4. 保存后使用git rebase –continue"></a>4. 保存后使用git rebase –continue</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/1a6aa1ae4dc5d815c73d2883d4ca3e55ec8db58450b412fe09727db3684de893.png"></li>
+</ul>
+<h3 id="5-完成"><a href="#5-完成" class="headerlink" title="5. 完成"></a>5. 完成</h3><ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/31c407e4e43d0b708944bdaaece796dfca85fd716eab79747de04f3c3ff4613f.png"></li>
+</ul>
+<h2 id="比较暂存区和HEAD的差异"><a href="#比较暂存区和HEAD的差异" class="headerlink" title="比较暂存区和HEAD的差异"></a>比较暂存区和HEAD的差异</h2><h3 id="git-diff-–cached"><a href="#git-diff-–cached" class="headerlink" title="git diff –cached"></a>git diff –cached</h3><h2 id="git远程仓库操作"><a href="#git远程仓库操作" class="headerlink" title="git远程仓库操作"></a>git远程仓库操作</h2><h3 id="远程分支origin-master分支-但是本分支实际是存在本地仓库中的"><a href="#远程分支origin-master分支-但是本分支实际是存在本地仓库中的" class="headerlink" title="远程分支origin/master分支(但是本分支实际是存在本地仓库中的)"></a>远程分支<code>origin/master</code>分支(但是本分支实际是存在本地仓库中的)</h3><ul>
+<li><p>作用</p>
+<ul>
+<li>远程分支反映了远程仓库(在你上次和它通信时)的状态</li>
+</ul>
+</li>
+<li><p>特点</p>
+<ul>
+<li><p>当我们想要切换到<code>origin/master</code>分支的时候,执行<code>git switch origin/master</code>时,git 会自动进入指针分离模式,而不是转而进入<code>origin/master</code>分支,git 这么做的目的是:出于不能直接在这些分支进行操作的原因,你必须在别的地方完成你的工作,(更新了远程分支之后)再用远程分享你的工作成果</p>
+<ul>
+<li>执行<code>git switch origin/master</code>,发现分离了头指针,然后在头指针执行<code>git commit</code>,发现<code>origin/master</code>不会发生变化,该分支只在 push/pull 的时候才会发生变化<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/2574c86451c7951bc39aec6b7c67cc606cacd2f549c80898182d8359e0c25e0e.png"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a><code>git fetch</code></h3><ul>
+<li><p>案例</p>
+<ul>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/7fac5dcf6333e8e3157e9ddf4966635bccf02e5e599649c6fd99dab3456d88e9.png"></li>
+<li>执行<code>git fetch</code></li>
+<li><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/f6ecd2110ed28f03c6100e0ef86b134785cdbce3e1f5a10c66c1904e13f2aa77.png"></li>
+</ul>
+</li>
+<li><p>作用</p>
+<ul>
+<li>从远程仓库下载本地仓库中缺失的提交记录</li>
+<li>更新”远程分支”(位于本地仓库的远程分支)指针(如 origin/master)</li>
+</ul>
+</li>
+<li><p>总结</p>
+<ul>
+<li>可以把<code>git fetch</code>单纯的理解为是一个下载工具</li>
+</ul>
+</li>
+</ul>
+<h3 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a><code>git pull</code></h3><ul>
+<li><p>引入</p>
+<ul>
+<li>我们已经知道了使用<code>git fetch</code>可以把远程仓库的代码下载到本地,但是还需要我们手动进行<code>merge</code>,<code>rebase</code>,<code>cherry-pick</code>才能更新本地 master 分支为本地仓库的origin/master版本,过于麻烦,所以 git 默认为我们提供了<code>git pull</code>这种方式</li>
+</ul>
+</li>
+<li><p>实际上<code>git pull</code>= <code>git fetch</code>+<code>git merge origin/master</code></p>
+</li>
+<li><p>实际上<code>git pull --rebase</code>= <code>git fetch</code>+<code>git rebase origin/master</code></p>
+</li>
+</ul>
+<h3 id="git-push"><a href="#git-push" class="headerlink" title="git push"></a><code>git push</code></h3><ul>
+<li><p>作用</p>
+<ul>
+<li>负责将你的变更上传到指定的远程仓库，并在远程仓库上合并你的新提交记录。一旦 git push 完成, 你的朋友们就可以从这个远程仓库下载你分享的成果了！</li>
+</ul>
+</li>
+<li><p>细节</p>
+<ul>
+<li>远程仓库中的 master 分支也被更新到我们<code>git push</code>的版本了，我们的远程分支 (origin/master) 也同样被更新了</li>
+</ul>
+</li>
+<li><p>问题:远程库提交历史的偏离</p>
+<ul>
+<li><p>概念</p>
+<ul>
+<li>假设你周一克隆了一个仓库，然后开始研发某个新功能。到周五时，你新功能开发测试完毕，可以发布了。但是 —— 天啊！你的同事这周写了一堆代码，还改了许多你的功能中使用的 API，这些变动会导致你新开发的功能变得不可用。但是他们已经将那些提交推送到远程仓库了，因此你的工作就变成了基于项目旧版的代码，与远程仓库最新的代码不匹配了。</li>
+<li>因为这情况(历史偏离)有许多的不确定性,Git是不会允许你push变更的。实际上它会强制你先合并远程最新的代码,然后才能分享你的工作。</li>
+</ul>
+</li>
+<li><p>解决</p>
+<ul>
+<li>我们通过先拉下来远程代码,然后手动合并(rebase/merge),然后再 push</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="远程服务器拒绝-Remote-Rejected"><a href="#远程服务器拒绝-Remote-Rejected" class="headerlink" title="远程服务器拒绝(Remote Rejected)"></a>远程服务器拒绝(Remote Rejected)</h3><ul>
+<li><p>引入</p>
+<ul>
+<li>如果我们在一个大团队工作,我们不允许直接对 origin/master分支进行推送(这个是由策略配置要求 pull requests 来提交更新),但我们在尝试直接推送本地分支 master 到 origin/master 上时,会有图中的错误<img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/3a7d25cd8c9a6f45d8b02351e05dbe3bde0c91ed50fa7e0adde674544f7ebde6.png"></li>
+</ul>
+</li>
+<li><p>解决</p>
+<ul>
+<li>新建一个分支feature, 推送到远程服务器. 然后reset你的master分支和远程服务器保持一致, 否则下次你pull并且他人的提交和你冲突的时候就会有问题.</li>
+</ul>
+</li>
+</ul>
+<h3 id="htc的-git-推送拉取策略居然是很大团队采用的方式-rebase"><a href="#htc的-git-推送拉取策略居然是很大团队采用的方式-rebase" class="headerlink" title="htc的 git 推送拉取策略居然是很大团队采用的方式(rebase)"></a>htc的 git 推送拉取策略居然是很大团队采用的方式(rebase)</h3><ul>
+<li><p>前面说了,在 push 到远程仓库的 master分支之前,我们首先让本地分支 origin/master 跟远程仓库 master 分支保持一致,然后我们把我们自己的开发的提交跟 origin/master 分支进行合并(rebase/merge),但是到底用 rebase 还是 merge呢?</p>
+<ul>
+<li><p>rebase</p>
+<ul>
+<li><p>优点:</p>
+<ul>
+<li>Rebase 使你的提交树变得很干净, 所有的提交都在一条线上</li>
+</ul>
+</li>
+<li><p>缺点:</p>
+<ul>
+<li>Rebase 修改了提交树的历史</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="本地仓库分支映射远程仓库分支"><a href="#本地仓库分支映射远程仓库分支" class="headerlink" title="本地仓库分支映射远程仓库分支"></a>本地仓库分支映射远程仓库分支</h3><ul>
+<li><p>我们默认都是本地仓库的 master 分支对应远程仓库的 master 分支,事实上是 git 为我们默认设置的,我们可以自己来设置</p>
+</li>
+<li><p>两种方法(实际上不止)</p>
+<ul>
+<li><code>git checkout -b totallyNotMaster o/master</code>:创建totallyNotMaster 分支的时候指定映射远程仓库的 master 分支,那么原来的 master 将会失去远程仓库 master 的映射</li>
+<li><code>git branch -u o/master totallyNotMaster</code>:适用于分支已经创建,然后指定远程仓库映射.如果当前分支已经是<code>totallyNotMaster</code>分支了,直接使用<code>git branch -u o/master</code>即可映射</li>
+</ul>
+</li>
+</ul>
+<h3 id="git-push进阶"><a href="#git-push进阶" class="headerlink" title="git push进阶"></a><code>git push</code>进阶</h3><ul>
+<li><p>我们可以为 push 指定参数，语法是：<code>git push &lt;remote&gt; &lt;place&gt;</code> </p>
+<ul>
+<li><p><code>remote</code>:指定远程仓库的名称,如 origin</p>
+</li>
+<li><p><code>place</code>:指定本地仓库和远程仓库的名称,如 master(二者必须相同,如果不相同,看下面)</p>
+</li>
+<li><p>案例1:<code>git checkout C0; git push origin master</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/f89fcb9cd5a98e0a7c613d7f3563c8945a55fbcfb3fe9b2aad0bcd451737e059.png"></p>
+</li>
+<li><p>案例2:<code>git checkout C0; git push</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/af55de245c615b824b74c4be4cf538aa8b32b7590ccd47b01fb30b8eebbded7f.png"></p>
+<ul>
+<li>命令失败了(正如你看到的,什么也没有发生)!因为我们所 检出的HEAD没有跟踪任何分支。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>我们可以为 push 指定参数，语法是：<code>git push &lt;remote&gt; &lt;source&gt;:&lt;destination&gt;</code> </p>
+<ul>
+<li><code>remote</code>:指定远程仓库的名称,如 origin</li>
+<li><code>source</code>:本地分支</li>
+<li><code>destination</code>:远程仓库的分支</li>
+<li>案例:<code>git push origin foo^: master</code><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/d1b3f21ab96c37abbd8782539336495c6ba786691cde784c2c2225754b98801e.png"></li>
+</ul>
+</li>
+</ul>
+<h3 id="git-push的参数同样可以用到git-fetch上-但是开发中不会有人这么做-所以不建议学习-这里只是为了说明其实git-fetch和git-pull本质上就是方向不同的两个命令而已"><a href="#git-push的参数同样可以用到git-fetch上-但是开发中不会有人这么做-所以不建议学习-这里只是为了说明其实git-fetch和git-pull本质上就是方向不同的两个命令而已" class="headerlink" title="git push的参数同样可以用到git fetch上,但是开发中不会有人这么做,所以不建议学习,这里只是为了说明其实git fetch和git pull本质上就是方向不同的两个命令而已"></a><code>git push</code>的参数同样可以用到<code>git fetch</code>上,但是开发中不会有人这么做,所以不建议学习,这里只是为了说明其实<code>git fetch</code>和<code>git pull</code>本质上就是方向不同的两个命令而已</h3><h2 id="github如何更好的搜索资料"><a href="#github如何更好的搜索资料" class="headerlink" title="github如何更好的搜索资料"></a>github如何更好的搜索资料</h2><h3 id="-2"><a href="#-2" class="headerlink" title></a><img src="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/7c7f3f31c0d6609ad982d0711da42acd4e073559b4cb84c076d59568f8adab75.png"></h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/28/git%E4%BD%BF%E7%94%A8.textbundle/git%E4%BD%BF%E7%94%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-python.textbundle/python" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="分支主题-1"><a href="#分支主题-1" class="headerlink" title="分支主题 1"></a>分支主题 1</h2><h2 id="python-中字符串去除空格和换行符的问题"><a href="#python-中字符串去除空格和换行符的问题" class="headerlink" title="python 中字符串去除空格和换行符的问题"></a>python 中字符串去除空格和换行符的问题</h2><h3 id="去除空格"><a href="#去除空格" class="headerlink" title="去除空格"></a>去除空格</h3><ul>
+<li><p>str.strip() 只能去除位于字符串句首,句尾的空格</p>
+<ul>
+<li><img src="/2020/10/28/python.textbundle/python/2462cd2fbbbbfc010c97dd6e2b94c23dd9abef876b4b73c9b50f8f67143b5ec9.png"></li>
+</ul>
+</li>
+<li><p>str.replace() 可以位于字符串句任意位置的空格</p>
+<ul>
+<li>如上图所示,使用<code>str.replace(&quot; &quot;,&quot;&quot;)</code>即可</li>
+</ul>
+</li>
+</ul>
+<h3 id="去除换行符"><a href="#去除换行符" class="headerlink" title="去除换行符"></a>去除换行符</h3><ul>
+<li><p>引入</p>
+<ul>
+<li><p>在python中存在继承了 <code>回车符\r</code> 和 <code>换行符\n</code> 两种标记</p>
+<ul>
+<li>\r 代表回车，也就是打印头归位，回到某一行的开头。</li>
+<li>\n 代表换行，就是走纸，下一行。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>解决</p>
+<ul>
+<li>python 在去除换行时，需要同时去除两者才行，即使用<code>str.replace(&#39;\n&#39;, &#39;&#39;).replace(&#39;\r&#39;, &#39;&#39;)</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ul>
+<li><p>操作文件的几个重要函数</p>
+<ul>
+<li><p>01    open(“文件路径”,”打开文件的读写方式”)    打开文件，并且返回文件操作对象</p>
+<ul>
+<li>open()函数是 py 内置函数</li>
+</ul>
+</li>
+<li><p>02    read()    将文件内容一次性全部读取到内存,并把 文件指针(指向下次读取文件的位置) 移动到读取内容的末尾</p>
+<ul>
+<li>read() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
+</ul>
+</li>
+<li><p>03    write()    将指定内容写入文件</p>
+<ul>
+<li>write() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
+</ul>
+</li>
+<li><p>04    close()    关闭文件(如果 忘记关闭文件，会造成系统资源消耗，而且会影响到后续对文件的访问<br>)</p>
+<ul>
+<li>close() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
+</ul>
+</li>
+<li><p>05 truncate() 方法用于截断文件，如果指定了可选参数 size，则表示截断文件为 size 个字符。 如果没有指定 size，则从当前位置起截断；截断之后 size 后面的所有字符被删除。</p>
+<ul>
+<li>truncate() 方法都需要通过 文件对象(open()返回的对象) 来调用</li>
+</ul>
+</li>
+<li><p>06 seek() 方法用于移动文件读取指针到指定位置。(注意,该指针只是适用于读取)</p>
+<ul>
+<li><p>fileObject.seek(offset[, whence])</p>
+<ul>
+<li>offset – 开始的偏移量，也就是代表需要移动偏移的字节数</li>
+<li>whence：可选，默认值为 0。给offset参数一个定义，表示要从哪个位置开始偏移；0代表从文件开头开始算起，1代表从当前位置开始算起，2代表从文件末尾算起。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>关于 open()函数的几种打开文件的方式</p>
+<ul>
+<li><p><img src="/2020/10/28/python.textbundle/python/ce54d35f8d552e4c54478f73daa8d7ae63afdf35a1f02177a45ba80face0a9a5.png"></p>
+<ul>
+<li><p>是否可读</p>
+<ul>
+<li>是</li>
+<li>否</li>
+<li>否</li>
+<li>是</li>
+<li>是</li>
+<li>是</li>
+</ul>
+</li>
+<li><p>是否可写</p>
+<ul>
+<li>否</li>
+<li>是，清空原内容</li>
+<li>是，从文件末尾追加写</li>
+<li>是，从文件开头覆盖写</li>
+<li>是，清空原内容</li>
+<li>是，从文件末尾追加写</li>
+</ul>
+</li>
+<li><p>文件不存在时</p>
+<ul>
+<li>报错</li>
+<li>创建新文件</li>
+<li>创建新文件</li>
+<li>报错</li>
+<li>创建新文件</li>
+<li>创建新文件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h3><ul>
+<li><p>按行读取文件内容</p>
+<ul>
+<li><p>引入</p>
+<ul>
+<li>read() 方法默认会把文件的 所有内容 一次性读取到内存</li>
+<li>如果文件太大，对内存的占用会非常严重</li>
+</ul>
+</li>
+<li><p>readline()方法</p>
+<ul>
+<li><p>概述</p>
+<ul>
+<li>readline() 方法用于从文件读取整行，包括 “\n” 字符。如果指定了一个非负数的参数，则返回指定大小的字节数，包括 “\n” 字符。</li>
+</ul>
+</li>
+<li><p>语法</p>
+<ul>
+<li>fileObject.readline([size]); </li>
+</ul>
+</li>
+<li><p>参数</p>
+<ul>
+<li>size – 从文件中读取的字节数。</li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li>返回从字符串中读取的字节。</li>
+</ul>
+</li>
+<li><p>readline()案例<img src="/2020/10/28/python.textbundle/python/4f95a33cd6b487ac5d642e0e8c90623b7ce7cfb0b1f55df8d386d915e623ad55.png"></p>
+</li>
+</ul>
+</li>
+<li><p>readlines()方法</p>
+<ul>
+<li><p>概述</p>
+<ul>
+<li>readlines() 方法用于读取所有行(直到结束符 EOF)并返回列表，该列表可以由 Python 的 for… in … 结构进行处理。 如果碰到结束符 EOF 则返回空字符串。如果碰到结束符 EOF 则返回空字符串。</li>
+</ul>
+</li>
+<li><p>语法</p>
+<ul>
+<li>fileObject.readlines( );</li>
+</ul>
+</li>
+<li><p>参数</p>
+<ul>
+<li>无。</li>
+</ul>
+</li>
+<li><p>返回值</p>
+<ul>
+<li>返回列表，包含所有的行。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
+<li>最暴力的修改文件的方式<img src="/2020/10/28/python.textbundle/python/2968168fcfb6411f97c89c5ba4a8c81305aa499ce99e167f9a3c4cfe8bad278d.png"></li>
+</ul>
+<h2 id="python-中的模块"><a href="#python-中的模块" class="headerlink" title="python 中的模块"></a>python 中的模块</h2><h3 id="我们使用import-helloworld模块的时候-helloworld-py中的代码语句会从上至下执行一遍"><a href="#我们使用import-helloworld模块的时候-helloworld-py中的代码语句会从上至下执行一遍" class="headerlink" title="我们使用import helloworld模块的时候,helloworld.py中的代码语句会从上至下执行一遍"></a>我们使用<code>import helloworld</code>模块的时候,<code>helloworld.py</code>中的代码语句会从上至下执行一遍</h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/28/python.textbundle/python/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-test" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/28/test/">test</a>
+    </h1>
+  
+
+        
+        <a href="/2020/10/28/test/" class="archive-article-date">
+  	<time datetime="2020-10-28T05:21:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/28/test/">展开全文 >></a>
         </p>
       
 
