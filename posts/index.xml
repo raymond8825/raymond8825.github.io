@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Raymond</title>
+    <link>https://www.rayxx.top/posts/</link>
+    <description>Recent content in Posts on Raymond</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>Copyright © 2008–2100, Steve Francia and the lee.so; all rights reserved.</copyright>
+    <lastBuildDate>Wed, 01 Nov 2023 09:50:47 +0800</lastBuildDate><atom:link href="https://www.rayxx.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog Test</title>
+      <link>https://www.rayxx.top/posts/blog-test-copy/</link>
+      <pubDate>Wed, 01 Nov 2023 09:50:47 +0800</pubDate>
+      
+      <guid>https://www.rayxx.top/posts/blog-test-copy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Optional的正确用法</title>
+      <link>https://www.rayxx.top/posts/java%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Wed, 01 Nov 2023 09:50:47 +0800</pubDate>
+      
+      <guid>https://www.rayxx.top/posts/java%E7%AC%94%E8%AE%B0/</guid>
+      <description>Optional的正确用法 我来看看怎么使用</description>
+    </item>
+    
+  </channel>
+</rss>
