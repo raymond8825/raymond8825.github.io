@@ -38,6 +38,13 @@
       <description>Optional的正确用法 我来看看怎么使用</description>
     </item>
     <item>
+      <title>syncthing</title>
+      <link>https://www.rayxx.top/post/syncthing-19wsyn.html</link>
+      <pubDate>Sun, 01 May 2022 10:07:41 +0000</pubDate>
+      <guid>https://www.rayxx.top/post/syncthing-19wsyn.html</guid>
+      <description>syncthing 如何从syncthing删除文件夹 从两个设备上同时删除文件夹,如果删除一个,然后再用一个新的文件夹和那个没有配删除的文件夹配对,会报错,应</description>
+    </item>
+    <item>
       <title>Windows 搭建 Seafile 开源私有云盘 - IT Tech.</title>
       <link>https://www.rayxx.top/post/windows-built-a-seafile-open-source-private-cloud-disk-it-tech-9ea59.html</link>
       <pubDate>Wed, 13 Apr 2022 21:52:08 +0000</pubDate>
