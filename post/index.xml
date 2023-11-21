@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Raymond</title>
+    <link>https://www.rayxx.top/post/</link>
+    <description>Recent content in Posts on Raymond</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>Copyright © 2008–2100, Steve Francia and the lee.so; all rights reserved.</copyright>
+    <lastBuildDate>Fri, 05 Aug 2022 16:23:21 +0000</lastBuildDate>
+    <atom:link href="https://www.rayxx.top/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HammerSpoon教程</title>
+      <link>https://www.rayxx.top/post/hammerspoon-tutorial-18q2he.html</link>
+      <pubDate>Fri, 05 Aug 2022 16:23:21 +0000</pubDate>
+      <guid>https://www.rayxx.top/post/hammerspoon-tutorial-18q2he.html</guid>
+      <description>HammerSpoon教程 官网教程 HammerSpoon教程 Hello World 所有好的编程教程都从某种 Hello World 示例开始，因此我们将使用 Hammerspoon 绑定键盘热键的能力来演</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,351 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-CN"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>HammerSpoon教程 - Raymond</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="HammerSpoon教程 官网教程 HammerSpoon教程 Hello World 所有好的编程教程都从某种 Hello World 示例开始，因此我们将使用 Hammerspoon 绑定键盘热键的能力来演" />
+  <meta name="author" content="Raymond" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://www.rayxx.top/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://www.rayxx.top/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://www.rayxx.top/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://www.rayxx.top/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://www.rayxx.top/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.120.4">
+
+  
+  
+  
+  
+  
+  <meta itemprop="name" content="HammerSpoon教程">
+<meta itemprop="description" content="HammerSpoon教程 官网教程 HammerSpoon教程 Hello World 所有好的编程教程都从某种 Hello World 示例开始，因此我们将使用 Hammerspoon 绑定键盘热键的能力来演"><meta itemprop="datePublished" content="2022-08-05T16:23:21+00:00" />
+<meta itemprop="dateModified" content="2023-11-21T13:01:12+00:00" />
+<meta itemprop="wordCount" content="1129">
+<meta itemprop="keywords" content="" />
+  
+  <meta property="og:title" content="HammerSpoon教程" />
+<meta property="og:description" content="HammerSpoon教程 官网教程 HammerSpoon教程 Hello World 所有好的编程教程都从某种 Hello World 示例开始，因此我们将使用 Hammerspoon 绑定键盘热键的能力来演" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.rayxx.top/post/hammerspoon-tutorial-18q2he.html" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-08-05T16:23:21+00:00" />
+<meta property="article:modified_time" content="2023-11-21T13:01:12+00:00" />
+
+
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="HammerSpoon教程"/>
+<meta name="twitter:description" content="HammerSpoon教程 官网教程 HammerSpoon教程 Hello World 所有好的编程教程都从某种 Hello World 示例开始，因此我们将使用 Hammerspoon 绑定键盘热键的能力来演"/>
+
+  
+  
+  
+  <link rel="canonical" href="https://www.rayxx.top/post/hammerspoon-tutorial-18q2he.html" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://www.rayxx.top/"
+      >Raymond</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/contact/"
+        >Contact</a
+      >
+      
+    </nav>
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">HammerSpoon教程</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Aug 5, 2022</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h1 id="hammerspoon教程">HammerSpoon教程</h1>
+<p><a href="https://www.hammerspoon.org/go/#helloworld">官网教程</a></p>
+<h1 id="hammerspoon教程-1">HammerSpoon教程</h1>
+<h3 id="hello-world">Hello World</h3>
+<p>所有好的编程教程都从某种 Hello World 示例开始，因此我们将使用 Hammerspoon 绑定键盘热键的能力来演示通过简单通知说 Hello World。在您的 init.lua 中放置以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>hs.hotkey.bind({<span style="color:#e6db74">&#34;cmd&#34;</span>, <span style="color:#e6db74">&#34;alt&#34;</span>, <span style="color:#e6db74">&#34;ctrl&#34;</span>}, <span style="color:#e6db74">&#34;W&#34;</span>, <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>  hs.alert.show(<span style="color:#e6db74">&#34;Hello World!&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>)
+</span></span></code></pre></div><p>然后保存文件，单击 Hammerspoon 菜单栏图标并选择重新加载配置。您现在应该会发现按 ⌘+⌥+ctrl+W 将在屏幕上显示 Hello World 通知。</p>
+<p>这里发生的是我们告诉 Hammerspoon 将匿名函数绑定到特定的热键。热键由修饰键表（在本例中为⌘、⌥ 和 ctrl）和普通键 (W) 指定。匿名函数只是一个没有名字的函数。我们可以用一个名字单独定义警报函数并将这个名字传递给 hs.hotkey.bind()，但是 Lua 可以很容易地定义内联函数。</p>
+<h3 id="fancier-hello-world">Fancier Hello World</h3>
+<p>虽然 hs.alert 很有用，但您可能更喜欢使用 macOS 原生通知，您只需将前面的示例修改为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>hs.hotkey.bind({<span style="color:#e6db74">&#34;cmd&#34;</span>, <span style="color:#e6db74">&#34;alt&#34;</span>, <span style="color:#e6db74">&#34;ctrl&#34;</span>}, <span style="color:#e6db74">&#34;W&#34;</span>, <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>  hs.notify.new({title<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Hammerspoon&#34;</span>, informativeText<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Hello World&#34;</span>}):send()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>)
+</span></span></code></pre></div><p>‍</p>
+<h3 id="spoon插件使用教程">Spoon插件使用教程</h3>
+<h4 id="spoons">Spoons</h4>
+<p>Spoons是HammerSpoon的官方预制插件</p>
+<h4 id="如何安装spoon">如何安装spoon?</h4>
+<p>spoon应该以 .zip 文件的形式分发。只需下载一个，解压缩（如果您的浏览器没有自动完成该部分），然后双击 Spoon。 Hammerspoon 将在 <code>~/.hammerspoon/Spoons/ </code>中为您安装它</p>
+<h4 id="如何使用spoon">如何使用Spoon?</h4>
+<p>这有两个步骤组成，加载Spoon并将其集成到您的配置中。默认 Spoon 在其主页或 <code>~/.hammerspoon/Spoons/NAME.spoon </code>中附带一些文档。在那里你应该找到 Spoon 提供的 API 的一些文档，以及它的任何特殊要求。</p>
+<h4 id="加载spoon">加载Spoon</h4>
+<p>对于大多数 Spoon，只需将 <code>hs.loadSpoon(&quot;NAME&quot;) </code>添加到您的 Hammerspoon 配置中（注意 <code>NAME</code> 不应包含<code>.spoon</code>扩展名）。这将使Spoon在全局 Lua 命名空间中作为勺子<code>spoon.NAME</code> 可用。</p>
+<p>加载 Spoon 后，您应该在使用它之前调用它的 <code>start() </code>方法（如果它有<code>start() </code>方法）。</p>
+<p>请注意<code>hs.loadSpoon()</code>使用 <code>package.path</code> 来查找 Spoons。因此，您可以通过将这些路径添加到 <code>package.path </code>来让它在其他路径中查找 Spoons，如下所示.如果您有正在开发的 Spoons，这将很有用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#75715e">-- Look for Spoons in ~/.hammerspoon/MySpoons as well</span>
+</span></span><span style="display:flex;"><span>package.path <span style="color:#f92672">=</span> package.path <span style="color:#f92672">..</span> <span style="color:#e6db74">&#34;;&#34;</span> <span style="color:#f92672">..</span>  hs.configdir <span style="color:#f92672">..</span> <span style="color:#e6db74">&#34;/MySpoons/?.spoon/init.lua&#34;</span>
+</span></span></code></pre></div><h4 id="集成到您的配置中">集成到您的配置中</h4>
+<p>在大多数情况下，API 应该大致采用这种形式：</p>
+<ul>
+<li>
+<p><code>NAME:init()</code> - 这由 <code>hs.loadSpoon()</code> 自动调用，并将执行所需的任何初始设置工作，但通常不应开始执行任何操作</p>
+</li>
+<li>
+<p><code>NAME:start() </code>- 如果需要任何类型的后台工作，此方法将启动它</p>
+</li>
+<li>
+<p><code>NAME:stop() </code>- 如果任何类型的后台工作正在运行，此方法将停止它</p>
+</li>
+<li>
+<p><code>NAME:bindHotkeys(mapping) </code>- 此方法用于告诉 Spoon 如何为其各种功能绑定热键。根据 Spoon，这些热键可能会立即绑定，或者在调用 <code>:start()</code> 时绑定。这个方法应该接受一个参数，一个表格的形式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>{ someFeature <span style="color:#f92672">=</span> {{<span style="color:#e6db74">&#34;cmd&#34;</span>, <span style="color:#e6db74">&#34;alt&#34;</span>}, <span style="color:#e6db74">&#34;f&#34;</span>},
+</span></span><span style="display:flex;"><span>    otherFeature <span style="color:#f92672">=</span> {{<span style="color:#e6db74">&#34;shift&#34;</span>, <span style="color:#e6db74">&#34;ctrl&#34;</span>}, <span style="color:#e6db74">&#34;b&#34;</span>}}
+</span></span></code></pre></div></li>
+</ul>
+<p>Spoon 还应该提供一些标准的元数据：</p>
+<ul>
+<li><code>NAME.name </code>- 包含勺子名称的字符串</li>
+<li><code>NAME.version</code> - 包含 Spoon 版本号的字符串</li>
+<li><code>NAME.author</code> - 包含勺子作者姓名/电子邮件的字符串</li>
+<li><code>NAME.license</code> - 包含有关适用于 Spoon 的许可证的一些信息的字符串，理想情况下包括许可证的 URL</li>
+<li>(可选)<code>NAME.homepage</code> - 包含 Spoon 主页 URL 的字符串</li>
+</ul>
+<p>许多 Spoons 会在这些基础上提供额外的 API 点，您应该查阅他们的文档以了解更多信息。</p>
+<p>‍</p>
+<p>‍</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://www.rayxx.top/">Raymond</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>
