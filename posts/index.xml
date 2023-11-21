@@ -37,5 +37,12 @@
       <guid>https://www.rayxx.top/posts/java%E7%AC%94%E8%AE%B0/</guid>
       <description>Optional的正确用法 我来看看怎么使用</description>
     </item>
+    <item>
+      <title>阿里云vps</title>
+      <link>https://www.rayxx.top/post/alibaba-cloud-vps-z2j40oz.html</link>
+      <pubDate>Mon, 01 Nov 2021 16:55:00 +0000</pubDate>
+      <guid>https://www.rayxx.top/post/alibaba-cloud-vps-z2j40oz.html</guid>
+      <description>阿里云vps 远程登录问题 使用 ssh-copy-id -i .ssh/id_rsa.pub root@39.106.34.7 之后,直接通过 ssh root@39.106.34.7 无法登录 先是通过配置阿里云的密钥对,然后是 22 端口,接着修改服务器端 ssh 相关配置,文件的权</description>
+    </item>
   </channel>
 </rss>
