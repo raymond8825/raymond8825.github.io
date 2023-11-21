@@ -1,0 +1,458 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-CN"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Windows 搭建 Seafile 开源私有云盘 - IT Tech. - Raymond</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="Windows 搭建 Seafile 开源私有云盘 - IT Tech. https://www.kingsonho.com/install-seafile-on-windows/ - IT Tech. 前言 Seafile 开源私有网盘应是我目前用得比较满意的一款私有网盘，用来储存日常的学术资料以及大文件可以不… 阅读更多 »" />
+  <meta name="author" content="Raymond" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://www.rayxx.top/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://www.rayxx.top/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://www.rayxx.top/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://www.rayxx.top/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://www.rayxx.top/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.120.4">
+
+  
+  
+  
+  
+  
+  <meta itemprop="name" content="Windows 搭建 Seafile 开源私有云盘 - IT Tech.">
+<meta itemprop="description" content="Windows 搭建 Seafile 开源私有云盘 - IT Tech. https://www.kingsonho.com/install-seafile-on-windows/ - IT Tech. 前言 Seafile 开源私有网盘应是我目前用得比较满意的一款私有网盘，用来储存日常的学术资料以及大文件可以不… 阅读更多 »"><meta itemprop="datePublished" content="2022-04-13T21:52:08+00:00" />
+<meta itemprop="dateModified" content="2023-11-21T13:46:01+00:00" />
+<meta itemprop="wordCount" content="2887">
+<meta itemprop="keywords" content="" />
+  
+  <meta property="og:title" content="Windows 搭建 Seafile 开源私有云盘 - IT Tech." />
+<meta property="og:description" content="Windows 搭建 Seafile 开源私有云盘 - IT Tech. https://www.kingsonho.com/install-seafile-on-windows/ - IT Tech. 前言 Seafile 开源私有网盘应是我目前用得比较满意的一款私有网盘，用来储存日常的学术资料以及大文件可以不… 阅读更多 »" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.rayxx.top/post/windows-built-a-seafile-open-source-private-cloud-disk-it-tech-9ea59.html" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-13T21:52:08+00:00" />
+<meta property="article:modified_time" content="2023-11-21T13:46:01+00:00" />
+
+
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Windows 搭建 Seafile 开源私有云盘 - IT Tech."/>
+<meta name="twitter:description" content="Windows 搭建 Seafile 开源私有云盘 - IT Tech. https://www.kingsonho.com/install-seafile-on-windows/ - IT Tech. 前言 Seafile 开源私有网盘应是我目前用得比较满意的一款私有网盘，用来储存日常的学术资料以及大文件可以不… 阅读更多 »"/>
+
+  
+  
+  
+  <link rel="canonical" href="https://www.rayxx.top/post/windows-built-a-seafile-open-source-private-cloud-disk-it-tech-9ea59.html" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://www.rayxx.top/"
+      >Raymond</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/about/"
+        >About</a
+      >
+      
+      <a
+        class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/contact/"
+        >Contact</a
+      >
+      
+    </nav>
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Windows 搭建 Seafile 开源私有云盘 - IT Tech.</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Apr 13, 2022</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h1 id="windows-搭建-seafile-开源私有云盘---it-tech">Windows 搭建 Seafile 开源私有云盘 - IT Tech.</h1>
+<hr>
+<ul>
+<li><a href="https://www.kingsonho.com/install-seafile-on-windows/">https://www.kingsonho.com/install-seafile-on-windows/ - IT Tech.</a></li>
+<li>前言 Seafile 开源私有网盘应是我目前用得比较满意的一款私有网盘，用来储存日常的学术资料以及大文件可以不… 阅读更多 »Windows 搭建 Seafile 开源私有云盘</li>
+<li>2022-04-13 21:52:07</li>
+</ul>
+<hr>
+<h2 id="前言">前言</h2>
+<p>Seafile 开源私有网盘应是我目前用得比较满意的一款私有网盘，用来储存日常的学术资料以及大文件可以不受空间的限制，自带的同步功能可以在多平台上无缝运行，Seafile普通的开源版（社区版）基本可以满足日常的使用要求，企业版更是可以额外集成功能，例如可以对阿里云 OSS 和 Ceph 后端的支持以及 Office Online Server，LDAP\AD 集成等等。</p>
+<p>Seafile 服务器端目前分为 Linux 服务器端，Raspberry Pi 服务器端和 Windows 服务器端。目前 Windows 服务器端已不再更新，但对于不熟悉 Linux 操作系统的人来说，在 Windows 上搭建 Seafile 仍是一个不错的选择。</p>
+<p>私有云盘 Seafile 起源于创始人清华实验室时期，已发展成为一个国际化的开源项目，Seafile 目前拥有国内外两个活跃的用户社区：官方中文社区，官方英文社区。</p>
+<h2 id="文档大纲">文档大纲</h2>
+<pre tabindex="0"><code>— 安装 Python 2.7.11 32 位版本
+— 下载并解压 Seafile 服务器安装包
+— Seafile 启动与初始化
+—— 启动 Seafile 服务器
+—— 选择一个磁盘作为 Seafile 服务器数据的存储位置
+—— 添加管理员帐号
+— 配置 Seafile 服务器
+— 安装 Seafile 为 Windows 服务
+— 垃圾回收
+— 配置文件
+</code></pre><h2 id="系统需求">系统需求</h2>
+<p>官方测试在 Windows 2008 server R2 SP1系统上运行，教程在 Windows 2016 server 系统上运行，Windows 10系统亦可以运行，但以系统的稳定性来讲，建议 Seafile 搭建在 Windows Server 上，即 Windows 2008 server R2 SP1或更新的系统上。（目前最新为Windows Server 2019）</p>
+<ul>
+<li>Windows Server</li>
+<li>Windows 10</li>
+<li>Windows 7</li>
+</ul>
+<hr>
+<h3 id="安装-python-2711-32-位版本">安装 Python 2.7.11 32 位版本</h3>
+<p><!-- raw HTML omitted -->注意 ：一定要使用 Python 2.7.11 32 位版本。64 位版本或不是 2.7.11 的版本不能工作。<!-- raw HTML omitted --></p>
+<ul>
+<li>下载并安装 python 2.7.11 32 位版本python-2.7.11.msi</li>
+<li>安装选项中可以选择让安装器自动将 python2.7 的安装路径添加到系统的环境变量中(PATH 变量)。</li>
+</ul>
+<p><img src="http://127.0.0.1:6806/assets/Python_2.7.11_install-20220413215207-zs41f01.png" alt=""></p>
+<ul>
+<li>亦可以手动添加。比如：如果您将 python 2.7.11 安装在<code>C:\Python27</code>路径下，那么就将<code>C:\Python27</code>添加到环境变量中。</li>
+</ul>
+<hr>
+<h3 id="下载并解压-seafile-服务器安装包">下载并解压 Seafile 服务器安装包</h3>
+<p>下载 Seafile Windows版服务器的最新版本seafile-server_6.0.7_win32.tar.gz*。（官方为tar.gz格式的压缩包，需要使用第三方解压工具解压，Windows自带软件无法解压）</p>
+<p>为 Seafile 服务器程序创建一个新的文件夹，比如<code>C:\SeafileProgram\</code>。将seafile-server_6.0.7_win32.tar.gz解压到<code>C:\SeafileProgram\</code>目录下。</p>
+<p>解压后目录结构应该像这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>C:<span style="color:#ae81ff">\S</span>eafileProgram         
+</span></span><span style="display:flex;"><span>          |__ seafile-server-6.0.7
+</span></span></code></pre></div><p>*Seafile Windows 版最新版本为6.0.7 ，最后更新于2016.12.16。</p>
+<hr>
+<h3 id="seafile-启动与初始化">Seafile 启动与初始化</h3>
+<h4 id="启动-seafile-服务器">启动 Seafile 服务器</h4>
+<p>在 <code>C:\SeafileProgram\seafile-server-6.0.7\</code> 文件夹下，找到 <code>run.bat</code> 文件并双击，以启动 Seafile 服务器。此时，您应该注意到 Seafile 服务器的图标已经出现在您的系统托盘中。</p>
+<h4 id="选择一个磁盘作为-seafile-服务器数据的存储位置">选择一个磁盘作为 Seafile 服务器数据的存储位置</h4>
+<ul>
+<li>请确保选择的磁盘拥有足够的剩余空间</li>
+<li>点击<em>确认</em>按钮后， Seafile 将会在您选择的磁盘下为您创建一个名为<code>seafile-server</code>的文件夹。这个文件夹就是 Seafile 服务器的数据文件夹。如果您选择C盘，那么数据文件夹为<code>C:\seafile-server</code></li>
+</ul>
+<p><img src="http://127.0.0.1:6806/assets/Seafile_choose_a_disk-20220413215207-wnkvvqt.png" alt=""></p>
+<h4 id="添加管理员帐号">添加管理员帐号</h4>
+<ul>
+<li>右击 Seafile 服务器的系统托盘图标， 选择” <!-- raw HTML omitted -->添加管理员帐号<!-- raw HTML omitted --> “选项。在弹出的对话框中输入您的管理员用户名和密码。</li>
+<li>如果操作成功， Seafile 服务器托盘图标处会弹出一个气泡提示您”添加 Seahub 管理员账户成功”。</li>
+</ul>
+<p><img src="http://127.0.0.1:6806/assets/Seafile_add_administrator_account-20220413215207-4998813.png" alt=""></p>
+<hr>
+<h3 id="配置-seafile-服务器">配置 Seafile 服务器</h3>
+<p>初始化服务器之后，还需配置以下选项，否则不能进行文件的上传下载:</p>
+<ul>
+<li>访问服务器的 Web 界面 (打开 <code>http://&lt;您的 IP 地址&gt;:8000</code>)，用管理员账号登录</li>
+<li>点击右上角的头像图标，进入管理员界面。</li>
+</ul>
+<p><img src="http://127.0.0.1:6806/assets/Seafile_system_admin-20220413215207-jyecwet.png" alt=""></p>
+<ul>
+<li>再进入”设置”标签。</li>
+</ul>
+<p><img src="http://127.0.0.1:6806/assets/Seafile_file_server_root_setting-20220413215207-4exmirk.png" alt=""></p>
+<ul>
+<li>将<!-- raw HTML omitted -->SERVICE_URL<!-- raw HTML omitted -->的值配置成<code>http://&lt;您的 IP 地址&gt;:8000</code>。比如您的 Windows 服务器地址为  <em>192.168.1.100</em> ， 那么配置成<code>SERVICE_URL = http://192.168.1.100:8000</code></li>
+<li>将<!-- raw HTML omitted -->FILE_SERVER_ROOT<!-- raw HTML omitted -->的值配置成<code>http://&lt;您的 IP 地址&gt;:8082</code>。比如您的 Windows 服务器地址为  <em>192.168.1.100</em> ， 那么配置成<code>SERVICE_URL = http://192.168.1.100:8082</code></li>
+<li><!-- raw HTML omitted -->这是因为默认的是127.0.0.1,使用客户端访问的时候,无法正确下载文件<!-- raw HTML omitted --></li>
+</ul>
+<p>*若拥有域名和公网IP，可以将IP地址更换为域名或公网IP，以方便外网访问。</p>
+<hr>
+<h3 id="安装-seafile-为-windows-服务">安装 Seafile 为 Windows 服务</h3>
+<h4 id="将-seafile-作为-windows-服务安装的好处">将 Seafile 作为 Windows 服务安装的好处</h4>
+<ul>
+<li>在您的所有 Windows 用户注销后 Seafile 服务器能够继续保持运行</li>
+<li>Windows 系统启动时，即使没有用户登录， Seafile 服务器也会开始运行</li>
+</ul>
+<h4 id="如何作为-windows-服务安装">如何作为 Windows 服务安装</h4>
+<ul>
+<li>右击 Seafile 服务器托盘图标，选择”安装为 Windows 服务”选项。</li>
+<li>在弹出的对话框中，点击<em>是</em> 按钮</li>
+</ul>
+<p><img src="http://127.0.0.1:6806/assets/Seafile_install_as_service-20220413215207-u3uek6a.png" alt=""></p>
+<p>如果操作成功，将会弹出一个对话框提示您”已经成功安装 Seafile 服务”。</p>
+<h4 id="确认-seafile-服务器已经开始作为-windows-服务运行">确认 Seafile 服务器已经开始作为 Windows 服务运行</h4>
+<ul>
+<li>注销当前用户</li>
+<li>在另一台电脑上访问 Seafile 。如果 Seafile 网站仍然可以访问，那么说明 Seafile 服务器已经开始作为 Windows 服务运行</li>
+</ul>
+<h4 id="安装为-windows-服务后如何启动托盘图标">安装为 Windows 服务后如何启动托盘图标</h4>
+<p>如果您已经将 Seafile 服务器安装为 Windows 服务，那么在您下次系统启动时， Seafile 服务将会在后台自动运行。这样，当用户登录时， Seafile 服务器托盘图标就不会自动出现。</p>
+<p>启动托盘图标，只需双击<code>C:\SeafileProgram\seafile-server-6.0.7</code>文件夹下的<code>run.bat</code>文件。</p>
+<hr>
+<h3 id="垃圾回收">垃圾回收</h3>
+<ul>
+<li>右击 Seafile 托盘图标，选择 <em>退出并停止 Seafile Server</em></li>
+<li>打开文件浏览器，找到 Seafile 安装目录 <code>C:\SeafileProgram\seafile-server-6.0.7</code></li>
+<li>右击 <code>gc.bat</code>, 并选择 <em>以管理员身份运行</em></li>
+<li>垃圾回收程序会运行并删除所有未用的数据块。</li>
+</ul>
+<p>有关垃圾回收及Seafile GC相关详情可以浏览Seafile官网相关资料：<a href="https://cloud.seafile.com/published/seafile-manual-cn/maintain/seafile_gc.md">https://cloud.seafile.com/published/seafile-manual-cn/maintain/seafile_gc.md</a></p>
+<h3 id="配置文件">配置文件</h3>
+<p>所有端口的相关配置都记录在<code>ccnet.conf</code>文件和<code>seafile.conf</code>文件中</p>
+<h4 id="如何打开-ccnetconf-文件">如何打开 ccnet.conf 文件</h4>
+<ul>
+<li>右击 Seafile 服务器托盘图标，选择”打开 seafile-server 文件夹”选项</li>
+<li>打开<code>seafile-server</code>目录下的<code>conf</code>文件夹。<code>ccnet.conf</code>文件就在此文件夹下。</li>
+</ul>
+<h4 id="如何打开-seafileconf-文件">如何打开 seafile.conf 文件</h4>
+<ul>
+<li>右击 Seafile 服务器托盘图标，选择”打开 seafile-server 文件夹”选项</li>
+<li>打开<code>seafile-server</code>目录下的<code>conf</code>文件夹。<code>seafile.conf</code>文件就在此文件夹下。</li>
+</ul>
+<p>*编辑文件建议使用系统 “记事本”（Notepad）</p>
+<h3 id="如何移动-seafile-server-文件夹">如何移动 seafile-server 文件夹</h3>
+<p>假设你的 Seafile 服务器程序位置为 <code>C:/SeafileProgram </code>, 数据文件夹位置为 <code>D:/seafile-server </code>。现在你希望把数据文件夹从 <code>D:/seafile-server </code> 移动到 <code>E:/seafile-server </code></p>
+<ol>
+<li>先在托盘菜单里选  <!-- raw HTML omitted -->&quot;停止并退出 seafile 服务器&quot;<!-- raw HTML omitted --></li>
+<li>把数据文件夹 <code>D:/seafile-server </code> 移动到新位置 <code>E:/seafile-server </code></li>
+<li>打开 <code>C:/SeafileProgram </code> 文件夹下的 <code>seafserv.ini </code> 这个文件。这个文件记录了数据文件夹的路径。把这个文件的内容改为 <code>E:/seafile-server </code>。<br>
+<!-- raw HTML omitted -->注意：<!-- raw HTML omitted -->  如果你的新位置的路径包含非英文字符，那么请用支持 UTF8 格式的文本编辑器来编辑 <code>seafserv.ini </code> 文件，并保存为 UTF8 格式。否则 Seafile 服务器程序可能无法正确读取这个文件的内容。</li>
+<li>重新启动 Seafile 服务器。</li>
+</ol>
+<h3 id="如何移动-seafile-server-文件夹-1">如何移动 seafile-server 文件夹</h3>
+<p>假设你的 Seafile 服务器程序位置为 <code> C:/SeafileProgram </code>, 数据文件夹位置为 <code> D:/seafile-server </code>。现在你希望把数据文件夹从 <code> D:/seafile-server </code> 移动到 <code> E:/seafile-server </code></p>
+<ol>
+<li>先在托盘菜单里选  <!-- raw HTML omitted -->&quot;停止并退出 seafile 服务器&quot;<!-- raw HTML omitted --></li>
+<li>把数据文件夹 <code> D:/seafile-server </code> 移动到新位置 <code> E:/seafile-server </code></li>
+<li>打开 <code> C:/SeafileProgram </code> 文件夹下的 <code> seafserv.ini </code> 这个文件。这个文件记录了数据文件夹的路径。把这个文件的内容改为 <code> E:/seafile-server </code>。<br>
+<!-- raw HTML omitted -->注意：<!-- raw HTML omitted -->  如果你的新位置的路径包含非英文字符，那么请用支持 UTF8 格式的文本编辑器来编辑 <code> seafserv.ini </code> 文件，并保存为 UTF8 格式。否则 Seafile 服务器程序可能无法正确读取这个文件的内容。</li>
+<li>重新启动 Seafile 服务器。</li>
+</ol>
+<p><!-- raw HTML omitted --><em>参考网页<!-- raw HTML omitted --></em></p>
+<p><a href="https://cloud.seafile.com/published/seafile-manual-cn/deploy_windows/deploy_with_windows.md">https://cloud.seafile.com/published/seafile-manual-cn/deploy_windows/deploy_with_windows.md</a></p>
+<hr>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://www.rayxx.top/posts/java%E7%AC%94%E8%AE%B0/"
+      ><span class="mr-1.5">←</span><span>Optional的正确用法</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://www.rayxx.top/post/alibaba-cloud-vps-z2j40oz.html"
+      ><span>阿里云vps</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="https://www.rayxx.top/">Raymond</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>
